@@ -29,11 +29,17 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "^3.1.1",
     "typescript": "^5.1.6",
     "vite": "^5.0.0",
     "vite-tsconfig-paths": "^4.2.1"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }

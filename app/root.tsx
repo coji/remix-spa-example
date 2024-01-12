@@ -5,7 +5,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react'
+
+export const clientLoader = async () => {
+  console.log('root clientLoader')
+  return { name: 'root' }
+}
 
 export default function App() {
   return (
@@ -23,7 +28,7 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
-  );
+  )
 }
 
 export function HydrateFallback() {
@@ -41,5 +46,5 @@ export function HydrateFallback() {
         <LiveReload />
       </body>
     </html>
-  );
+  )
 }
