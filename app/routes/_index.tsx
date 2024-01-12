@@ -1,11 +1,12 @@
 import { type MetaFunction } from '@remix-run/node'
-import { ClientActionFunctionArgs, useLoaderData, Form } from '@remix-run/react'
-
-interface Item {
-  id: string
-  name: string
-}
-const items: Item[] = []
+import {
+  ClientActionFunction,
+  useLoaderData,
+  Form,
+  Link,
+  redirect,
+} from '@remix-run/react'
+import { items, add } from '../store/item'
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,13 +22,14 @@ export const clientLoader = async () => {
   }
 }
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+export const clientAction: ClientActionFunction = async ({ request }) => {
   const formData = await request.formData()
-  items.push({
-    id: items.length.toString(),
+  const newItem = {
+    id: (items.length + 1).toString(),
     name: formData.get('name')?.toString() ?? 'nothing',
-  })
-  return {}
+  }
+  add(newItem)
+  return redirect(`/item/${newItem.id}`)
 }
 
 export default function Index() {
@@ -37,6 +39,7 @@ export default function Index() {
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
       <h1>Welcome to Remix (SPA Mode)</h1>
       <div>{message}</div>
+
       <Form method="post">
         <input name="name" />
         <button>submit</button>
@@ -52,7 +55,9 @@ export default function Index() {
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              <td>
+                <Link to={`/item/${item.id}`}>{item.id}</Link>
+              </td>
               <td>{item.name}</td>
             </tr>
           ))}
