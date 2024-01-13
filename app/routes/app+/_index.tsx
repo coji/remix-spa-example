@@ -75,11 +75,6 @@ export default function Index() {
       </Form>
 
       <div>
-        <Link to="/sign_in">サインイン</Link>
-        <Link to="/sign_out">サインアウト</Link>
-      </div>
-
-      <div>
         <Table>
           <TableHeader>
             <TableRow>

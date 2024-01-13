@@ -1,5 +1,5 @@
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
-import { AppUserProfile } from '~/components/AppUserProfile'
+import { UserAvatarMenu } from '~/components/UserAvatarMenu'
 import { authenticate, useAuthUser } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
@@ -22,7 +22,7 @@ export default function AppLayout() {
           <Link to="/app">Remix SPA Example</Link>
         </h1>
         <div className="flex-1" />
-        <AppUserProfile />
+        <UserAvatarMenu />
       </header>
 
       <main className="px-2">

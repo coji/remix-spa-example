@@ -1,33 +1,32 @@
-import { Form, Link } from '@remix-run/react'
+import { useFetcher } from '@remix-run/react'
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
 import { useAuthUser } from '~/services/auth'
 
-export const AppUserProfile = () => {
+export const UserAvatarMenu = () => {
   const user = useAuthUser()
   const isLoading = user === undefined
+
+  const fetcher = useFetcher()
+  const handleSelectSignOut = () => {
+    fetcher.submit({}, { method: 'POST', action: '/sign_out' })
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
   }
 
   if (!user) {
-    return (
-      <Form method="POST" action="/sign_in">
-        <Button variant="outline" size="sm">
-          サインイン
-        </Button>
-      </Form>
-    )
+    return <div>no user</div>
   }
 
   return (
@@ -46,12 +45,9 @@ export const AppUserProfile = () => {
           <div>{user.displayName}</div>
           <div>{user.email}</div>
         </DropdownMenuLabel>
-        <DropdownMenuItem asChild>
-          <Form method="POST" action="/sign_out">
-            <Button type="submit" variant="default" size="sm">
-              サインアウト
-            </Button>
-          </Form>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={() => handleSelectSignOut()}>
+          サインアウト
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
