@@ -16,7 +16,7 @@ export const AuthContext = createContext<User | null>(null)
  */
 export const useAuthStateObserve = () => {
   // Context 設定用の user state
-  const [authState, setAuthState] = useState<User | null>(null)
+  const [authState, setAuthState] = useState<User | null | undefined>(undefined)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {

@@ -1,4 +1,3 @@
-import { type MetaFunction } from '@remix-run/node'
 import {
   ClientActionFunctionArgs,
   Form,
@@ -9,26 +8,19 @@ import {
   useNavigation,
 } from '@remix-run/react'
 import { useEffect, useRef } from 'react'
-import { Button } from '~/components/ui/button'
-import { Input } from '~/components/ui/input'
-import { Label } from '~/components/ui/label'
 import {
+  Button,
+  Input,
+  Label,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from '~/components/ui/table'
+} from '~/components/ui'
 import { requireUser } from '~/services/auth'
 import { add, items } from '~/store/item'
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'Tweeter!' },
-    { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
-  ]
-}
 
 export const clientLoader = async () => {
   return {
