@@ -9,7 +9,7 @@ import {
 import { createContext, useContext, useEffect, useState } from 'react'
 import { app } from './firebase'
 
-export const AuthContext = createContext<User | null>(null)
+export const AuthContext = createContext<User | null | undefined>(null)
 
 /**
  * root コンポーネントでの認証モニタリング
@@ -38,7 +38,7 @@ export const useAuthUser = () => {
 }
 
 /**
- * clientLoader / clientAction での認証用
+ * clientLoader / clientAction での認証確認
  * @returns
  */
 interface requireUserProps {
