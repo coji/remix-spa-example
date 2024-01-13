@@ -6,9 +6,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import './styles/globals.css'
 
 export const clientLoader = async () => {
-  console.log('root clientLoader')
+  console.log('hoge')
   return { name: 'root' }
 }
 
@@ -38,7 +39,7 @@ export function HydrateFallback() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        <Links />
+        {/* <Links /> */}
       </head>
       <body>
         <p>Loading...</p>

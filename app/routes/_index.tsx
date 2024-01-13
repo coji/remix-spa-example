@@ -1,16 +1,30 @@
 import { type MetaFunction } from '@remix-run/node'
 import {
-  ClientActionFunction,
   useLoaderData,
   Form,
   Link,
-  redirect,
+  Outlet,
+  useActionData,
+  ClientActionFunctionArgs,
+  useNavigation,
 } from '@remix-run/react'
-import { items, add } from '../store/item'
+import {
+  Table,
+  TableHeader,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow,
+} from '~/components/ui/table'
+import { Label } from '~/components/ui/label'
+import { Input } from '~/components/ui/input'
+import { Button } from '~/components/ui/button'
+import { items, add } from '~/store/item'
+import { useEffect, useRef } from 'react'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'New Remix SPA' },
+    { title: 'Tweeter!' },
     { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
   ]
 }
@@ -22,47 +36,73 @@ export const clientLoader = async () => {
   }
 }
 
-export const clientAction: ClientActionFunction = async ({ request }) => {
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const formData = await request.formData()
+  const tweet = formData.get('tweet')?.toString()
+  if (!tweet) {
+    return null
+  }
   const newItem = {
     id: (items.length + 1).toString(),
-    name: formData.get('name')?.toString() ?? 'nothing',
+    name: formData.get('tweet')?.toString() ?? 'nothing',
   }
   add(newItem)
-  return redirect(`/item/${newItem.id}`)
+  return newItem
 }
 
 export default function Index() {
-  const { message, items } = useLoaderData<typeof clientLoader>()
+  const navigation = useNavigation()
+  const { items } = useLoaderData<typeof clientLoader>()
+  const actionData = useActionData<typeof clientAction>()
+  const $form = useRef<HTMLFormElement>(null)
+
+  useEffect(() => {
+    if (navigation.state === 'idle' && $form.current) {
+      if (actionData) {
+        $form.current.reset()
+      }
+      $form.current
+        .querySelector<HTMLInputElement>('input[name="tweet"]')
+        ?.focus()
+    }
+  }, [navigation.state, actionData])
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.8' }}>
-      <h1>Welcome to Remix (SPA Mode)</h1>
-      <div>{message}</div>
+    <div>
+      <h1 className="text-2xl">Tweeter!</h1>
 
-      <Form method="post">
-        <input name="name" />
-        <button>submit</button>
+      <Form method="POST" ref={$form} className="flex flex-row gap-4 items-end">
+        <Label>
+          name
+          <Input name="tweet" />
+        </Label>
+        <Button disabled={navigation.state !== 'idle'}>submit</Button>
       </Form>
 
-      <table>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <Link to={`/item/${item.id}`}>{item.id}</Link>
-              </td>
-              <td>{item.name}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>id</TableHead>
+              <th>name</th>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {items.map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>
+                  <Link to={`/item/${item.id}`}>{item.id}</Link>
+                </TableCell>
+                <TableCell>{item.name}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      <div>
+        <Outlet />
+      </div>
     </div>
   )
 }
