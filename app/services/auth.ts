@@ -41,19 +41,24 @@ export const useAuthUser = () => {
  * clientLoader / clientAction での認証確認
  * @returns
  */
-interface requireUserProps {
+interface AuthentiateProps {
+  successRedirect?: string
   failureRedirect?: string
 }
-export const requireUser = async (props?: requireUserProps) => {
+export const authenticate = async (props?: AuthentiateProps) => {
   const auth = getAuth(app)
   await auth.authStateReady()
-  if (!auth.currentUser) {
-    if (props?.failureRedirect) {
-      throw redirect(props?.failureRedirect)
+  if (auth.currentUser) {
+    if (props?.successRedirect) {
+      throw redirect(props?.successRedirect)
     }
-    return null
+    return auth.currentUser
   }
-  return auth.currentUser
+
+  if (props?.failureRedirect) {
+    throw redirect(props?.failureRedirect)
+  }
+  return null
 }
 
 /**

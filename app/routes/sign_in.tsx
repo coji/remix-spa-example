@@ -1,9 +1,16 @@
-import { ClientActionFunctionArgs, Form } from '@remix-run/react'
+import { Form } from '@remix-run/react'
 import { Button } from '~/components/ui/button'
 import { signIn } from '~/services/auth'
+import { authenticate } from '~/services/auth'
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+export const clientLoader = async () => {
+  await authenticate({ successRedirect: '/app' })
+  return null
+}
+
+export const clientAction = async () => {
   await signIn()
+  return null
 }
 
 export default function SignInPage() {

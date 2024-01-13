@@ -1,6 +1,6 @@
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 import { AppUserProfile } from '~/components/AppUserProfile'
-import { requireUser, useAuthUser } from '~/services/auth'
+import { authenticate, useAuthUser } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,13 +10,11 @@ export const meta: MetaFunction = () => {
 }
 
 export const clientLoader = async () => {
-  const user = await requireUser({ failureRedirect: '/sign_in' })
-  return user
+  await authenticate({ failureRedirect: '/sign_in' })
+  return null
 }
 
 export default function AppLayout() {
-  const user = useAuthUser()
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] h-screen">
       <header className="flex p-2">

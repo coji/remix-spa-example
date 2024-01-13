@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui'
-import { requireUser } from '~/services/auth'
+import { authenticate } from '~/services/auth'
 import { add, items } from '~/store/item'
 
 export const clientLoader = async () => {
@@ -30,7 +30,7 @@ export const clientLoader = async () => {
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await requireUser({ failureRedirect: '/sign_in' })
+  await authenticate({ failureRedirect: '/sign_in' })
 
   const formData = await request.formData()
   const tweet = formData.get('tweet')?.toString()

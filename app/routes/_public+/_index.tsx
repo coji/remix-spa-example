@@ -6,13 +6,10 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui'
-import { requireUser } from '~/services/auth'
+import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
-  const user = await requireUser()
-  if (user) {
-    return redirect('/app')
-  }
+  await authenticate({ successRedirect: '/app' })
   return null
 }
 
