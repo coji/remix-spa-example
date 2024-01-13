@@ -8,7 +8,8 @@
 		"dev": "remix vite:dev",
 		"lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
 		"start": "http-server -p 3000 build/client/",
-		"typecheck": "tsc"
+		"typecheck": "tsc",
+		"ci": "pnpm run lint && pnpm run typecheck"
 	},
 	"dependencies": {
 		"@conform-to/react": "^0.9.1",
@@ -19,6 +20,7 @@
 		"@remix-run/react": "^2.5.0",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
+		"firebase": "^10.7.1",
 		"http-server": "^14.1.1",
 		"lucide-react": "^0.309.0",
 		"react": "^18.2.0",
