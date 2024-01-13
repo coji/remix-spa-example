@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
+import { AuthContext, useAuthStateObserve } from './services/auth'
 import './styles/globals.css'
 
 export const clientLoader = async () => {
@@ -14,6 +15,8 @@ export const clientLoader = async () => {
 }
 
 export default function App() {
+  const { authState } = useAuthStateObserve()
+  console.log('App', { authState })
   return (
     <html lang="en">
       <head>
@@ -23,7 +26,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <AuthContext.Provider value={authState}>
+          <Outlet />
+        </AuthContext.Provider>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

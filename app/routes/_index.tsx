@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '~/components/ui/table'
+import { requireUser } from '~/services/auth'
 import { add, items } from '~/store/item'
 
 export const meta: MetaFunction = () => {
@@ -37,6 +38,8 @@ export const clientLoader = async () => {
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+  const user = await requireUser({ failureRedirect: '/sign_in' })
+
   const formData = await request.formData()
   const tweet = formData.get('tweet')?.toString()
   if (!tweet) {
@@ -78,6 +81,11 @@ export default function Index() {
         </Label>
         <Button disabled={navigation.state !== 'idle'}>submit</Button>
       </Form>
+
+      <div>
+        <Link to="/sign_in">サインイン</Link>
+        <Link to="/sign_out">サインアウト</Link>
+      </div>
 
       <div>
         <Table>
