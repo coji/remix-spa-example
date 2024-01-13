@@ -1,26 +1,26 @@
 import { type MetaFunction } from '@remix-run/node'
 import {
-  useLoaderData,
+  ClientActionFunctionArgs,
   Form,
   Link,
   Outlet,
   useActionData,
-  ClientActionFunctionArgs,
+  useLoaderData,
   useNavigation,
 } from '@remix-run/react'
+import { useEffect, useRef } from 'react'
+import { Button } from '~/components/ui/button'
+import { Input } from '~/components/ui/input'
+import { Label } from '~/components/ui/label'
 import {
   Table,
-  TableHeader,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
+  TableHeader,
   TableRow,
 } from '~/components/ui/table'
-import { Label } from '~/components/ui/label'
-import { Input } from '~/components/ui/input'
-import { Button } from '~/components/ui/button'
-import { items, add } from '~/store/item'
-import { useEffect, useRef } from 'react'
+import { add, items } from '~/store/item'
 
 export const meta: MetaFunction = () => {
   return [

@@ -1,12 +1,12 @@
-import { useLoaderData, ClientLoaderFunctionArgs } from '@remix-run/react'
-import { items } from '~/store/item'
+import { ClientLoaderFunctionArgs, useLoaderData } from '@remix-run/react'
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '~/components/ui/card'
+import { items } from '~/store/item'
 
 export const clientLoader = ({ params }: ClientLoaderFunctionArgs) => {
   const item = items.find((item) => item.id === params.id)
