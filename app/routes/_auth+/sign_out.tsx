@@ -4,13 +4,13 @@ import { signOut } from '~/services/auth'
 import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/sign_in' })
+  await authenticate({ failureRedirect: '/' })
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   await signOut()
-  return redirect('/sign_in')
+  return redirect('/')
 }
 
 export default function SignOutPage() {

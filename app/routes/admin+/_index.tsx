@@ -11,12 +11,12 @@ import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
   console.log('hoge')
-  await authenticate({ failureRedirect: '/sign_in' })
+  await authenticate({ failureRedirect: '/' })
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await authenticate({ failureRedirect: '/sign_in' })
+  const user = await authenticate({ failureRedirect: '/' })
   return null
 }
 

@@ -6,13 +6,13 @@ import { authenticate } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Remix SPA Example App' },
+    { title: 'Admin' },
     { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
   ]
 }
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/sign_in' })
+  await authenticate({ failureRedirect: '/' })
   return null
 }
 
@@ -29,7 +29,7 @@ export default function AppLayout() {
           />
 
           <h1 className="text-2xl">
-            <Link to="/app">Remix SPA Example</Link>
+            <Link to="/">Remix SPA Example</Link>
           </h1>
         </div>
         <UserAvatarMenu />
