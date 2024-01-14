@@ -21,7 +21,6 @@ export const useAuthStateObserve = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
-      console.log('onAuthStateChanged', user)
       setAuthState(user)
     })
     return () => unsubscribe()
