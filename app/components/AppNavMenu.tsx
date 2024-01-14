@@ -7,15 +7,29 @@ interface AppNavMenuProps {
 export const AppNavMenu = ({ isOpen, onClick }: AppNavMenuProps) => {
   return (
     <nav
-      className={`transition-all border-r border-l p-2 ${
-        isOpen ? 'w-96' : 'w-16'
+      className={`transition-all border-r overflow-auto flex flex-col gap-8 p-2 ${
+        isOpen ? 'max-w-96' : 'max-w-16'
       }`}
     >
-      <button type="button" onClick={() => onClick(!isOpen)}>
-        expand
-      </button>
+      <div>
+        <button type="button" onClick={() => onClick(!isOpen)}>
+          ex
+        </button>
+      </div>
 
-      <div>Hoge</div>
+      <div>Hoge {isOpen ? 'hohgoehogehoge' : ''}</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
+      <div>hoge</div>
       <div>hoge</div>
       <div>hoge</div>
     </nav>

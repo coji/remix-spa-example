@@ -43,7 +43,9 @@ export const UserAvatarMenu = () => {
       <DropdownMenuContent>
         <DropdownMenuLabel>
           <div>{user.displayName}</div>
-          <div>{user.email}</div>
+          <div className="text-muted-foreground leading-none font-normal">
+            {user.email}
+          </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={() => handleSelectSignOut()}>

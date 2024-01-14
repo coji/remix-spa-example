@@ -21,7 +21,7 @@ export default function AppLayout() {
 
   return (
     <div className="grid grid-rows-[auto_1fr] h-screen">
-      <header className="flex p-2 border">
+      <header className="flex p-2 border-b">
         <div className="flex gap-2 flex-1">
           <AppNavMenuButton
             isOpen={isMenuOpen}
@@ -35,7 +35,7 @@ export default function AppLayout() {
         <UserAvatarMenu />
       </header>
 
-      <div className="grid grid-cols-[auto_1fr]">
+      <div className="grid grid-cols-[auto_1fr] overflow-auto">
         <AppNavMenu isOpen={isMenuOpen} onClick={setIsMenuOpen} />
 
         <main className="px-2 overflow-auto">
