@@ -1,4 +1,4 @@
-import { Form, redirect, useNavigation } from '@remix-run/react'
+import { Form, useNavigation } from '@remix-run/react'
 import {
   Button,
   Card,
@@ -6,13 +6,19 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui'
+import { signIn } from '~/services/auth'
 import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
-  await authenticate({ successRedirect: '/app' })
+  const user = await authenticate({ successRedirect: '/' })
+  console.log({ user })
   return null
 }
 
+export const clientAction = async () => {
+  await signIn()
+  return null
+}
 export default function IndexPage() {
   const navigation = useNavigation()
   return (

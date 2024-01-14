@@ -4,6 +4,7 @@ import {
   type User,
   getAuth,
   onAuthStateChanged,
+  signInWithPopup,
   signInWithRedirect,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
@@ -20,6 +21,7 @@ export const useAuthStateObserve = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(app), (user) => {
+      console.log('onAuthStateChanged', user)
       setAuthState(user)
     })
     return () => unsubscribe()
@@ -49,15 +51,11 @@ export const authenticate = async (props?: AuthentiateProps) => {
   const auth = getAuth(app)
   await auth.authStateReady()
   if (auth.currentUser) {
-    if (props?.successRedirect) {
-      throw redirect(props?.successRedirect)
-    }
+    if (props?.successRedirect) throw redirect(props?.successRedirect)
     return auth.currentUser
   }
 
-  if (props?.failureRedirect) {
-    throw redirect(props?.failureRedirect)
-  }
+  if (props?.failureRedirect) throw redirect(props?.failureRedirect)
   return null
 }
 
@@ -70,7 +68,7 @@ export const signIn = async () => {
   provider.addScope('profile')
   provider.addScope('email')
   const auth = getAuth(app)
-  return await signInWithRedirect(auth, provider)
+  return await signInWithPopup(auth, provider)
 }
 
 /**
