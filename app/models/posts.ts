@@ -6,12 +6,13 @@ import {
 } from 'firebase/firestore'
 import { db } from '~/services/firestore'
 
+// 個別の投稿
 interface Post {
   id: string
+  uid: string
+  handle: string
   title: string
   content: string
-  isPublished: boolean
-  isPublic: boolean
   publishedAt: string | null
   createdAt: string
 }

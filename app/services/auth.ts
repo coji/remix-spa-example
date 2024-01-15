@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getAccount } from '~/models/account'
+import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
 export const AuthContext = createContext<User | null | undefined>(null)
@@ -59,7 +59,7 @@ export const authenticate = async (props?: AuthentiateProps) => {
   }
 
   // アカウント未登録の場合は初期設定画面にリダイレクト
-  const account = await getAccount(auth.currentUser.uid)
+  const account = await getAccountByUID(auth.currentUser.uid)
   if (!account && props?.registerRedirect)
     throw redirect(props?.registerRedirect)
 

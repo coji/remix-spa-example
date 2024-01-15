@@ -33,11 +33,9 @@ export default function RegisterProfilePage() {
         </Button>
       </div>
 
-      <div className="text-center">
-        <Button variant="link" onClick={() => signOut()}>
-          アカウント作成をやめる
-        </Button>
-      </div>
+      <Button variant="link" onClick={() => signOut()}>
+        アカウント作成をやめる
+      </Button>
     </div>
   )
 }
