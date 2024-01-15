@@ -42,7 +42,7 @@ export function HydrateFallback() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        {/* <Links /> */}
+        <Links />
       </head>
       <body>
         <div className="grid grid-cols-1 h-screen place-items-center">
