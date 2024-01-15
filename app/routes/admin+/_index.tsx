@@ -10,7 +10,6 @@ import {
 import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
-  console.log('hoge')
   await authenticate({ failureRedirect: '/' })
   return null
 }

@@ -6,7 +6,7 @@ import { authenticate } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Admin' },
+    { title: 'Admin - Remix SPA Example' },
     { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
   ]
 }

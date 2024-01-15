@@ -10,23 +10,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
+import { useSignOut } from '~/routes/_auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
 
 export const UserAvatarMenu = () => {
   const user = useAuthUser()
+  const { signOut } = useSignOut()
+
   const isLoading = user === undefined
-
-  const fetcher = useFetcher()
-  const handleSelectSignOut = () => {
-    fetcher.submit({}, { method: 'POST', action: '/sign_out' })
-  }
-
   if (isLoading) {
     return <div>Loading...</div>
   }
 
   if (!user) {
-    return <div>no user</div>
+    return <div> </div>
   }
 
   return (
@@ -48,7 +45,7 @@ export const UserAvatarMenu = () => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => handleSelectSignOut()}>
+        <DropdownMenuItem onSelect={() => signOut()}>
           サインアウト
         </DropdownMenuItem>
       </DropdownMenuContent>
