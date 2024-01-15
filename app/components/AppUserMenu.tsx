@@ -1,4 +1,3 @@
-import { useFetcher } from '@remix-run/react'
 import {
   Avatar,
   AvatarFallback,
@@ -13,7 +12,7 @@ import {
 import { useSignOut } from '~/routes/_auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
 
-export const UserAvatarMenu = () => {
+export const AppUserMenu = () => {
   const user = useAuthUser()
   const { signOut } = useSignOut()
 

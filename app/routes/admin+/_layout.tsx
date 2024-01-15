@@ -1,7 +1,7 @@
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
 import { useState } from 'react'
 import { AppNavMenu, AppNavMenuButton } from '~/components/AppNavMenu'
-import { UserAvatarMenu } from '~/components/UserAvatarMenu'
+import { AppUserMenu } from '~/components/AppUserMenu'
 import { authenticate } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
@@ -32,7 +32,7 @@ export default function AppLayout() {
             <Link to="/">Admin - しずかな Remix SPA Example</Link>
           </h1>
         </div>
-        <UserAvatarMenu />
+        <AppUserMenu />
       </header>
 
       <div className="grid grid-cols-[auto_1fr] overflow-auto">

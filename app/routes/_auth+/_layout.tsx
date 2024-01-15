@@ -1,5 +1,5 @@
 import { Link, type MetaFunction, Outlet } from '@remix-run/react'
-import { UserAvatarMenu } from '~/components/UserAvatarMenu'
+import { AppUserMenu } from '~/components/AppUserMenu'
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,13 +11,9 @@ export const meta: MetaFunction = () => {
 export default function AppLayout() {
   return (
     <div className="grid grid-rows-[auto_1fr] h-screen">
-      <header className="flex p-2 border-b">
-        <div className="flex gap-2 flex-1">
-          <h1 className="text-2xl">
-            <Link to="/">しずかな Remix SPA Example</Link>
-          </h1>
-        </div>
-        <UserAvatarMenu />
+      <header className="flex p-2">
+        <div className="flex-1" />
+        <AppUserMenu />
       </header>
 
       <main className="px-2 overflow-auto">
