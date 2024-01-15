@@ -1,5 +1,9 @@
-import { collection, getDocs, query } from 'firebase/firestore'
-import { type QueryDocumentSnapshot } from 'firebase/firestore'
+import {
+  type QueryDocumentSnapshot,
+  collection,
+  getDocs,
+  query,
+} from 'firebase/firestore'
 import { db } from '~/services/firestore'
 
 interface Post {
