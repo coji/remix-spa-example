@@ -17,7 +17,10 @@ import { signIn } from '~/services/auth'
 import { authenticate } from '~/services/auth'
 
 export const clientLoader = async () => {
-  const user = await authenticate({ successRedirect: '/admin' })
+  const user = await authenticate({
+    registerRedirect: '/welcome',
+    successRedirect: '/admin',
+  })
   return null
 }
 

@@ -14,8 +14,10 @@ export const meta: MetaFunction = () => {
 }
 
 export const clientLoader = async () => {
-  const user = await authenticate({ successRedirect: '/admin' })
-  console.log({ user })
+  await authenticate({
+    registerRedirect: '/welcome',
+    successRedirect: '/admin',
+  })
   return null
 }
 

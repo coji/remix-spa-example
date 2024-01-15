@@ -6,7 +6,7 @@ import { authenticate } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Admin - Remix SPA Example' },
+    { title: 'Admin - しずかな Remix SPA Example' },
     { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
   ]
 }
@@ -29,7 +29,7 @@ export default function AppLayout() {
           />
 
           <h1 className="text-2xl">
-            <Link to="/">Remix SPA Example</Link>
+            <Link to="/">Admin - しずかな Remix SPA Example</Link>
           </h1>
         </div>
         <UserAvatarMenu />

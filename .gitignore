@@ -4,5 +4,6 @@ node_modules
 /build
 /public/build
 .env
-firestore-debug.log
+*-debug.log
 .firebase
+data
