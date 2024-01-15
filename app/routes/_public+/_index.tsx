@@ -25,7 +25,7 @@ export default function IndexPage() {
   return (
     <div>
       <div className="px-4 py-32 max-w-lg w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
-        <div>しずかな Remix SPA Example</div>
+        <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
         <SignInModal />
 

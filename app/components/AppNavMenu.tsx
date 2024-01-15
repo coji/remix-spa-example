@@ -7,7 +7,7 @@ interface AppNavMenuProps {
 export const AppNavMenu = ({ isOpen, onClick }: AppNavMenuProps) => {
   return (
     <nav
-      className={`transition-all border-r overflow-auto flex flex-col gap-8 p-2 ${
+      className={`transition-all border-r overflow-y-auto overflow-x-clip flex flex-col gap-8 p-2 ${
         isOpen ? 'max-w-96' : 'max-w-16'
       }`}
     >
@@ -17,7 +17,9 @@ export const AppNavMenu = ({ isOpen, onClick }: AppNavMenuProps) => {
         </button>
       </div>
 
-      <div>Hoge {isOpen ? 'hohgoehogehoge' : ''}</div>
+      <div className="whitespace-nowrap">
+        Hoge {isOpen ? 'hohgoehogehoge' : ''}
+      </div>
       <div>hoge</div>
       <div>hoge</div>
       <div>hoge</div>
