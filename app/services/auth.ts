@@ -4,7 +4,7 @@ import {
   type User,
   getAuth,
   onAuthStateChanged,
-  signInWithRedirect,
+  signInWithCredential,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { type Account, getAccountByUID } from '~/models/account'
@@ -15,7 +15,7 @@ interface AuthContextProps {
   handle: string | null
   isOnBoarded: boolean
 }
-const authContextProps: AuthContextProps = {
+let authContextProps: AuthContextProps = {
   user: null,
   handle: null,
   isOnBoarded: false,
@@ -32,17 +32,19 @@ export const useAuthStateObserve = () => {
   useEffect(() => {
     const auth = getAuth(app)
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log('onAuthStateChanged', { user })
       let account: Account | undefined = undefined
       if (user) {
         account = await getAccountByUID(user.uid)
       }
 
-      setAuthState({
+      authContextProps = {
         user,
         handle: account?.id ?? null,
         isOnBoarded: !!account,
-      })
+      }
+      setAuthState(authContextProps)
+
+      console.log('onAuthStateChanged', { authContextProps })
     })
     return () => unsubscribe()
   }, [])
@@ -136,13 +138,12 @@ export const requireAuth = async (
  * サインイン
  * @returns
  */
-export const signIn = async () => {
+export const signIn = async (idToken: string) => {
   const auth = getAuth(app)
-  const provider = new GoogleAuthProvider()
-  provider.addScope('profile')
-  provider.addScope('email')
-  await signInWithRedirect(auth, provider)
-  return authContextProps
+  const credential = GoogleAuthProvider.credential(idToken)
+  await signInWithCredential(auth, credential)
+  if (!auth.currentUser) throw new Error('サインインに失敗しました')
+  return auth.currentUser
 }
 
 /**

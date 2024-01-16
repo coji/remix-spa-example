@@ -76,7 +76,6 @@ export const isAccountExistsByUID = async (uid: string) => {
     where('uid', '==', uid),
   ).withConverter(accountConverter)
   const account = await getDocs(q)
-  console.log('isAccountExistsByUID', { uid, account_size: account.size })
   return account.size > 0
 }
 

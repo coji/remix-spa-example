@@ -1,9 +1,10 @@
+import { GoogleLogin } from '@react-oauth/google'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import {
-  ClientLoaderFunctionArgs,
-  Form,
+  ClientActionFunctionArgs,
   Link,
   redirect,
-  useNavigation,
+  useFetcher,
 } from '@remix-run/react'
 import {
   Button,
@@ -18,34 +19,42 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  toast,
 } from '~/components/ui'
 import { signIn } from '~/services/auth'
-import { isAuthenticated } from '~/services/auth'
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await isAuthenticated(request, {
-    successRedirect: '/admin',
-  })
-  return null
-}
+export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+  const formData = await request.formData()
+  const credential = formData.get('credential')?.toString()
+  if (!credential) {
+    throw new Error('credential is not found')
+  }
 
-export const clientAction = async () => {
-  await signIn()
+  // サインイン
+  await signIn(credential)
   return redirect('/admin')
 }
 
 const SignInForm = () => {
-  const navigation = useNavigation()
+  const fetcher = useFetcher()
 
   return (
-    <Form method="POST" action="/sign_in">
-      <Button className="w-full" disabled={navigation.state !== 'idle'}>
-        {navigation.state === 'submitting'
-          ? 'サインインしています...'
-          : 'Google アカウントでサインイン'}
-      </Button>
-    </Form>
+    <div className="mx-auto text-center">
+      <GoogleOAuthProvider clientId="555137498198-910lfdq60rjkclt8hbut5bhe0esfv4vn.apps.googleusercontent.com">
+        <GoogleLogin
+          theme="filled_black"
+          onSuccess={async (cred) => {
+            if (!cred.credential) {
+              throw new Error('credential is not found')
+            }
+            fetcher.submit(
+              { credential: cred.credential },
+              { method: 'POST', action: '/sign_in' },
+            )
+          }}
+          onError={() => console.log('error')}
+        />
+      </GoogleOAuthProvider>
+    </div>
   )
 }
 
@@ -81,12 +90,16 @@ export default function SignInPage() {
         </CardHeader>
 
         <CardContent>
-          <SignInForm />
+          <div className="flex flex-col gap-4">
+            <div className="flex">
+              <SignInForm />
+            </div>
 
-          <div className="text-center">
-            <Button variant="link" asChild>
-              <Link to="/">トップページに戻る</Link>
-            </Button>
+            <div className="text-center mx-auto">
+              <Button variant="link" asChild>
+                <Link to="/">トップページに戻る</Link>
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

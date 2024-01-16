@@ -87,7 +87,7 @@ export default function CreateAccountPage() {
 
           <div className="flex flex-row gap-4">
             <div className="whitespace-nowrap">
-              remix-spa-example.firebaseapp.com /{' '}
+              remix-spa-example.web.app /{' '}
             </div>
             <Input
               {...conform.input(handle)}
