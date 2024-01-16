@@ -1,13 +1,13 @@
 import { Link } from '@remix-run/react'
 import { Button } from '~/components/ui'
 import { useSignOut } from '~/routes/_auth+/sign_out'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/' })
+  await isAuthenticated({ failureRedirect: '/' })
   return null
 }
-export default function RegisterProfilePage() {
+export default function WelcomeIndexPage() {
   const { signOut } = useSignOut()
 
   return (
@@ -27,7 +27,7 @@ export default function RegisterProfilePage() {
         </div>
 
         <Button variant="outline" size="lg" asChild>
-          <Link to="/account/create" prefetch="render">
+          <Link to="/welcome/create_account" prefetch="render">
             同意する
           </Link>
         </Button>

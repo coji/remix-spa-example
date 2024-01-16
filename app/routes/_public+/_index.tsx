@@ -1,6 +1,6 @@
 import { MetaFunction } from '@remix-run/react'
 import { SignInModal } from '~/routes/_auth+/sign_in'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,10 +14,7 @@ export const meta: MetaFunction = () => {
 }
 
 export const clientLoader = async () => {
-  await authenticate({
-    registerRedirect: '/welcome',
-    successRedirect: '/admin',
-  })
+  await isAuthenticated({ successRedirect: '/admin' })
   return null
 }
 
@@ -35,9 +32,17 @@ export default function IndexPage() {
         </div>
 
         <div>
-          ここではなんら有益な情報はもとめられていません。Remix SPA
-          モードで作った Web
-          アプリがどんな感じでうごくのか？そんなかんたんな気持ちで、文章を書くための場所です。
+          catnose さんが開発・運営されている「
+          <a
+            className="underline"
+            target="_blank"
+            rel="noreferrer"
+            href="https://sizu.me"
+          >
+            しずかなインターネット
+          </a>
+          」リスペクトのもと、UI をかなり参考にさせていただいています。
+          「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。
         </div>
 
         <div className="text-muted-foreground">coji が運営中</div>

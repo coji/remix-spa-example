@@ -35,6 +35,9 @@ dependencies:
   '@radix-ui/react-toast':
     specifier: ^1.1.5
     version: 1.1.5(@types/react-dom@18.2.18)(@types/react@18.2.47)(react-dom@18.3.0-canary-60a927d04-20240113)(react@18.3.0-canary-60a927d04-20240113)
+  '@remix-run/node':
+    specifier: ^2.5.0
+    version: 2.5.0(typescript@5.3.3)
   '@remix-run/react':
     specifier: ^2.5.0
     version: 2.5.0(react-dom@18.3.0-canary-60a927d04-20240113)(react@18.3.0-canary-60a927d04-20240113)(typescript@5.3.3)

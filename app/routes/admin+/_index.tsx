@@ -1,21 +1,17 @@
 import {
   ClientActionFunctionArgs,
-  Form,
-  Link,
   Outlet,
-  useActionData,
-  useLoaderData,
   useNavigation,
 } from '@remix-run/react'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/' })
+  await isAuthenticated({ failureRedirect: '/' })
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await authenticate({ failureRedirect: '/' })
+  await isAuthenticated({ failureRedirect: '/' })
   return null
 }
 

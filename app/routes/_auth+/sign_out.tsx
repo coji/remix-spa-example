@@ -6,10 +6,10 @@ import {
 } from '@remix-run/react'
 import { Button } from '~/components/ui/button'
 import { signOut } from '~/services/auth'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/' })
+  await isAuthenticated({ failureRedirect: '/' })
   return null
 }
 

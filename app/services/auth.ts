@@ -20,7 +20,7 @@ export const useAuthStateObserve = () => {
 
   useEffect(() => {
     const auth = getAuth(app)
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setAuthState(user)
     })
     return () => unsubscribe()
@@ -32,7 +32,7 @@ export const useAuthStateObserve = () => {
 }
 
 /**
- * コンポーネントでの認証利用用
+ * コンポーネントでのユーザ情報利用
  */
 export const useAuthUser = () => {
   return useContext(AuthContext)
@@ -42,29 +42,45 @@ export const useAuthUser = () => {
  * clientLoader / clientAction での認証確認
  * @returns
  */
-interface AuthentiateProps {
-  successRedirect?: string
-  registerRedirect?: string
-  failureRedirect?: string
-}
-export const authenticate = async (props?: AuthentiateProps) => {
+export async function isAuthenticated(): Promise<User | never>
+export async function isAuthenticated(opts: {
+  successRedirect: string
+}): Promise<User | never>
+export async function isAuthenticated(opts: {
+  failureRedirect: string
+}): Promise<User>
+export async function isAuthenticated(opts: {
+  successRedirect: string
+  failureRedirect: string
+}): Promise<never>
+export async function isAuthenticated(
+  opts?:
+    | { successRedirect: string }
+    | { failureRedirect: string }
+    | {
+        successRedirect: string
+        failureRedirect: string
+      },
+) {
   // 認証初期化を待つ
   const auth = getAuth(app)
   await auth.authStateReady()
 
   // ログインしていない場合は失敗時のリダイレクト先にリダイレクト
   if (!auth.currentUser) {
-    if (props?.failureRedirect) throw redirect(props?.failureRedirect)
+    if (opts && 'failureRedirect' in opts) throw redirect(opts?.failureRedirect)
     return null
   }
 
   // アカウント未登録の場合は初期設定画面にリダイレクト
+  // FIXME: ページ遷移ごとに認証チェックでこの処理がうごいちゃうのでなんとかしたいけど、外すと直リンクで想定外遷移がされてしまう。。
   const account = await getAccountByUID(auth.currentUser.uid)
-  if (!account && props?.registerRedirect)
-    throw redirect(props?.registerRedirect)
+  if (!account) {
+    return redirect('/welcome')
+  }
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
-  if (props?.successRedirect) throw redirect(props?.successRedirect)
+  if (opts && 'successRedirect' in opts) throw redirect(opts?.successRedirect)
 
   // リダイレクト設定がない場合はユーザ情報をそのまま返す
   return auth.currentUser

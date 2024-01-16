@@ -1,4 +1,4 @@
-import { Link, type MetaFunction, Outlet } from '@remix-run/react'
+import { type MetaFunction, Outlet } from '@remix-run/react'
 import { AppUserMenu } from '~/components/AppUserMenu'
 
 export const meta: MetaFunction = () => {

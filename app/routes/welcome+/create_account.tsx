@@ -11,7 +11,7 @@ import { z } from 'zod'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
 import { useSignOut } from '~/routes/_auth+/sign_out'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 const createSchema = (
   constraint: {
@@ -39,12 +39,12 @@ const createSchema = (
 }
 
 export const clientLoader = async () => {
-  await authenticate({ failureRedirect: '/' })
+  await isAuthenticated({ failureRedirect: '/' })
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await authenticate({ failureRedirect: '/' })
+  const user = await isAuthenticated({ failureRedirect: '/' })
   if (!user) {
     throw new Error('User is not authenticated')
   }
@@ -71,7 +71,7 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   return redirect('/admin')
 }
 
-export default function RegisterProfilePage() {
+export default function CreateAccountPage() {
   const lastSubmission = useActionData<typeof clientAction>()
   const [form, { handle }] = useForm({
     lastSubmission,

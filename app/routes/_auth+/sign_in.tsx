@@ -1,4 +1,4 @@
-import { Form, Link, useNavigation } from '@remix-run/react'
+import { Form, Link, redirect, useNavigation } from '@remix-run/react'
 import {
   Button,
   Card,
@@ -13,12 +13,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/components/ui'
+import { getAccountByUID } from '~/models/account'
 import { signIn } from '~/services/auth'
-import { authenticate } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 
 export const clientLoader = async () => {
-  const user = await authenticate({
-    registerRedirect: '/welcome',
+  await isAuthenticated({
     successRedirect: '/admin',
   })
   return null
