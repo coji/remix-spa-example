@@ -51,7 +51,7 @@ export const createAccount = async (
     }
 
     // アカウントの登録
-    transaction.set(
+    await transaction.set(
       doc(db, 'accounts', handle).withConverter(accountConverter),
       {
         id: handle,
