@@ -48,7 +48,12 @@ export default function IndexPage() {
         <div className="text-muted-foreground">coji が運営中</div>
       </div>
 
-      <div className="p-4 text-center bg-slate-50">hoge</div>
+      <div className="p-8 container text-center bg-slate-50">
+        <div className="px-16 flex flex-col md:flex-row justify-between">
+          <div>hoge</div>
+          <div>hogehoge</div>
+        </div>
+      </div>
     </div>
   )
 }

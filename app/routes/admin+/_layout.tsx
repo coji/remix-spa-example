@@ -34,7 +34,7 @@ export default function AppLayout() {
           />
 
           <h1 className="text-2xl">
-            <Link to="/">Admin - しずかな Remix SPA Example</Link>
+            <Link to="/admin">Admin - しずかな Remix SPA Example</Link>
           </h1>
         </div>
         <AppUserMenu />
