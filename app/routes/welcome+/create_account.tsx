@@ -62,8 +62,8 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   }
 
   await createAccount(user.uid, submission.value.handle, {
-    displayName: user.displayName ?? 'No Name',
-    photoURL: user.photoURL,
+    displayName: submission.value.handle,
+    photoURL: null,
   })
 
   return redirect('/admin')

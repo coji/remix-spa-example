@@ -1,5 +1,5 @@
 import { ClientLoaderFunctionArgs, Link } from '@remix-run/react'
-import { Button } from '~/components/ui'
+import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/_auth+/sign_out'
 import { requireAuth } from '~/services/auth'
 
@@ -14,7 +14,7 @@ export default function WelcomeIndexPage() {
     <div className="px-4 py-32 max-w-sm w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
       <div className="text-xl">アカウントを作成します</div>
 
-      <div className="bg-slate-100 rounded-3xl flex flex-col gap-4 p-6">
+      <Stack className="bg-slate-100 rounded-3xl p-6">
         <div className="text-slate-700">
           <Link className="underline" to="/license" target="_blank">
             利用規約
@@ -31,7 +31,7 @@ export default function WelcomeIndexPage() {
             同意する
           </Link>
         </Button>
-      </div>
+      </Stack>
 
       <Button variant="link" onClick={() => signOut()}>
         アカウント作成をやめる
