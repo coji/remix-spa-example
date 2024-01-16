@@ -2,6 +2,7 @@ import { GoogleLogin } from '@react-oauth/google'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import {
   ClientActionFunctionArgs,
+  ClientLoaderFunctionArgs,
   Link,
   redirect,
   useFetcher,
@@ -20,7 +21,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/components/ui'
-import { signIn } from '~/services/auth'
+import { isAuthenticated, signIn } from '~/services/auth'
+
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await isAuthenticated(request, { successRedirect: '/admin' })
+  return null
+}
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   const formData = await request.formData()
@@ -31,7 +37,7 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
 
   // サインイン
   await signIn(credential)
-  return redirect('/admin')
+  return null
 }
 
 const SignInForm = () => {

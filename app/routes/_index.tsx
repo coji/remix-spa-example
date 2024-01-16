@@ -1,4 +1,5 @@
 import { ClientLoaderFunctionArgs, MetaFunction } from '@remix-run/react'
+import { ExternalLink } from 'lucide-react'
 import { SignInModal } from '~/routes/_auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
@@ -34,12 +35,13 @@ export default function IndexPage() {
         <div>
           catnose さんが開発・運営されている「
           <a
-            className="underline"
+            className="underline whitespace-nowrap"
             target="_blank"
             rel="noreferrer"
             href="https://sizu.me"
           >
             しずかなインターネット
+            <ExternalLink className="inline h-4 w-4 ml-1" />
           </a>
           」リスペクトのもと、UI をかなり参考にさせていただいています。
           「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。

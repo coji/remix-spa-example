@@ -13,7 +13,7 @@ import { useSignOut } from '~/routes/_auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
 
 export const AppUserMenu = () => {
-  const { user } = useAuthUser()
+  const user = useAuthUser()
   const { signOut } = useSignOut()
 
   const isLoading = user === undefined

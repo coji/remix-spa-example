@@ -10,41 +10,20 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { type Account, getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
-interface AuthContextProps {
-  user: User | null
-  handle: string | null
-  isOnBoarded: boolean
-}
-let authContextProps: AuthContextProps = {
-  user: null,
-  handle: null,
-  isOnBoarded: false,
-}
+export const AuthContext = createContext<User | null>(null)
+AuthContext.displayName = 'AuthContext'
 
-export const AuthContext = createContext<AuthContextProps>(authContextProps)
 /**
  * root コンポーネントでの認証モニタリング
  */
 export const useAuthStateObserve = () => {
   // Context 設定用の user state
-  const [authState, setAuthState] = useState<AuthContextProps>(authContextProps)
+  const [authState, setAuthState] = useState<User | null>(null)
 
   useEffect(() => {
     const auth = getAuth(app)
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      let account: Account | undefined = undefined
-      if (user) {
-        account = await getAccountByUID(user.uid)
-      }
-
-      authContextProps = {
-        user,
-        handle: account?.id ?? null,
-        isOnBoarded: !!account,
-      }
-      setAuthState(authContextProps)
-
-      console.log('onAuthStateChanged', { authContextProps })
+      setAuthState(user)
     })
     return () => unsubscribe()
   }, [])
@@ -105,12 +84,10 @@ export async function isAuthenticated(
     return null
   }
 
-  // オンボーディングが完了していない場合はオンボーディング画面にリダイレクト
+  const account = await getAccountByUID(auth.currentUser.uid)
   const url = new URL(request.url)
-  if (
-    authContextProps.isOnBoarded === false &&
-    !url.pathname.startsWith('/welcome')
-  ) {
+  if (!account && !url.pathname.startsWith('/welcome')) {
+    // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
     throw redirect('/welcome')
   }
 
