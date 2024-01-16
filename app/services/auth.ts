@@ -42,18 +42,28 @@ export const useAuthUser = () => {
  * clientLoader / clientAction での認証確認
  * @returns
  */
-export async function isAuthenticated(): Promise<User | never>
-export async function isAuthenticated(opts: {
-  successRedirect: string
-}): Promise<User | never>
-export async function isAuthenticated(opts: {
-  failureRedirect: string
-}): Promise<User>
-export async function isAuthenticated(opts: {
-  successRedirect: string
-  failureRedirect: string
-}): Promise<never>
+export async function isAuthenticated(request: Request): Promise<User | never>
 export async function isAuthenticated(
+  request: Request,
+  opts: {
+    successRedirect: string
+  },
+): Promise<User | never>
+export async function isAuthenticated(
+  request: Request,
+  opts: {
+    failureRedirect: string
+  },
+): Promise<User>
+export async function isAuthenticated(
+  request: Request,
+  opts: {
+    successRedirect: string
+    failureRedirect: string
+  },
+): Promise<never>
+export async function isAuthenticated(
+  request: Request,
   opts?:
     | { successRedirect: string }
     | { failureRedirect: string }
@@ -75,7 +85,7 @@ export async function isAuthenticated(
   // アカウント未登録の場合は初期設定画面にリダイレクト
   // FIXME: ページ遷移ごとに認証チェックでこの処理がうごいちゃうのでなんとかしたいけど、外すと直リンクで想定外遷移がされてしまう。。
   const account = await getAccountByUID(auth.currentUser.uid)
-  if (!account) {
+  if (!account && !request.url.startsWith('/welcome')) {
     return redirect('/welcome')
   }
 
@@ -84,6 +94,19 @@ export async function isAuthenticated(
 
   // リダイレクト設定がない場合はユーザ情報をそのまま返す
   return auth.currentUser
+}
+
+/**
+ * loader / action での認証確認ユーティリティ
+ * @param request リクエスト
+ * @param failureRedirect ログインしていない場合のリダイレクト先
+ * @returns
+ */
+export const requireAuth = async (
+  request: Request,
+  opt: { failureRedirect: string },
+) => {
+  return await isAuthenticated(request, opt)
 }
 
 /**

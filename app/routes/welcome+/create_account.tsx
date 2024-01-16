@@ -2,6 +2,7 @@ import { conform, useForm } from '@conform-to/react'
 import { parse, refine } from '@conform-to/zod'
 import {
   ClientActionFunctionArgs,
+  ClientLoaderFunctionArgs,
   Form,
   redirect,
   useActionData,
@@ -11,7 +12,7 @@ import { z } from 'zod'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
 import { useSignOut } from '~/routes/_auth+/sign_out'
-import { isAuthenticated } from '~/services/auth'
+import { requireAuth } from '~/services/auth'
 
 const createSchema = (
   constraint: {
@@ -38,16 +39,13 @@ const createSchema = (
   })
 }
 
-export const clientLoader = async () => {
-  await isAuthenticated({ failureRedirect: '/' })
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await requireAuth(request, { failureRedirect: '/' })
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await isAuthenticated({ failureRedirect: '/' })
-  if (!user) {
-    throw new Error('User is not authenticated')
-  }
+  const user = await requireAuth(request, { failureRedirect: '/' })
 
   const formData = await request.formData()
   const submission = await parse(formData, {

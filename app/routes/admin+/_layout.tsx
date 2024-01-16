@@ -1,8 +1,13 @@
-import { Link, type MetaFunction, Outlet } from '@remix-run/react'
+import {
+  ClientLoaderFunctionArgs,
+  Link,
+  type MetaFunction,
+  Outlet,
+} from '@remix-run/react'
 import { useState } from 'react'
 import { AppNavMenu, AppNavMenuButton } from '~/components/AppNavMenu'
 import { AppUserMenu } from '~/components/AppUserMenu'
-import { isAuthenticated } from '~/services/auth'
+import { requireAuth } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,8 +16,8 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export const clientLoader = async () => {
-  await isAuthenticated({ failureRedirect: '/' })
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await requireAuth(request, { failureRedirect: '/' })
   return null
 }
 

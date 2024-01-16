@@ -1,4 +1,4 @@
-import { MetaFunction } from '@remix-run/react'
+import { ClientLoaderFunctionArgs, MetaFunction } from '@remix-run/react'
 import { SignInModal } from '~/routes/_auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
@@ -13,8 +13,8 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export const clientLoader = async () => {
-  await isAuthenticated({ successRedirect: '/admin' })
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await isAuthenticated(request, { successRedirect: '/admin' })
   return null
 }
 

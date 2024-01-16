@@ -10,10 +10,6 @@ import { ToastProvider } from '~/components/ui'
 import { AuthContext, useAuthStateObserve } from './services/auth'
 import './styles/globals.css'
 
-export const clientLoader = async () => {
-  return { name: 'root' }
-}
-
 export default function App() {
   const { authState } = useAuthStateObserve()
   return (

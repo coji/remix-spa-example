@@ -1,10 +1,10 @@
-import { Link } from '@remix-run/react'
+import { ClientLoaderFunctionArgs, Link } from '@remix-run/react'
 import { Button } from '~/components/ui'
 import { useSignOut } from '~/routes/_auth+/sign_out'
-import { isAuthenticated } from '~/services/auth'
+import { requireAuth } from '~/services/auth'
 
-export const clientLoader = async () => {
-  await isAuthenticated({ failureRedirect: '/' })
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await requireAuth(request, { failureRedirect: '/' })
   return null
 }
 export default function WelcomeIndexPage() {

@@ -1,4 +1,10 @@
-import { Form, Link, redirect, useNavigation } from '@remix-run/react'
+import {
+  ClientLoaderFunctionArgs,
+  Form,
+  Link,
+  redirect,
+  useNavigation,
+} from '@remix-run/react'
 import {
   Button,
   Card,
@@ -17,8 +23,8 @@ import {
 import { signIn } from '~/services/auth'
 import { isAuthenticated } from '~/services/auth'
 
-export const clientLoader = async () => {
-  await isAuthenticated({
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await isAuthenticated(request, {
     successRedirect: '/admin',
   })
   return null
@@ -26,11 +32,7 @@ export const clientLoader = async () => {
 
 export const clientAction = async () => {
   await signIn()
-  toast({
-    title: 'サインインしました',
-    description: 'トップページに戻ります。',
-  })
-  return null
+  return redirect('/admin')
 }
 
 const SignInForm = () => {

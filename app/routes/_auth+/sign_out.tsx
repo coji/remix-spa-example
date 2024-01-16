@@ -1,19 +1,19 @@
 import {
-  ClientActionFunctionArgs,
+  ClientLoaderFunctionArgs,
   Form,
   redirect,
   useFetcher,
 } from '@remix-run/react'
 import { Button } from '~/components/ui/button'
 import { signOut } from '~/services/auth'
-import { isAuthenticated } from '~/services/auth'
+import { requireAuth } from '~/services/auth'
 
-export const clientLoader = async () => {
-  await isAuthenticated({ failureRedirect: '/' })
+export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+  await requireAuth(request, { failureRedirect: '/' })
   return null
 }
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+export const clientAction = async () => {
   await signOut()
   return redirect('/')
 }
