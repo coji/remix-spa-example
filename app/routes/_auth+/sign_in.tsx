@@ -12,8 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  toast,
 } from '~/components/ui'
-import { getAccountByUID } from '~/models/account'
 import { signIn } from '~/services/auth'
 import { isAuthenticated } from '~/services/auth'
 
@@ -26,6 +26,10 @@ export const clientLoader = async () => {
 
 export const clientAction = async () => {
   await signIn()
+  toast({
+    title: 'サインインしました',
+    description: 'トップページに戻ります。',
+  })
   return null
 }
 
