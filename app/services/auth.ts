@@ -4,24 +4,45 @@ import {
   type User,
   getAuth,
   onAuthStateChanged,
-  signInWithPopup,
+  signInWithRedirect,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { getAccountByUID } from '~/models/account'
+import { type Account, getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
-export const AuthContext = createContext<User | null | undefined>(null)
+interface AuthContextProps {
+  user: User | null
+  handle: string | null
+  isOnBoarded: boolean
+}
+const authContextProps: AuthContextProps = {
+  user: null,
+  handle: null,
+  isOnBoarded: false,
+}
+
+export const AuthContext = createContext<AuthContextProps>(authContextProps)
 /**
  * root コンポーネントでの認証モニタリング
  */
 export const useAuthStateObserve = () => {
   // Context 設定用の user state
-  const [authState, setAuthState] = useState<User | null | undefined>(undefined)
+  const [authState, setAuthState] = useState<AuthContextProps>(authContextProps)
 
   useEffect(() => {
     const auth = getAuth(app)
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setAuthState(user)
+      console.log('onAuthStateChanged', { user })
+      let account: Account | undefined = undefined
+      if (user) {
+        account = await getAccountByUID(user.uid)
+      }
+
+      setAuthState({
+        user,
+        handle: account?.id ?? null,
+        isOnBoarded: !!account,
+      })
     })
     return () => unsubscribe()
   }, [])
@@ -82,11 +103,13 @@ export async function isAuthenticated(
     return null
   }
 
-  // アカウント未登録の場合は初期設定画面にリダイレクト
-  // FIXME: ページ遷移ごとに認証チェックでこの処理がうごいちゃうのでなんとかしたいけど、外すと直リンクで想定外遷移がされてしまう。。
-  const account = await getAccountByUID(auth.currentUser.uid)
-  if (!account && !request.url.startsWith('/welcome')) {
-    return redirect('/welcome')
+  // オンボーディングが完了していない場合はオンボーディング画面にリダイレクト
+  const url = new URL(request.url)
+  if (
+    authContextProps.isOnBoarded === false &&
+    !url.pathname.startsWith('/welcome')
+  ) {
+    throw redirect('/welcome')
   }
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
@@ -97,7 +120,7 @@ export async function isAuthenticated(
 }
 
 /**
- * loader / action での認証確認ユーティリティ
+ * clientLoader / clientAction での認証状態確認ユーティリティ
  * @param request リクエスト
  * @param failureRedirect ログインしていない場合のリダイレクト先
  * @returns
@@ -118,7 +141,8 @@ export const signIn = async () => {
   const provider = new GoogleAuthProvider()
   provider.addScope('profile')
   provider.addScope('email')
-  return await signInWithPopup(auth, provider)
+  await signInWithRedirect(auth, provider)
+  return authContextProps
 }
 
 /**

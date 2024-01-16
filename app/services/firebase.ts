@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCTNcpaBcn8bzjDGhWVpaQ6YOnZzHECwUE',
-  authDomain: 'remix-spa-example.web.app',
+  authDomain: 'remix-spa-example.firebaseapp.com',
   projectId: 'remix-spa-example',
   storageBucket: 'remix-spa-example.appspot.com',
   messagingSenderId: '555137498198',

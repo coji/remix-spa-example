@@ -11,7 +11,7 @@ import {
 import { db } from '~/services/firestore'
 
 // ユーザのアカウント
-interface Account {
+export interface Account {
   id: string // ハンドル
   uid: string // アカウントのUID
   displayName: string
