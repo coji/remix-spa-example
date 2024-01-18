@@ -3,28 +3,17 @@ import { redirect } from '@remix-run/react'
 export const createGoogleAuthenticator = ({
   clientID,
   callbackURL,
-  accessType = 'online',
-  includeGrantedScopes = true,
-  prompt,
   hd,
   loginHint,
-  scope = [
-    'openid',
-    'https://www.googleapis.com/auth/userinfo.profile',
-    'https://www.googleapis.com/auth/userinfo.email',
-  ],
 }: {
   clientID: string
   callbackURL: string
-  accessType?: 'online' | 'offline'
-  includeGrantedScopes?: boolean
   prompt?: 'none' | 'consent' | 'select_acount'
   hd?: string
   loginHint?: string
-  scope?: string[]
 }) => {
   const authorizationURL = 'https://accounts.google.com/o/oauth2/v2/auth'
-  const responseType = 'id_token token'
+  const responseType = 'id_token'
 
   const buildCallbackURL = (request: Request) => {
     return new URL(callbackURL, request.url)
@@ -32,16 +21,18 @@ export const createGoogleAuthenticator = ({
 
   const buildAuthorizationURL = (request: Request, state: string) => {
     const params = new URLSearchParams({
-      access_type: accessType,
-      include_granted_scopes: String(includeGrantedScopes),
+      access_type: 'online',
       response_type: responseType,
       client_id: clientID,
       redirect_uri: buildCallbackURL(request).toString(),
-      scope: scope.join(' '),
-      nonce: String(Math.random()),
+      scope: [
+        'openid',
+        'https://www.googleapis.com/auth/userinfo.profile',
+        'https://www.googleapis.com/auth/userinfo.email',
+      ].join(' '),
       state,
+      nonce: String(Math.random()),
     })
-    if (prompt) params.set('prompt', prompt)
     if (hd) params.set('hd', hd)
     if (loginHint) params.set('login_hint', loginHint)
 
