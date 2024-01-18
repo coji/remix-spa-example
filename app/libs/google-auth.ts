@@ -1,5 +1,11 @@
 import { redirect } from '@remix-run/react'
 
+/**
+ Google OpenID Connect Authenticator
+
+ https://developers.google.com/identity/openid-connect/openid-connect?hl=ja
+ */
+
 export const createGoogleAuthenticator = ({
   clientID,
   callbackURL,
