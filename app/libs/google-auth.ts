@@ -15,7 +15,6 @@ export const createGoogleAuthenticator = ({
   ],
 }: {
   clientID: string
-  clientSecret: string
   callbackURL: string
   accessType?: 'online' | 'offline'
   includeGrantedScopes?: boolean
