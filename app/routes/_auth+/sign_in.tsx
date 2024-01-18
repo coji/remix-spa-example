@@ -1,10 +1,8 @@
-import { GoogleLogin } from '@react-oauth/google'
-import { GoogleOAuthProvider } from '@react-oauth/google'
 import {
   ClientActionFunctionArgs,
   ClientLoaderFunctionArgs,
+  Form,
   Link,
-  redirect,
   useFetcher,
 } from '@remix-run/react'
 import {
@@ -22,6 +20,7 @@ import {
   DialogTrigger,
 } from '~/components/ui'
 import { isAuthenticated, signIn } from '~/services/auth'
+import { authenticate } from '~/services/google-auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   await isAuthenticated(request, { successRedirect: '/admin' })
@@ -29,37 +28,28 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const formData = await request.formData()
-  const credential = formData.get('credential')?.toString()
-  if (!credential) {
-    throw new Error('credential is not found')
-  }
-
-  // サインイン
-  await signIn(credential)
+  const accessToken = await authenticate(request)
   return null
 }
 
 const SignInForm = () => {
   const fetcher = useFetcher()
 
+  const handleClickSignIn = async () => {
+    fetcher.submit(
+      {},
+      {
+        method: 'POST',
+        action: '/sign_in',
+      },
+    )
+  }
+
   return (
     <div className="mx-auto text-center">
-      <GoogleOAuthProvider clientId="555137498198-910lfdq60rjkclt8hbut5bhe0esfv4vn.apps.googleusercontent.com">
-        <GoogleLogin
-          theme="filled_black"
-          onSuccess={async (cred) => {
-            if (!cred.credential) {
-              throw new Error('credential is not found')
-            }
-            fetcher.submit(
-              { credential: cred.credential },
-              { method: 'POST', action: '/sign_in' },
-            )
-          }}
-          onError={() => console.log('error')}
-        />
-      </GoogleOAuthProvider>
+      <Button onClick={() => handleClickSignIn()}>
+        Google アカウントでサインイン
+      </Button>
     </div>
   )
 }

@@ -35,9 +35,6 @@ dependencies:
   '@radix-ui/react-toast':
     specifier: ^1.1.5
     version: 1.1.5(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.3.0-canary-60a927d04-20240113)(react@18.3.0-canary-60a927d04-20240113)
-  '@react-oauth/google':
-    specifier: ^0.12.1
-    version: 0.12.1(react-dom@18.3.0-canary-60a927d04-20240113)(react@18.3.0-canary-60a927d04-20240113)
   '@remix-run/node':
     specifier: ^2.5.0
     version: 2.5.0(typescript@5.3.3)
@@ -56,6 +53,9 @@ dependencies:
   lucide-react:
     specifier: ^0.309.0
     version: 0.309.0(react@18.3.0-canary-60a927d04-20240113)
+  pure-uuid:
+    specifier: ^1.8.1
+    version: 1.8.1
   react:
     specifier: 18.3.0-canary-60a927d04-20240113
     version: 18.3.0-canary-60a927d04-20240113
@@ -2642,16 +2642,6 @@ packages:
     resolution: {integrity: sha512-fyrgCaedtvMg9NK3en0pnOYJdtfwxUcNolezkNPUsoX57X8oQk+NkqcvzHXD2uKNij6GXmWU9NDru2IWjrO4BQ==}
     dependencies:
       '@babel/runtime': 7.23.8
-    dev: false
-
-  /@react-oauth/google@0.12.1(react-dom@18.3.0-canary-60a927d04-20240113)(react@18.3.0-canary-60a927d04-20240113):
-    resolution: {integrity: sha512-qagsy22t+7UdkYAiT5ZhfM4StXi9PPNvw0zuwNmabrWyMKddczMtBIOARflbaIj+wHiQjnMAsZmzsUYuXeyoSg==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-    dependencies:
-      react: 18.3.0-canary-60a927d04-20240113
-      react-dom: 18.3.0-canary-60a927d04-20240113(react@18.3.0-canary-60a927d04-20240113)
     dev: false
 
   /@remix-run/dev@2.5.0(typescript@5.3.3)(vite@5.0.11):
@@ -8630,6 +8620,11 @@ packages:
     dependencies:
       escape-goat: 2.1.1
     dev: true
+
+  /pure-uuid@1.8.1:
+    resolution: {integrity: sha512-PIwHXU7NZb/wTBwUfzCSjI85tfwx6DQOm74sRLtNLH8KHsFZEvAQbBQdz7E5ij8SNSv9WGdQPWiiM6NpNIeNfA==}
+    engines: {node: '>=8.0.0'}
+    dev: false
 
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
