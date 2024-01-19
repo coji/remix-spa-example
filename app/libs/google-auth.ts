@@ -1,13 +1,15 @@
 import { redirect } from '@remix-run/react'
 
-const setStateAndNonce = async (
+// 検証用の値をローカルストレージに保存する
+const storeValidationValue = async (
   key: string,
   data: { state: string; nonce: string },
 ) => {
   await localStorage.setItem(key, JSON.stringify(data))
 }
 
-const getStateAndNone = async (key: string) => {
+// 検証用の値をローカルストレージから取得し、削除する
+const restoreValidationValue = async (key: string) => {
   const data = await localStorage.getItem(key)
   if (!data) {
     throw new Error('state がありません')
@@ -79,7 +81,7 @@ export const createGoogleAuthenticator = ({
         state: String(Math.random()),
         nonce: String(Math.random()),
       }
-      await setStateAndNonce('state', validation)
+      await storeValidationValue('v', validation)
 
       // 認可 URL にリダイレクトさせる。成功するとコールバックURLにリダイレクトされる
       throw redirect(
@@ -91,7 +93,7 @@ export const createGoogleAuthenticator = ({
     const params = new URLSearchParams(url.hash.slice(1))
 
     // state のチェック
-    const validation = await getStateAndNone('state')
+    const validation = await restoreValidationValue('v')
     if (validation.state !== params.get('state')) {
       throw new Error('state が一致しません')
     }
@@ -102,12 +104,11 @@ export const createGoogleAuthenticator = ({
       throw new Error('IDトークンがありません')
     }
 
-    // id トークンに含まれる nonce のチェック
+    // id トークンのペイロードに含まれる nonce のチェック
     const jsonPayload = atob(
       idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'),
     )
-    const payload = JSON.parse(jsonPayload)
-    if (payload.nonce !== validation.nonce) {
+    if (JSON.parse(jsonPayload).nonce !== validation.nonce) {
       throw new Error('nonce が一致しません')
     }
 
