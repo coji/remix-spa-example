@@ -1,11 +1,26 @@
 import { redirect } from '@remix-run/react'
 
+const setStateAndNonce = async (
+  key: string,
+  data: { state: string; nonce: string },
+) => {
+  await localStorage.setItem(key, JSON.stringify(data))
+}
+
+const getStateAndNone = async (key: string) => {
+  const data = await localStorage.getItem(key)
+  if (!data) {
+    throw new Error('state がありません')
+  }
+  await localStorage.removeItem(key)
+  return JSON.parse(data) as { state: string; nonce: string }
+}
+
 /**
  Google OpenID Connect Authenticator
 
  https://developers.google.com/identity/openid-connect/openid-connect?hl=ja
  */
-
 export const createGoogleAuthenticator = ({
   clientID,
   callbackURL,
@@ -25,7 +40,11 @@ export const createGoogleAuthenticator = ({
     return new URL(callbackURL, request.url)
   }
 
-  const buildAuthorizationURL = (request: Request, state: string) => {
+  const buildAuthorizationURL = (
+    request: Request,
+    state: string,
+    nonce: string,
+  ) => {
     const params = new URLSearchParams({
       access_type: 'online',
       response_type: responseType,
@@ -37,7 +56,7 @@ export const createGoogleAuthenticator = ({
         'https://www.googleapis.com/auth/userinfo.email',
       ].join(' '),
       state,
-      nonce: String(Math.random()),
+      nonce,
     })
     if (hd) params.set('hd', hd)
     if (loginHint) params.set('login_hint', loginHint)
@@ -51,25 +70,29 @@ export const createGoogleAuthenticator = ({
   const authenticate = async (request: Request) => {
     const url = new URL(request.url)
 
-    // コールバックURL以外: 認可URLにリダイレクトし、コールバックさせる
     const callbackURL = buildCallbackURL(request)
+
+    // コールバックURL以外: 認可URLにリダイレクトし、コールバックさせる
     if (url.pathname !== callbackURL.pathname) {
-      // localstorage に state を保存しておく
-      const state = String(Math.random())
-      await localStorage.setItem('state', state)
-      throw redirect(buildAuthorizationURL(request, state))
+      // コールバック時に state と nonce をチェックするために保存しておく
+      const validation = {
+        state: String(Math.random()),
+        nonce: String(Math.random()),
+      }
+      await setStateAndNonce('state', validation)
+
+      // 認可 URL にリダイレクトさせる。成功するとコールバックURLにリダイレクトされる
+      throw redirect(
+        buildAuthorizationURL(request, validation.state, validation.nonce),
+      )
     }
 
     // コールバックURLの場合: パラメータをhashから取得
     const params = new URLSearchParams(url.hash.slice(1))
 
     // state のチェック
-    const state = await localStorage.getItem('state')
-    if (!state) {
-      throw new Error('state がありません')
-    }
-    await localStorage.removeItem('state')
-    if (state !== params.get('state')) {
+    const validation = await getStateAndNone('state')
+    if (validation.state !== params.get('state')) {
       throw new Error('state が一致しません')
     }
 
@@ -78,6 +101,16 @@ export const createGoogleAuthenticator = ({
     if (!idToken) {
       throw new Error('IDトークンがありません')
     }
+
+    // id トークンに含まれる nonce のチェック
+    const jsonPayload = atob(
+      idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'),
+    )
+    const payload = JSON.parse(jsonPayload)
+    if (payload.nonce !== validation.nonce) {
+      throw new Error('nonce が一致しません')
+    }
+
     return idToken
   }
 
