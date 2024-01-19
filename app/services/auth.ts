@@ -10,6 +10,10 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
+interface AppUser extends User {
+  handle: string | null
+}
+
 export const AuthContext = createContext<User | null>(null)
 AuthContext.displayName = 'AuthContext'
 
@@ -40,31 +44,31 @@ export const useAuthUser = () => {
   return useContext(AuthContext)
 }
 
-let isOnboarded: boolean | undefined = undefined
+let userHandle: string | null = null
 /**
  * clientLoader / clientAction での認証確認
  * @returns
  */
-export async function isAuthenticated(request: Request): Promise<User | never>
+export async function isAuthenticated(request: Request): Promise<AppUser | null>
 export async function isAuthenticated(
   request: Request,
   opts: {
     successRedirect: string
   },
-): Promise<User | never>
+): Promise<AppUser | null>
 export async function isAuthenticated(
   request: Request,
   opts: {
     failureRedirect: string
   },
-): Promise<User>
+): Promise<AppUser>
 export async function isAuthenticated(
   request: Request,
   opts: {
     successRedirect: string
     failureRedirect: string
   },
-): Promise<never>
+): Promise<null>
 export async function isAuthenticated(
   request: Request,
   opts?:
@@ -85,22 +89,21 @@ export async function isAuthenticated(
     return null
   }
 
-  if (isOnboarded !== true) {
+  if (!userHandle) {
     const account = await getAccountByUID(auth.currentUser.uid)
+    if (account) userHandle = account.id
     const url = new URL(request.url)
-    if (!account && !url.pathname.startsWith('/welcome')) {
+    if (!userHandle && !url.pathname.startsWith('/welcome')) {
       // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
-      isOnboarded = false
       throw redirect('/welcome')
     }
-    isOnboarded = true
   }
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
   if (opts && 'successRedirect' in opts) throw redirect(opts?.successRedirect)
 
   // リダイレクト設定がない場合はユーザ情報をそのまま返す
-  return auth.currentUser
+  return { ...auth.currentUser, handle: userHandle }
 }
 
 /**
@@ -125,7 +128,6 @@ export const signIn = async (idToken: string) => {
   const credential = GoogleAuthProvider.credential(idToken)
   await signInWithCredential(auth, credential)
   if (!auth.currentUser) throw new Error('サインインに失敗しました')
-  return auth.currentUser
 }
 
 /**

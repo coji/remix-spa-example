@@ -1,4 +1,8 @@
-import { ClientLoaderFunctionArgs, MetaFunction } from '@remix-run/react'
+import {
+  ClientLoaderFunctionArgs,
+  MetaFunction,
+  redirect,
+} from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
 import { SignInModal } from '~/routes/_auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
@@ -15,7 +19,10 @@ export const meta: MetaFunction = () => {
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await isAuthenticated(request, { successRedirect: '/admin' })
+  const user = await isAuthenticated(request)
+  if (user) {
+    redirect(`/${user.handle}`)
+  }
   return null
 }
 
