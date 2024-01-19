@@ -3,6 +3,7 @@ import {
   Link,
   type MetaFunction,
   Outlet,
+  useLoaderData,
 } from '@remix-run/react'
 import { useState } from 'react'
 import { AppNavMenu, AppNavMenuButton } from '~/components/AppNavMenu'
@@ -11,17 +12,18 @@ import { requireAuth } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Admin - しずかな Remix SPA Example' },
+    { title: 'しずかな Remix SPA Example' },
     { name: 'description', content: 'Welcome to Remix (SPA Mode)!' },
   ]
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await requireAuth(request, { failureRedirect: '/' })
-  return null
+  const user = await requireAuth(request, { failureRedirect: '/' })
+  return user
 }
 
 export default function AppLayout() {
+  const user = useLoaderData<typeof clientLoader>()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -34,7 +36,7 @@ export default function AppLayout() {
           />
 
           <h1 className="text-2xl">
-            <Link to="/admin">Admin - しずかな Remix SPA Example</Link>
+            <Link to={`/${user.handle}`}>しずかな Remix SPA Example</Link>
           </h1>
         </div>
         <AppUserMenu />
