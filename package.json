@@ -6,9 +6,10 @@
 	"scripts": {
 		"build": "remix vite:build",
 		"dev": "remix vite:dev",
-		"lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+		"lint": "biome lint .",
+		"format": "biome format .",
 		"typecheck": "tsc",
-		"ci": "pnpm run lint && pnpm run typecheck",
+		"validate": "pnpm run lint && pnpm run format && pnpm run typecheck",
 		"start": "http-server -p 3000 build/client/"
 	},
 	"dependencies": {
