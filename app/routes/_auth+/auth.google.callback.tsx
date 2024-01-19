@@ -5,11 +5,11 @@ import { authenticate } from '~/services/google-auth'
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const req = new Request(location.href)
   const idToken = await authenticate(req)
-  const user = await signIn(idToken)
-  console.log({ user })
+  await signIn(idToken)
   return redirect('/')
 }
 
+// clientLoader だけでは動かないのでダミーの route コンポーネント
 export default function GoogleAuthCallbackPage() {
-  return <div>hoge</div>
+  return <div> </div>
 }

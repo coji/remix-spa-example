@@ -7,7 +7,7 @@ import {
   signInWithCredential,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { type Account, getAccountByUID } from '~/models/account'
+import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
 export const AuthContext = createContext<User | null>(null)
@@ -40,6 +40,7 @@ export const useAuthUser = () => {
   return useContext(AuthContext)
 }
 
+let isOnboarded: boolean | undefined = undefined
 /**
  * clientLoader / clientAction での認証確認
  * @returns
@@ -84,11 +85,15 @@ export async function isAuthenticated(
     return null
   }
 
-  const account = await getAccountByUID(auth.currentUser.uid)
-  const url = new URL(request.url)
-  if (!account && !url.pathname.startsWith('/welcome')) {
-    // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
-    throw redirect('/welcome')
+  if (isOnboarded !== true) {
+    const account = await getAccountByUID(auth.currentUser.uid)
+    const url = new URL(request.url)
+    if (!account && !url.pathname.startsWith('/welcome')) {
+      // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
+      isOnboarded = false
+      throw redirect('/welcome')
+    }
+    isOnboarded = true
   }
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
