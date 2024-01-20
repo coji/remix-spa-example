@@ -7,10 +7,12 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true
-		}
+		},
+		"ignore": ["build"]
 	},
 	"formatter": {
-		"enabled": true
+		"enabled": true,
+		"ignore": ["build"]
 	},
 	"javascript": {
 		"formatter": {
