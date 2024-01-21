@@ -154,22 +154,6 @@ export const verifyUser = async (request: Request, idToken: string) => {
 }
 
 /**
- * サインイン
- * @returns
- */
-export const signIn = async (request: Request, idToken: string) => {
-  const auth = getAuth(app)
-  const credential = GoogleAuthProvider.credential(idToken)
-  await signInWithCredential(auth, credential)
-  if (!auth.currentUser) throw new Error('サインインに失敗しました')
-
-  // オンボーディング済みか確認
-  const handle = await verifyOnboarded(request, auth.currentUser)
-
-  return { ...auth.currentUser, handle }
-}
-
-/**
  * サインアウト
  */
 export const signOut = async () => {
