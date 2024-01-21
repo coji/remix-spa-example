@@ -13,21 +13,28 @@ import { app } from './firebase'
 interface AppUser extends User {
   handle: string | null
 }
+let userHandle: string | null = null
 
-export const AuthContext = createContext<User | null>(null)
+export const AuthContext = createContext<AppUser | null>(null)
 AuthContext.displayName = 'AuthContext'
+export const AuthContextProvider = AuthContext.Provider
 
 /**
  * root コンポーネントでの認証モニタリング
  */
 export const useAuthStateObserve = () => {
   // Context 設定用の user state
-  const [authState, setAuthState] = useState<User | null>(null)
+  const [authState, setAuthState] = useState<AppUser | null>(null)
 
   useEffect(() => {
     const auth = getAuth(app)
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setAuthState(user)
+      if (user) {
+        setAuthState({ ...user, handle: userHandle })
+      } else {
+        userHandle = null
+        setAuthState(null)
+      }
     })
     return () => unsubscribe()
   }, [])
@@ -37,10 +44,17 @@ export const useAuthStateObserve = () => {
   }
 }
 
-const verifyOnboarded = async (user: User) => {
+const verifyOnboarded = async (request: Request, user: User) => {
   if (userHandle) return userHandle
+
   const account = await getAccountByUID(user.uid)
   if (account) return account.id // handle
+
+  // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
+  if (new URL(request.url).pathname.startsWith('/welcome')) {
+    throw redirect('/welcome')
+  }
+
   return null
 }
 
@@ -51,7 +65,6 @@ export const useAuthUser = () => {
   return useContext(AuthContext)
 }
 
-const userHandle: string | null = null
 /**
  * clientLoader / clientAction での認証確認
  * @returns
@@ -96,17 +109,14 @@ export async function isAuthenticated(
     return null
   }
 
-  const handle = await verifyOnboarded(auth.currentUser)
-  if (!handle && new URL(request.url).pathname.startsWith('/welcome')) {
-    // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
-    throw redirect('/welcome')
-  }
+  // オンボーディング済みか確認
+  const handle = await verifyOnboarded(request, auth.currentUser)
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
   if (opts && 'successRedirect' in opts) throw redirect(opts?.successRedirect)
 
   // リダイレクト設定がない場合はユーザ情報をそのまま返す
-  return { ...auth.currentUser, handle: userHandle }
+  return { ...auth.currentUser, handle }
 }
 
 /**
@@ -126,12 +136,15 @@ export const requireAuth = async (
  * サインイン
  * @returns
  */
-export const signIn = async (idToken: string) => {
+export const signIn = async (request: Request, idToken: string) => {
   const auth = getAuth(app)
   const credential = GoogleAuthProvider.credential(idToken)
   await signInWithCredential(auth, credential)
   if (!auth.currentUser) throw new Error('サインインに失敗しました')
-  const handle = await verifyOnboarded(auth.currentUser)
+
+  // オンボーディング済みか確認
+  const handle = await verifyOnboarded(request, auth.currentUser)
+
   return { ...auth.currentUser, handle }
 }
 

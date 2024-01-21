@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '~/components/ui'
-import { isAuthenticated, signIn } from '~/services/auth'
+import { isAuthenticated } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {

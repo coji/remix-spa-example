@@ -3,10 +3,12 @@ import { signIn } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  const req = new Request(location.href)
+  const req = new Request(location.href) // clientLoader の request には hash が含まれないのでここで作る
   const idToken = await authenticate(req)
-  const user = await signIn(idToken)
-  if (user.handle) redirect(`/${user.handle}`)
+  const user = await signIn(request, idToken)
+  if (user.handle) {
+    return redirect(`/${user.handle}`)
+  }
   return redirect('/')
 }
 
