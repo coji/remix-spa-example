@@ -31,14 +31,14 @@ export const AppUserMenu = () => {
         <Avatar>
           <AvatarImage
             src={user.photoURL ?? undefined}
-            alt={user.displayName ?? undefined}
+            alt={user.handle ?? undefined}
           />
-          <AvatarFallback>{user.displayName}</AvatarFallback>
+          <AvatarFallback>{user.handle}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>
-          <div>{user.displayName}</div>
+          <div>@{user.handle}</div>
           <div className="text-muted-foreground leading-none font-normal">
             {user.email}
           </div>

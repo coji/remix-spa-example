@@ -10,7 +10,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
-interface AppUser extends User {
+export interface AppUser extends User {
   handle: string | null
 }
 let userHandle: string | null = null
@@ -44,11 +44,27 @@ export const useAuthStateObserve = () => {
   }
 }
 
+/**
+ * コンポーネントでのユーザ情報利用
+ */
+export const useAuthUser = () => {
+  return useContext(AuthContext)
+}
+
+/**
+ * オンボード済みか確認し、まだならオンボーディング画面にリダイレクト。オンボード済みならユーザハンドルを返す
+ * @param request
+ * @param user
+ * @returns
+ */
 const verifyOnboarded = async (request: Request, user: User) => {
   if (userHandle) return userHandle
 
   const account = await getAccountByUID(user.uid)
-  if (account) return account.id // handle
+  if (account) {
+    userHandle = account.id // account.id = handle
+    return userHandle
+  }
 
   // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
   if (new URL(request.url).pathname.startsWith('/welcome')) {
@@ -56,13 +72,6 @@ const verifyOnboarded = async (request: Request, user: User) => {
   }
 
   return null
-}
-
-/**
- * コンポーネントでのユーザ情報利用
- */
-export const useAuthUser = () => {
-  return useContext(AuthContext)
 }
 
 /**
@@ -130,6 +139,18 @@ export const requireAuth = async (
   opt: { failureRedirect: string },
 ) => {
   return await isAuthenticated(request, opt)
+}
+
+export const verifyUser = async (request: Request, idToken: string) => {
+  const auth = getAuth(app)
+  const credential = GoogleAuthProvider.credential(idToken)
+  await signInWithCredential(auth, credential)
+  if (!auth.currentUser) throw new Error('サインインに失敗しました')
+
+  // オンボーディング済みか確認
+  const handle = await verifyOnboarded(request, auth.currentUser)
+
+  return { ...auth.currentUser, handle }
 }
 
 /**

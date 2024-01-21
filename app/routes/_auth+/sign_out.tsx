@@ -5,8 +5,7 @@ import {
   useFetcher,
 } from '@remix-run/react'
 import { Button } from '~/components/ui/button'
-import { signOut } from '~/services/auth'
-import { requireAuth } from '~/services/auth'
+import { requireAuth, signOut } from '~/services/auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   await requireAuth(request, { failureRedirect: '/' })

@@ -1,12 +1,10 @@
-import { ClientLoaderFunctionArgs, redirect } from '@remix-run/react'
-import { signIn } from '~/services/auth'
+import { redirect } from '@remix-run/react'
 import { authenticate } from '~/services/google-auth'
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  const req = new Request(location.href) // clientLoader の request には hash が含まれないのでここで作る
-  const idToken = await authenticate(req)
-  const user = await signIn(request, idToken)
-  if (user.handle) {
+export const clientLoader = async () => {
+  const request = new Request(location.href) // clientLoader の request には hash が含まれないのでここで作る
+  const user = await authenticate(request)
+  if (user?.handle) {
     return redirect(`/${user.handle}`)
   }
   return redirect('/')

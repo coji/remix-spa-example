@@ -1,8 +1,8 @@
 import {
   ClientActionFunctionArgs,
   ClientLoaderFunctionArgs,
-  Form,
   Link,
+  redirect,
   useFetcher,
 } from '@remix-run/react'
 import {
@@ -23,13 +23,15 @@ import { isAuthenticated } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await isAuthenticated(request, { successRedirect: '/admin' })
+  const user = await isAuthenticated(request)
+  if (user?.handle) {
+    return redirect(`/${user.handle}`)
+  }
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const accessToken = await authenticate(request)
-  return null
+  return await authenticate(request)
 }
 
 const SignInForm = () => {

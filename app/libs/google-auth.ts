@@ -23,17 +23,19 @@ const restoreValidationValue = async (key: string) => {
 
  https://developers.google.com/identity/openid-connect/openid-connect?hl=ja
  */
-export const createGoogleAuthenticator = ({
+export const createGoogleAuthenticator = <User>({
   clientID,
   callbackURL,
   hd,
   loginHint,
+  verifyUser,
 }: {
   clientID: string
   callbackURL: string
   prompt?: 'none' | 'consent' | 'select_acount'
   hd?: string
   loginHint?: string
+  verifyUser: (request: Request, idToken: string) => Promise<User | null>
 }) => {
   const authorizationURL = 'https://accounts.google.com/o/oauth2/v2/auth'
   const responseType = 'id_token'
@@ -112,7 +114,7 @@ export const createGoogleAuthenticator = ({
       throw new Error('nonce が一致しません')
     }
 
-    return idToken
+    return verifyUser(request, idToken)
   }
 
   return {
