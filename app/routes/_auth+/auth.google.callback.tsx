@@ -6,7 +6,6 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const req = new Request(location.href)
   const idToken = await authenticate(req)
   const user = await signIn(idToken)
-  console.log({ user })
   if (user.handle) redirect(`/${user.handle}`)
   return redirect('/')
 }
