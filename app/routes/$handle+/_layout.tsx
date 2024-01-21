@@ -8,7 +8,7 @@ import {
 import { useState } from 'react'
 import { AppNavMenu, AppNavMenuButton } from '~/components/AppNavMenu'
 import { AppUserMenu } from '~/components/AppUserMenu'
-import { requireAuth } from '~/services/auth'
+import { requireUser } from '~/services/auth'
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,8 +18,7 @@ export const meta: MetaFunction = () => {
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  const user = await requireAuth(request, { failureRedirect: '/' })
-  return user
+  return await requireUser(request, { failureRedirect: '/' })
 }
 
 export default function AppLayout() {

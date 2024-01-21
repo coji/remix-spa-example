@@ -40,8 +40,7 @@ const createSchema = (
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await requireAuth(request, { failureRedirect: '/' })
-  return null
+  return await requireAuth(request, { failureRedirect: '/' })
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
@@ -66,7 +65,7 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
     photoURL: null,
   })
 
-  return redirect('/admin')
+  return redirect(`/${submission.value.handle}`)
 }
 
 export default function CreateAccountPage() {

@@ -10,10 +10,15 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
-export interface AppUser extends User {
-  handle: string | null
+// 特定のプロパティを必須にするユーティリティ型
+type Required<T, K extends keyof T> = T & {
+  [P in K]-?: T[P]
 }
-let userHandle: string | null = null
+
+export interface AppUser extends User {
+  handle?: string
+}
+let userHandle: string | undefined = undefined
 
 export const AuthContext = createContext<AppUser | null>(null)
 AuthContext.displayName = 'AuthContext'
@@ -32,7 +37,7 @@ export const useAuthStateObserve = () => {
       if (user) {
         setAuthState({ ...user, handle: userHandle })
       } else {
-        userHandle = null
+        userHandle = undefined
         setAuthState(null)
       }
     })
@@ -71,7 +76,7 @@ const verifyOnboarded = async (request: Request, user: User) => {
     throw redirect('/welcome')
   }
 
-  return null
+  return undefined
 }
 
 /**
@@ -125,7 +130,10 @@ export async function isAuthenticated(
   if (opts && 'successRedirect' in opts) throw redirect(opts?.successRedirect)
 
   // リダイレクト設定がない場合はユーザ情報をそのまま返す
-  return { ...auth.currentUser, handle }
+  if (handle) {
+    return { ...auth.currentUser, handle }
+  }
+  return auth.currentUser
 }
 
 /**
@@ -141,6 +149,22 @@ export const requireAuth = async (
   return await isAuthenticated(request, opt)
 }
 
+/**
+ * clientLoader / clientAction でのユーザ情報取得ユーティリティ
+ * ハンドル登録済みのユーザ情報を取得する
+ * @param request
+ * @param opt
+ * @returns
+ */
+export const requireUser = async (
+  request: Request,
+  opt: { failureRedirect: string },
+): Promise<Required<AppUser, 'handle'>> => {
+  const user = await isAuthenticated(request, opt)
+  if (!user.handle) throw new Error('ユーザ情報がありません')
+  return { ...user, handle: user.handle }
+}
+
 export const verifyUser = async (request: Request, idToken: string) => {
   const auth = getAuth(app)
   const credential = GoogleAuthProvider.credential(idToken)
@@ -149,7 +173,6 @@ export const verifyUser = async (request: Request, idToken: string) => {
 
   // オンボーディング済みか確認
   const handle = await verifyOnboarded(request, auth.currentUser)
-
   return { ...auth.currentUser, handle }
 }
 

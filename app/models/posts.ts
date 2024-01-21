@@ -30,8 +30,10 @@ const converter = {
   },
 }
 
-export const listUserPosts = async () => {
-  const q = query(collection(db, 'posts')).withConverter<Post>(converter)
+export const listUserPosts = async (handle: string) => {
+  const q = query(
+    collection(db, 'accounts', handle, 'posts'),
+  ).withConverter<Post>(converter)
   const docs = await getDocs(q)
   return docs.docs.map((doc) => doc.data())
 }
