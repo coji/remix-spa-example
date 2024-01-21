@@ -37,6 +37,13 @@ export const useAuthStateObserve = () => {
   }
 }
 
+const verifyOnboarded = async (user: User) => {
+  if (userHandle) return userHandle
+  const account = await getAccountByUID(user.uid)
+  if (account) return account.id // handle
+  return null
+}
+
 /**
  * コンポーネントでのユーザ情報利用
  */
@@ -44,7 +51,7 @@ export const useAuthUser = () => {
   return useContext(AuthContext)
 }
 
-let userHandle: string | null = null
+const userHandle: string | null = null
 /**
  * clientLoader / clientAction での認証確認
  * @returns
@@ -89,14 +96,10 @@ export async function isAuthenticated(
     return null
   }
 
-  if (!userHandle) {
-    const account = await getAccountByUID(auth.currentUser.uid)
-    if (account) userHandle = account.id
-    const url = new URL(request.url)
-    if (!userHandle && !url.pathname.startsWith('/welcome')) {
-      // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
-      throw redirect('/welcome')
-    }
+  const handle = await verifyOnboarded(auth.currentUser)
+  if (!handle && new URL(request.url).pathname.startsWith('/welcome')) {
+    // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
+    throw redirect('/welcome')
   }
 
   // 登録済みの場合は成功時のリダイレクト先にリダイレクト
@@ -128,6 +131,8 @@ export const signIn = async (idToken: string) => {
   const credential = GoogleAuthProvider.credential(idToken)
   await signInWithCredential(auth, credential)
   if (!auth.currentUser) throw new Error('サインインに失敗しました')
+  const handle = await verifyOnboarded(auth.currentUser)
+  return { ...auth.currentUser, handle }
 }
 
 /**

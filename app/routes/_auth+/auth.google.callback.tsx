@@ -5,7 +5,9 @@ import { authenticate } from '~/services/google-auth'
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const req = new Request(location.href)
   const idToken = await authenticate(req)
-  await signIn(idToken)
+  const user = await signIn(idToken)
+  console.log({ user })
+  if (user.handle) redirect(`/${user.handle}`)
   return redirect('/')
 }
 
