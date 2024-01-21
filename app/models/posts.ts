@@ -1,6 +1,7 @@
 import {
   type QueryDocumentSnapshot,
   collection,
+  collectionGroup,
   getDocs,
   query,
 } from 'firebase/firestore'
@@ -34,6 +35,12 @@ export const listUserPosts = async (handle: string) => {
   const q = query(
     collection(db, 'accounts', handle, 'posts'),
   ).withConverter<Post>(converter)
+  const docs = await getDocs(q)
+  return docs.docs.map((doc) => doc.data())
+}
+
+export const listAllPosts = async () => {
+  const q = collectionGroup(db, 'posts').withConverter<Post>(converter)
   const docs = await getDocs(q)
   return docs.docs.map((doc) => doc.data())
 }

@@ -10,5 +10,14 @@ service cloud.firestore {
       allow read: if true;
       allow write: if request.resource.data.uid == request.auth.uid;
     }
+
+    match /accounts/{handle}/posts/{postId} {
+      allow read: if true;
+      allow write: if get(/databases/$(database)/documents/accounts/$(handle)).data.uid == request.auth.uid;
+    }
+
+    match /{path=**}/posts/{postId} {
+      allow read: if true;
+  	}
   }
 }
