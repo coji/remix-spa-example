@@ -10,7 +10,7 @@ export const AppFooter = () => {
   const { signOut } = useSignOut()
 
   return (
-    <div className="py-14 bg-slate-50">
+    <div className="py-14 bg-slate-50 text-sm text-slate-00">
       <div className="mx-auto w-full px-6 xs:px-7 sm:px-10 max-w-screen-lg flex flex-col gap-11 md:flex-row">
         <div className="flex-1">
           {user ? (

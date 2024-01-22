@@ -3,6 +3,7 @@ import {
   Link,
   MetaFunction,
   redirect,
+  useLoaderData,
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
 import { AppFooter } from '~/components/AppFooter'
@@ -26,10 +27,12 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   if (user?.handle) {
     return redirect(`/${user.handle}`)
   }
-  return null
+  return user
 }
 
 export default function IndexPage() {
+  const user = useLoaderData<typeof clientLoader>()
+
   return (
     <div className="grid grid-rows-[1fr_auto] min-h-screen">
       <AppHeadingSection>

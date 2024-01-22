@@ -1,6 +1,21 @@
-import { ClientLoaderFunctionArgs, useLoaderData } from '@remix-run/react'
-import { listUserPosts } from '~/models/posts'
-import { isAuthenticated } from '~/services/auth'
+import {
+  ClientActionFunctionArgs,
+  ClientLoaderFunctionArgs,
+  Form,
+  Link,
+  redirect,
+  useLoaderData,
+} from '@remix-run/react'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui'
+import { addUserPost, listUserPosts } from '~/models/posts'
+import { isAuthenticated, requireUser } from '~/services/auth'
 
 export const clientLoader = async ({
   request,
@@ -14,6 +29,20 @@ export const clientLoader = async ({
   return { handle, user, posts, isAuthor: handle === user?.handle }
 }
 
+export const clientAction = async ({
+  params,
+  request,
+}: ClientActionFunctionArgs) => {
+  const handle = params.handle
+  const user = await requireUser(request, { failureRedirect: '/' })
+  if (user.handle !== handle) {
+    throw new Error('Unauthorized')
+  }
+
+  const newPost = await addUserPost(user.handle)
+  return redirect(`/${handle}/posts/${newPost.id}/edit`)
+}
+
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
@@ -21,8 +50,23 @@ export default function Index() {
       <h1 className="text-2xl">@{handle}</h1>
 
       {posts.map((post) => (
-        <div key={post.id}>{JSON.stringify(post)}</div>
+        <Card key={post.id} className="relative">
+          <Link to={`/${handle}/posts/${post.id}`} className="absolute inset-0">
+            &nbsp;
+          </Link>
+          <CardHeader>
+            <CardTitle>{post.title}</CardTitle>
+            <CardDescription />
+          </CardHeader>
+          <CardContent>{post.publishedAt}</CardContent>
+        </Card>
       ))}
+
+      {isAuthor && (
+        <Form method="POST">
+          <Button type="submit">Add Post</Button>
+        </Form>
+      )}
     </div>
   )
 }

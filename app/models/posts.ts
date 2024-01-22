@@ -1,9 +1,13 @@
 import {
   type QueryDocumentSnapshot,
+  addDoc,
   collection,
   collectionGroup,
+  doc,
+  getDoc,
   getDocs,
   query,
+  setDoc,
 } from 'firebase/firestore'
 import { db } from '~/services/firestore'
 
@@ -43,4 +47,44 @@ export const listAllPosts = async () => {
   const q = collectionGroup(db, 'posts').withConverter<Post>(converter)
   const docs = await getDocs(q)
   return docs.docs.map((doc) => doc.data())
+}
+
+export const getUserPostById = async (handle: string, id: string) => {
+  const postDocRef = doc(
+    db,
+    'accounts',
+    handle,
+    'posts',
+    id,
+  ).withConverter<Post>(converter)
+  const postDoc = await getDoc(postDocRef)
+  if (postDoc.exists()) {
+    return postDoc.data()
+  }
+  return null
+}
+
+export const addUserPost = async (handle: string) => {
+  const postsRef = collection(db, 'accounts', handle, 'posts')
+  return await addDoc(postsRef, {
+    handle,
+    title: '',
+    content: '',
+    publishedAt: null,
+    createdAt: new Date().toISOString(),
+  })
+}
+
+export const updateUserPonst = async (
+  handle: string,
+  data: Omit<Post, 'createdAt'>,
+) => {
+  const postDocRef = doc(
+    db,
+    'accounts',
+    handle,
+    'posts',
+    data.id,
+  ).withConverter<Post>(converter)
+  await setDoc(postDocRef, data, { merge: true })
 }
