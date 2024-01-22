@@ -40,7 +40,7 @@ export default function IndexPage() {
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
         {user?.handle ? (
-          <Button variant="outline" asChild>
+          <Button variant="outline" className="rounded-full" asChild>
             <Link to={`/${user.handle}`}>自分のページへ</Link>
           </Button>
         ) : (

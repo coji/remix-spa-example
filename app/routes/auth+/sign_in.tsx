@@ -49,7 +49,7 @@ const SignInForm = () => {
 
   return (
     <div className="mx-auto text-center">
-      <Button onClick={() => handleClickSignIn()}>
+      <Button className="rounded-full" onClick={() => handleClickSignIn()}>
         Google アカウントでサインイン
       </Button>
     </div>
@@ -60,7 +60,9 @@ export const SignInModal = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">はじめる</Button>
+        <Button className="rounded-full" variant="outline">
+          はじめる
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm">
         <DialogHeader>
