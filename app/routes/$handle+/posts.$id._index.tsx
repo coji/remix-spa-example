@@ -33,7 +33,7 @@ export default function PostPage() {
       {handle === user?.handle && (
         <nav className="flex py-2 px-4">
           <Button variant="ghost" size="sm" className="rounded-full">
-            <Link to={`/${handle}`}>
+            <Link to={`/${handle}`} prefetch="intent">
               <ArrowLeftIcon className="w-4 h-4" />
             </Link>
           </Button>
@@ -41,7 +41,7 @@ export default function PostPage() {
           <div className="flex-1" />
 
           <Button size="sm" variant="ghost" asChild>
-            <Link to={`/${handle}/posts/${id}/edit`}>
+            <Link to={`/${handle}/posts/${id}/edit`} prefetch="intent">
               <PencilIcon className="w-4 h-4 mr-2" />
               記事を編集
             </Link>
@@ -49,7 +49,7 @@ export default function PostPage() {
         </nav>
       )}
 
-      <AppHeadingSection className="items-stretch">
+      <AppHeadingSection>
         <h1 className="text-2xl">{post.title}</h1>
 
         <div>{handle}</div>

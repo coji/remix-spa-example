@@ -15,7 +15,7 @@ export default function WelcomeIndexPage() {
   const { signOut } = useSignOut()
 
   return (
-    <AppHeadingSection>
+    <AppHeadingSection className="items-center">
       <div className="text-xl">アカウントを作成します</div>
 
       <Stack className="bg-slate-100 rounded-3xl p-6">

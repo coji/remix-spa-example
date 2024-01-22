@@ -6,6 +6,7 @@ import {
   redirect,
   useLoaderData,
 } from '@remix-run/react'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
   Card,
@@ -46,12 +47,16 @@ export const clientAction = async ({
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
-    <div>
+    <AppHeadingSection>
       <h1 className="text-2xl">@{handle}</h1>
 
       {posts.map((post) => (
         <Card key={post.id} className="relative">
-          <Link to={`/${handle}/posts/${post.id}`} className="absolute inset-0">
+          <Link
+            to={`/${handle}/posts/${post.id}`}
+            className="absolute inset-0"
+            prefetch="intent"
+          >
             &nbsp;
           </Link>
           <CardHeader>
@@ -67,6 +72,6 @@ export default function Index() {
           <Button type="submit">Add Post</Button>
         </Form>
       )}
-    </div>
+    </AppHeadingSection>
   )
 }

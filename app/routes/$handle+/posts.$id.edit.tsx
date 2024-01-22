@@ -56,7 +56,7 @@ export default function PostEditPage() {
   return (
     <div>
       <Form method="POST" className="flex flex-col gap-4">
-        <AppHeadingSection className="items-stretch">
+        <AppHeadingSection>
           <div>
             <Label>タイトル</Label>
             <Input type="text" name="title" defaultValue={post.title} />

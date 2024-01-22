@@ -35,7 +35,7 @@ export default function IndexPage() {
 
   return (
     <div className="grid grid-rows-[1fr_auto] min-h-screen">
-      <AppHeadingSection>
+      <AppHeadingSection className="items-center">
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
         <SignInModal />
@@ -60,7 +60,11 @@ export default function IndexPage() {
           「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。
         </div>
 
-        <Link to="/coji" className="underline text-muted-foreground">
+        <Link
+          to="/coji"
+          className="underline text-muted-foreground"
+          prefetch="intent"
+        >
           @coji が運営中
         </Link>
       </AppHeadingSection>

@@ -9,6 +9,7 @@ import {
 } from '@remix-run/react'
 import { FrownIcon } from 'lucide-react'
 import { z } from 'zod'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out'
@@ -81,7 +82,7 @@ export default function CreateAccountPage() {
   const { signOut } = useSignOut()
 
   return (
-    <div className="px-4 py-32 max-w-sm w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
+    <AppHeadingSection className="items-center">
       <div className="text-xl">アカウントを作成します</div>
 
       <Form method="POST" {...form.props}>
@@ -120,6 +121,6 @@ export default function CreateAccountPage() {
       <Button variant="link" onClick={() => signOut()}>
         アカウント作成をやめる
       </Button>
-    </div>
+    </AppHeadingSection>
   )
 }
