@@ -8,6 +8,7 @@ import {
 import { ExternalLink } from 'lucide-react'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
+import { Button } from '~/components/ui'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
@@ -38,7 +39,13 @@ export default function IndexPage() {
       <AppHeadingSection className="items-center">
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
-        <SignInModal />
+        {user?.handle ? (
+          <Button variant="outline" asChild>
+            <Link to={`/${user.handle}`}>自分のページへ</Link>
+          </Button>
+        ) : (
+          <SignInModal />
+        )}
 
         <div>
           しずかな Remix SPA Example は Remix SPA モードで Firebase を使った Web
