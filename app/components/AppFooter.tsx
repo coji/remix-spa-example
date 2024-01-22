@@ -3,7 +3,7 @@ import { ExternalLinkIcon } from 'lucide-react'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
-import { Avatar, AvatarFallback, AvatarImage, Button } from './ui'
+import { Avatar, AvatarImage, Button } from './ui'
 
 export const AppFooter = () => {
   const user = useAuthUser()
