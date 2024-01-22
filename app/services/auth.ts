@@ -35,7 +35,8 @@ export const useAuthStateObserve = () => {
     const auth = getAuth(app)
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        setAuthState({ ...user, handle: userHandle })
+        const account = await getAccountByUID(user.uid)
+        setAuthState({ ...user, handle: account?.id })
       } else {
         userHandle = undefined
         setAuthState(null)
