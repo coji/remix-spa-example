@@ -1,5 +1,5 @@
 import { Link } from '@remix-run/react'
-import { UserIcon } from 'lucide-react'
+import { ExternalLinkIcon } from 'lucide-react'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
@@ -46,10 +46,20 @@ export const AppFooter = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Link to="/">ホーム</Link>
-          <Link to="/license">規約とポリシー</Link>
-          <Link to="https://github.com/coji/remix-spa-example">
+          <Link className="hover:underline" to="/">
+            ホーム
+          </Link>
+          <Link className="hover:underline" to="/license">
+            規約とポリシー
+          </Link>
+          <Link
+            className="hover:underline"
+            target="_blank"
+            rel="noreferrer"
+            to="https://github.com/coji/remix-spa-example"
+          >
             ソースコード
+            <ExternalLinkIcon className="h-4 w-4 inline ml-1 mb-1" />
           </Link>
         </div>
       </div>
