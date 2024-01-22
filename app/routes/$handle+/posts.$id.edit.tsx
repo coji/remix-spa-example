@@ -6,6 +6,7 @@ import {
   redirect,
   useLoaderData,
 } from '@remix-run/react'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
 import { getUserPostById, updateUserPonst } from '~/models/posts'
 import { requireUser } from '~/services/auth'
@@ -23,7 +24,7 @@ export const clientLoader = async ({
 
   const post = await getUserPostById(handle, id)
   if (!post) throw json({ message: 'Not found', status: 404 })
-  return post
+  return { handle, id, post, user }
 }
 
 export const clientAction = async ({
@@ -50,18 +51,24 @@ export const clientAction = async ({
 }
 
 export default function PostEditPage() {
-  const post = useLoaderData<typeof clientLoader>()
+  const { handle, post } = useLoaderData<typeof clientLoader>()
 
   return (
     <div>
-      <h1>Post Edit</h1>
-      <div>{JSON.stringify(post)}</div>
       <Form method="POST" className="flex flex-col gap-4">
-        <Label>タイトル</Label>
-        <Input type="text" name="title" defaultValue={post.title} />
-        <Label>本文</Label>
-        <Textarea name="content" defaultValue={post.content} />
-        <Button type="submit">更新</Button>
+        <AppHeadingSection className="items-stretch">
+          <div>
+            <Label>タイトル</Label>
+            <Input type="text" name="title" defaultValue={post.title} />
+          </div>
+
+          <div>
+            <Label>本文</Label>
+            <Textarea name="content" defaultValue={post.content} />
+          </div>
+
+          <Button type="submit">更新</Button>
+        </AppHeadingSection>
       </Form>
     </div>
   )

@@ -4,6 +4,9 @@ import {
   json,
   useLoaderData,
 } from '@remix-run/react'
+import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
+import { Button } from '~/components/ui'
 import { getUserPostById } from '~/models/posts'
 import { isAuthenticated } from '~/services/auth'
 
@@ -28,13 +31,31 @@ export default function PostPage() {
   return (
     <div>
       {handle === user?.handle && (
-        <nav>
-          <Link to={`/${handle}/posts/${id}/edit`}>Edit</Link>
+        <nav className="flex py-2 px-4">
+          <Button variant="ghost" size="sm" className="rounded-full">
+            <Link to={`/${handle}`}>
+              <ArrowLeftIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+
+          <div className="flex-1" />
+
+          <Button size="sm" variant="ghost" asChild>
+            <Link to={`/${handle}/posts/${id}/edit`}>
+              <PencilIcon className="w-4 h-4 mr-2" />
+              記事を編集
+            </Link>
+          </Button>
         </nav>
       )}
-      <h1>Post</h1>
-      <div>{post.title}</div>
-      <div>{post.content}</div>
+
+      <AppHeadingSection className="items-stretch">
+        <h1 className="text-2xl">{post.title}</h1>
+
+        <div>{handle}</div>
+
+        <div>{post.content}</div>
+      </AppHeadingSection>
     </div>
   )
 }

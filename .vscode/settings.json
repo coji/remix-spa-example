@@ -13,5 +13,11 @@
 	"editor.codeActionsOnSave": {
 		"quickfix.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
-	}
+	},
+	"tailwindCSS.experimental.classRegex": [
+		"twc|x\\.[^`]+`([^`]*)`",
+		"twc|x\\(.*?\\).*?`([^`]*)",
+		["twc|x\\.[^`]+\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+		["twc|x\\(.*?\\).*?\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+	]
 }
