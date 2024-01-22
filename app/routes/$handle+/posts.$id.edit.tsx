@@ -13,14 +13,15 @@ import { ArrowLeftIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import { getUserPostById, updateUserPonst } from '~/models/posts'
+import { getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
 const schema = z.object({
-  title: z.string().min(1, '必須です').max(60, 'タイトルは60字までです。'),
+  title: z
+    .string({ required_error: '必須です' })
+    .max(60, 'タイトルは60字までです。'),
   content: z
-    .string()
-    .min(1, '必須です')
+    .string({ required_error: '必須です' })
     .max(14000, '最大文字数に達しました 14000 / 14000 字'),
 })
 
@@ -52,13 +53,13 @@ export const clientAction = async ({
   if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
 
   const formData = await request.formData()
-  await updateUserPonst(handle, {
+  await updateUserPost(handle, {
     id,
     uid: user.uid,
     handle,
     title: String(formData.get('title')),
     content: String(formData.get('content')),
-    publishedAt: 'hoge',
+    publishedAt: null,
   })
   return redirect(`/${handle}/posts/${id}`)
 }

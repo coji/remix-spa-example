@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   query,
+  serverTimestamp,
   setDoc,
 } from 'firebase/firestore'
 import { db } from '~/services/firestore'
@@ -75,7 +76,7 @@ export const addUserPost = async (handle: string) => {
   })
 }
 
-export const updateUserPonst = async (
+export const updateUserPost = async (
   handle: string,
   data: Omit<Post, 'createdAt'>,
 ) => {
@@ -86,5 +87,10 @@ export const updateUserPonst = async (
     'posts',
     data.id,
   ).withConverter<Post>(converter)
+
+  if (!data.publishedAt) {
+    data.publishedAt = new Date().toISOString()
+  }
+
   await setDoc(postDocRef, data, { merge: true })
 }

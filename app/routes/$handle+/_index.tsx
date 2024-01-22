@@ -47,10 +47,10 @@ export const clientAction = async ({
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
-    <AppHeadingSection className="px-6 sm:px-10 max-w-screen-md">
+    <div className="mx-auto w-full px-6 xs:px-7 sm:px-10 max-w-screen-lg grid grid-cols-1 gap-4">
       <h1 className="text-2xl">@{handle}</h1>
 
-      <div className="mx-auto gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
           <Card key={post.id} className="relative">
             <Link
@@ -74,6 +74,6 @@ export default function Index() {
           <Button type="submit">Add Post</Button>
         </Form>
       )}
-    </AppHeadingSection>
+    </div>
   )
 }
