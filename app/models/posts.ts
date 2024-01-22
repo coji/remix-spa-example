@@ -3,11 +3,11 @@ import {
   addDoc,
   collection,
   collectionGroup,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   query,
-  serverTimestamp,
   setDoc,
 } from 'firebase/firestore'
 import { db } from '~/services/firestore'
@@ -93,4 +93,9 @@ export const updateUserPost = async (
   }
 
   await setDoc(postDocRef, data, { merge: true })
+}
+
+export const deleteUserPost = async (handle: string, id: string) => {
+  const postDocRef = doc(db, 'accounts', handle, 'posts', id)
+  await deleteDoc(postDocRef)
 }

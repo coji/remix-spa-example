@@ -6,7 +6,7 @@ import {
   redirect,
   useLoaderData,
 } from '@remix-run/react'
-import { AppHeadingSection } from '~/components/AppHeadingSection'
+import { PlusIcon } from 'lucide-react'
 import {
   Button,
   Card,
@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from '~/components/ui'
+import { dayjs } from '~/libs/dayjs'
 import { addUserPost, listUserPosts } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
 
@@ -47,8 +48,21 @@ export const clientAction = async ({
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
-    <div className="mx-auto w-full px-6 xs:px-7 sm:px-10 max-w-screen-lg grid grid-cols-1 gap-4">
-      <h1 className="text-2xl">@{handle}</h1>
+    <div className="mx-auto w-full px-4 pt-8 pb-32 sm:px-10 max-w-screen-md grid grid-cols-1 gap-4">
+      <div className="flex">
+        <h1 className="text-2xl flex-1">@{handle}</h1>
+        {isAuthor && (
+          <Form method="POST">
+            <Button
+              variant="outline"
+              className="rounded-full px-2"
+              type="submit"
+            >
+              <PlusIcon />
+            </Button>
+          </Form>
+        )}
+      </div>
 
       <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
@@ -64,16 +78,12 @@ export default function Index() {
               <CardTitle>{post.title}</CardTitle>
               <CardDescription />
             </CardHeader>
-            <CardContent>{post.publishedAt}</CardContent>
+            <CardContent>
+              {dayjs(post.publishedAt).format('YYYY-MM-DD')}
+            </CardContent>
           </Card>
         ))}
       </div>
-
-      {isAuthor && (
-        <Form method="POST">
-          <Button type="submit">Add Post</Button>
-        </Form>
-      )}
     </div>
   )
 }

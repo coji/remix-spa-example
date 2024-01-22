@@ -13,7 +13,7 @@ import { ArrowLeftIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import { getUserPostById, updateUserPost } from '~/models/posts'
+import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
 const schema = z.object({
@@ -53,12 +53,25 @@ export const clientAction = async ({
   if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
 
   const formData = await request.formData()
+
+  // 削除
+  if (String(formData.get('intent')) === 'delete') {
+    await deleteUserPost(handle, id)
+    return redirect(`/${handle}`)
+  }
+
+  // 更新
+  const submission = parse(formData, { schema })
+  if (!submission.value) {
+    return submission
+  }
+
   await updateUserPost(handle, {
     id,
     uid: user.uid,
     handle,
-    title: String(formData.get('title')),
-    content: String(formData.get('content')),
+    title: submission.value.title,
+    content: submission.value.content,
     publishedAt: null,
   })
   return redirect(`/${handle}/posts/${id}`)
@@ -78,11 +91,26 @@ export default function PostEditPage() {
   return (
     <div>
       <nav className="flex py-2 px-4">
-        <Button variant="ghost" size="sm" className="rounded-full" asChild>
-          <Link to={`/${handle}/posts/${id}`} prefetch="intent">
-            <ArrowLeftIcon className="w-4 h-4" />
-          </Link>
-        </Button>
+        {post.publishedAt ? (
+          <Button variant="ghost" size="sm" className="rounded-full" asChild>
+            <Link to={`/${handle}/posts/${id}`} prefetch="intent">
+              <ArrowLeftIcon className="w-4 h-4" />
+            </Link>
+          </Button>
+        ) : (
+          <Form method="POST">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="rounded-full"
+              name="intent"
+              value="delete"
+              type="submit"
+            >
+              <ArrowLeftIcon className="w-4 h-4" />
+            </Button>
+          </Form>
+        )}
 
         <div className="flex-1" />
       </nav>
