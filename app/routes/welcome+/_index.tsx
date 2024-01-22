@@ -1,17 +1,21 @@
-import { ClientLoaderFunctionArgs, Link } from '@remix-run/react'
+import { ClientLoaderFunctionArgs, Link, redirect } from '@remix-run/react'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  await requireAuth(request, { failureRedirect: '/' })
+  const user = await requireAuth(request, { failureRedirect: '/' })
+  if (user.handle) {
+    return redirect(`/${user.handle}`)
+  }
   return null
 }
 export default function WelcomeIndexPage() {
   const { signOut } = useSignOut()
 
   return (
-    <div className="px-4 py-32 max-w-sm w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
+    <AppHeadingSection>
       <div className="text-xl">アカウントを作成します</div>
 
       <Stack className="bg-slate-100 rounded-3xl p-6">
@@ -36,6 +40,6 @@ export default function WelcomeIndexPage() {
       <Button variant="link" onClick={() => signOut()}>
         アカウント作成をやめる
       </Button>
-    </div>
+    </AppHeadingSection>
   )
 }

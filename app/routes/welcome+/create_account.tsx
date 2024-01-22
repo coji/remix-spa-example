@@ -40,7 +40,11 @@ const createSchema = (
 }
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  return await requireAuth(request, { failureRedirect: '/' })
+  const user = await requireAuth(request, { failureRedirect: '/' })
+  if (user.handle) {
+    return redirect(`/${user.handle}`)
+  }
+  return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
