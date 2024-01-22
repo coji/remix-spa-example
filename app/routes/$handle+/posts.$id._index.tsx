@@ -32,7 +32,7 @@ export default function PostPage() {
     <div>
       {handle === user?.handle && (
         <nav className="flex py-2 px-4">
-          <Button variant="ghost" size="sm" className="rounded-full">
+          <Button variant="ghost" size="sm" className="rounded-full" asChild>
             <Link to={`/${handle}`} prefetch="intent">
               <ArrowLeftIcon className="w-4 h-4" />
             </Link>
