@@ -23,8 +23,8 @@ export const meta: MetaFunction = () => {
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const user = await isAuthenticated(request)
-  if (user) {
-    redirect(`/${user.handle}`)
+  if (user?.handle) {
+    return redirect(`/${user.handle}`)
   }
   return null
 }
