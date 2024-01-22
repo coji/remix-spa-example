@@ -4,7 +4,7 @@ import {
   redirect,
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
-import { SignInModal } from '~/routes/_auth+/sign_in'
+import { SignInModal } from '~/routes/auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
 export const meta: MetaFunction = () => {

@@ -21,7 +21,7 @@ export const useSignOut = () => {
   const fetcher = useFetcher()
 
   const signOut = () => {
-    fetcher.submit({}, { method: 'POST', action: '/sign_out' })
+    fetcher.submit({}, { method: 'POST', action: '/auth/sign_out' })
   }
 
   return { signOut }

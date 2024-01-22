@@ -42,7 +42,7 @@ const SignInForm = () => {
       {},
       {
         method: 'POST',
-        action: '/sign_in',
+        action: '/auth/sign_in',
       },
     )
   }

@@ -1,6 +1,6 @@
 import { ClientLoaderFunctionArgs, Link } from '@remix-run/react'
 import { Button, Stack } from '~/components/ui'
-import { useSignOut } from '~/routes/_auth+/sign_out'
+import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {

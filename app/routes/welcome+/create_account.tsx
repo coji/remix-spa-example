@@ -11,7 +11,7 @@ import { FrownIcon } from 'lucide-react'
 import { z } from 'zod'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
-import { useSignOut } from '~/routes/_auth+/sign_out'
+import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
 
 const createSchema = (
