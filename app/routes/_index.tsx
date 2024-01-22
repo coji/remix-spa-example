@@ -6,6 +6,7 @@ import {
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
 import { AppFooter } from '~/components/AppFooter'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
@@ -31,7 +32,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 export default function IndexPage() {
   return (
     <div className="grid grid-rows-[1fr_auto] min-h-screen">
-      <div className="px-4 py-32 max-w-lg w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
+      <AppHeadingSection>
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
         <SignInModal />
@@ -59,7 +60,7 @@ export default function IndexPage() {
         <Link to="/coji" className="underline text-muted-foreground">
           @coji が運営中
         </Link>
-      </div>
+      </AppHeadingSection>
 
       <AppFooter />
     </div>
