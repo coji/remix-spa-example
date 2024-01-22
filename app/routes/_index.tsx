@@ -53,6 +53,11 @@ export default function IndexPage() {
         </div>
 
         <div>
+          あくまで技術的な実験のために作ったものなので、このサイトはいつ消えてもおかしくありません。
+          その場合は作成されたアカウントや投稿も、すべて消えてしまいます。あしからずご了承ください。
+        </div>
+
+        <div>
           catnose さんが開発・運営されている「
           <a
             className="underline whitespace-nowrap"
@@ -63,7 +68,7 @@ export default function IndexPage() {
             しずかなインターネット
             <ExternalLink className="inline h-4 w-4 ml-1" />
           </a>
-          」リスペクトのもと、UI をかなり参考にさせていただいています。
+          」リスペクトのもと、UI を参考にさせていただいています。
           「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。
         </div>
 
