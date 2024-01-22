@@ -47,25 +47,27 @@ export const clientAction = async ({
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
-    <AppHeadingSection>
+    <AppHeadingSection className="px-6 sm:px-10 max-w-screen-md">
       <h1 className="text-2xl">@{handle}</h1>
 
-      {posts.map((post) => (
-        <Card key={post.id} className="relative">
-          <Link
-            to={`/${handle}/posts/${post.id}`}
-            className="absolute inset-0"
-            prefetch="intent"
-          >
-            &nbsp;
-          </Link>
-          <CardHeader>
-            <CardTitle>{post.title}</CardTitle>
-            <CardDescription />
-          </CardHeader>
-          <CardContent>{post.publishedAt}</CardContent>
-        </Card>
-      ))}
+      <div className="mx-auto gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+        {posts.map((post) => (
+          <Card key={post.id} className="relative">
+            <Link
+              to={`/${handle}/posts/${post.id}`}
+              className="absolute inset-0"
+              prefetch="intent"
+            >
+              &nbsp;
+            </Link>
+            <CardHeader>
+              <CardTitle>{post.title}</CardTitle>
+              <CardDescription />
+            </CardHeader>
+            <CardContent>{post.publishedAt}</CardContent>
+          </Card>
+        ))}
+      </div>
 
       {isAuthor && (
         <Form method="POST">

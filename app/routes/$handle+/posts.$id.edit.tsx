@@ -2,10 +2,12 @@ import {
   ClientActionFunctionArgs,
   ClientLoaderFunctionArgs,
   Form,
+  Link,
   json,
   redirect,
   useLoaderData,
 } from '@remix-run/react'
+import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
 import { getUserPostById, updateUserPonst } from '~/models/posts'
@@ -51,10 +53,20 @@ export const clientAction = async ({
 }
 
 export default function PostEditPage() {
-  const { handle, post } = useLoaderData<typeof clientLoader>()
+  const { handle, id, post } = useLoaderData<typeof clientLoader>()
 
   return (
     <div>
+      <nav className="flex py-2 px-4">
+        <Button variant="ghost" size="sm" className="rounded-full">
+          <Link to={`/${handle}`} prefetch="intent">
+            <ArrowLeftIcon className="w-4 h-4" />
+          </Link>
+        </Button>
+
+        <div className="flex-1" />
+      </nav>
+
       <Form method="POST" className="flex flex-col gap-4">
         <AppHeadingSection>
           <div>
