@@ -1,9 +1,11 @@
 import {
   ClientLoaderFunctionArgs,
+  Link,
   MetaFunction,
   redirect,
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
+import { AppFooter } from '~/components/AppFooter'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
 
@@ -28,7 +30,7 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
 export default function IndexPage() {
   return (
-    <div>
+    <div className="grid grid-rows-[1fr_auto] min-h-screen">
       <div className="px-4 py-32 max-w-lg w-full mx-auto flex flex-col justify-center items-center gap-8 leading-10">
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
@@ -54,15 +56,12 @@ export default function IndexPage() {
           「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。
         </div>
 
-        <div className="text-muted-foreground">coji が運営中</div>
+        <Link to="/coji" className="underline text-muted-foreground">
+          @coji が運営中
+        </Link>
       </div>
 
-      <div className="p-8 container text-center bg-slate-50">
-        <div className="px-16 flex flex-col md:flex-row justify-between">
-          <div>hoge</div>
-          <div>hogehoge</div>
-        </div>
-      </div>
+      <AppFooter />
     </div>
   )
 }
