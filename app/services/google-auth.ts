@@ -8,4 +8,5 @@ const googleAuthenticator = createGoogleAuthenticator<AppUser>({
 })
 
 const authenticate = googleAuthenticator.authenticate
-export { authenticate }
+const authenticateCallback = googleAuthenticator.authenticateCallback
+export { authenticate, authenticateCallback }

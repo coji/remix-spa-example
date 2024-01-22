@@ -73,7 +73,6 @@ export const createGoogleAuthenticator = <User>({
 
   const authenticate = async (request: Request) => {
     const url = new URL(request.url)
-
     const callbackURL = buildCallbackURL(request)
 
     // コールバックURL以外: 認可URLにリダイレクトし、コールバックさせる
@@ -90,8 +89,11 @@ export const createGoogleAuthenticator = <User>({
         buildAuthorizationURL(request, validation.state, validation.nonce),
       )
     }
+  }
 
+  const authenticateCallback = async (request: Request) => {
     // コールバックURLの場合: パラメータをhashから取得
+    const url = new URL(request.url)
     const params = new URLSearchParams(url.hash.slice(1))
 
     // state のチェック
@@ -119,5 +121,6 @@ export const createGoogleAuthenticator = <User>({
 
   return {
     authenticate,
+    authenticateCallback,
   }
 }

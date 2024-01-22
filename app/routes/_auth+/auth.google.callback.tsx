@@ -1,9 +1,9 @@
 import { redirect } from '@remix-run/react'
-import { authenticate } from '~/services/google-auth'
+import { authenticateCallback } from '~/services/google-auth'
 
 export const clientLoader = async () => {
   const request = new Request(location.href) // clientLoader の request には hash が含まれないのでここで作る
-  const user = await authenticate(request)
+  const user = await authenticateCallback(request)
   if (user?.handle) {
     return redirect(`/${user.handle}`)
   }
