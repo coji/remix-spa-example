@@ -8,6 +8,7 @@ import {
 } from '@remix-run/react'
 import { PlusIcon } from 'lucide-react'
 import { MoreVerticalIcon } from 'lucide-react'
+import React from 'react'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
@@ -22,6 +23,7 @@ import {
 import { dayjs } from '~/libs/dayjs'
 import { type Post, addUserPost, listUserPosts } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
+import { DeleteAlertDialog } from './posts.$id.delete'
 
 export const clientLoader = async ({
   request,
@@ -49,7 +51,13 @@ export const clientAction = async ({
   return redirect(`/${handle}/posts/${newPost.id}/edit`)
 }
 
-const PostCard = ({ post }: { post: Post }) => {
+const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
+  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = React.useState(false)
+
+  const handleClickDeleteMenu = () => {
+    setIsDeleteAlertOpen(true)
+  }
+
   return (
     <Card
       key={post.id}
@@ -70,9 +78,21 @@ const PostCard = ({ post }: { post: Post }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem className="text-destructive">削除</DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-destructive"
+            onClick={() => handleClickDeleteMenu()}
+          >
+            削除
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <DeleteAlertDialog
+        handle={handle}
+        post={post}
+        open={isDeleteAlertOpen}
+        onCanceled={() => setIsDeleteAlertOpen(false)}
+      />
 
       <CardHeader>
         <div className="mx-auto flex flex-col gap-[2px] overflow-clip bg-white shadow-md w-20 h-24 p-[8px]">
@@ -91,7 +111,7 @@ const PostCard = ({ post }: { post: Post }) => {
 }
 
 export default function Index() {
-  const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
+  const { handle, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
     <AppHeadingSection>
       <div className="flex">
@@ -111,7 +131,7 @@ export default function Index() {
 
       <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} handle={handle} post={post} />
         ))}
       </div>
     </AppHeadingSection>
