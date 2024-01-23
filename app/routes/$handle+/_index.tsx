@@ -8,6 +8,7 @@ import {
 } from '@remix-run/react'
 import { PlusIcon } from 'lucide-react'
 import { MoreVerticalIcon } from 'lucide-react'
+import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
   Card,
@@ -92,7 +93,7 @@ const PostCard = ({ post }: { post: Post }) => {
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
-    <div className="mx-auto w-full px-4 pt-8 pb-32 sm:px-10 max-w-screen-md grid grid-cols-1 gap-4">
+    <AppHeadingSection>
       <div className="flex">
         <h1 className="text-2xl flex-1">@{handle}</h1>
         {isAuthor && (
@@ -113,6 +114,6 @@ export default function Index() {
           <PostCard key={post.id} post={post} />
         ))}
       </div>
-    </div>
+    </AppHeadingSection>
   )
 }
