@@ -7,6 +7,7 @@ import {
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
+import { dayjs } from '~/libs/dayjs'
 import { getUserPostById } from '~/models/posts'
 import { isAuthenticated } from '~/services/auth'
 
@@ -50,11 +51,17 @@ export default function PostPage() {
       )}
 
       <AppHeadingSection>
-        <h1 className="text-2xl">{post.title}</h1>
+        <h1 className="text-2xl leading-loose tracking-wider">{post.title}</h1>
 
-        <div>{handle}</div>
+        <div className="flex gap-1 items-center text-slate-500">
+          <div>
+            <Link to={`/${post.handle}`}>{post.handle}</Link>
+          </div>
+          <div>·</div>
+          <div>{dayjs(post.publishedAt).format('YYYY/MM/DD')}</div>
+        </div>
 
-        <div>{post.content}</div>
+        <div className="leading-loose tracking-wider">{post.content}</div>
       </AppHeadingSection>
     </div>
   )

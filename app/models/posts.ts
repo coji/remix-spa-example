@@ -13,7 +13,7 @@ import {
 import { db } from '~/services/firestore'
 
 // 個別の投稿
-interface Post {
+export interface Post {
   id: string
   uid: string
   handle: string

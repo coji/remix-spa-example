@@ -7,16 +7,9 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 import { PlusIcon } from 'lucide-react'
-import {
-  Button,
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '~/components/ui'
+import { Button, Card, CardContent, CardHeader } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
-import { addUserPost, listUserPosts } from '~/models/posts'
+import { type Post, addUserPost, listUserPosts } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
 
 export const clientLoader = async ({
@@ -45,6 +38,35 @@ export const clientAction = async ({
   return redirect(`/${handle}/posts/${newPost.id}/edit`)
 }
 
+const PostCard = ({ post }: { post: Post }) => {
+  return (
+    <Card
+      key={post.id}
+      className="border-none relative rounded-xl bg-slate-100"
+    >
+      <Link
+        to={`posts/${post.id}`}
+        className="absolute inset-0"
+        prefetch="intent"
+      >
+        &nbsp;
+      </Link>
+      <CardHeader>
+        <div className="mx-auto flex flex-col gap-[2px] overflow-clip bg-white shadow-md w-20 h-24 p-[8px]">
+          <div className="text-[4px]">{post.title}</div>
+          <div className="text-[2px] line-clamp-6">{post.content}</div>
+        </div>
+      </CardHeader>
+      <CardContent className="leading-loose">
+        <div className="line-clamp-2">{post.title}</div>
+        <div className="text-sm text-slate-400">
+          {dayjs(post.publishedAt).format('YYYY/MM/DD')}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function Index() {
   const { handle, user, posts, isAuthor } = useLoaderData<typeof clientLoader>()
   return (
@@ -66,22 +88,7 @@ export default function Index() {
 
       <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
-          <Card key={post.id} className="relative">
-            <Link
-              to={`/${handle}/posts/${post.id}`}
-              className="absolute inset-0"
-              prefetch="intent"
-            >
-              &nbsp;
-            </Link>
-            <CardHeader>
-              <CardTitle>{post.title}</CardTitle>
-              <CardDescription />
-            </CardHeader>
-            <CardContent>
-              {dayjs(post.publishedAt).format('YYYY-MM-DD')}
-            </CardContent>
-          </Card>
+          <PostCard key={post.id} post={post} />
         ))}
       </div>
     </div>

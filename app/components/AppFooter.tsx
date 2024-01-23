@@ -14,7 +14,7 @@ export const AppFooter = () => {
       <div className="mx-auto w-full px-6 sm:px-10 max-w-screen-md flex flex-col gap-11 md:flex-row">
         <div className="flex-1">
           {user ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-1">
               <Link
                 className="hover:underline flex gap-2 items-center"
                 to={`/${user.handle}`}
@@ -25,15 +25,11 @@ export const AppFooter = () => {
                 @{user.handle}
               </Link>
 
-              <div>
-                <Button
-                  variant="link"
-                  className="p-0"
-                  onClick={() => signOut()}
-                >
-                  サインアウト
-                </Button>
-              </div>
+              <div>·</div>
+
+              <Button variant="link" className="p-0" onClick={() => signOut()}>
+                サインアウト
+              </Button>
             </div>
           ) : (
             <div className="gap-4 flex flex-col">
