@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react'
-import { ToastProvider } from '~/components/ui'
+import { Toaster } from '~/components/ui'
 import { AuthContext, useAuthStateObserve } from './services/auth'
 import './styles/globals.css'
 
@@ -22,9 +22,8 @@ export default function App() {
       </head>
       <body>
         <AuthContext.Provider value={authState}>
-          <ToastProvider>
-            <Outlet />
-          </ToastProvider>
+          <Toaster />
+          <Outlet />
         </AuthContext.Provider>
         <ScrollRestoration />
         <Scripts />

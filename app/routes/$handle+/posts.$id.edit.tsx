@@ -7,12 +7,13 @@ import {
   Link,
   json,
   redirect,
+  useActionData,
   useLoaderData,
 } from '@remix-run/react'
 import { ArrowLeftIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Button, Input, Label, Textarea } from '~/components/ui'
+import { Button, Input, Label, Textarea, useToast } from '~/components/ui'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
@@ -79,7 +80,9 @@ export const clientAction = async ({
 
 export default function PostEditPage() {
   const { handle, id, post } = useLoaderData<typeof clientLoader>()
+
   const [form, { title, content }] = useForm({
+    id: 'post-edit',
     defaultValue: {
       title: post.title,
       content: post.content,
@@ -89,8 +92,8 @@ export default function PostEditPage() {
   })
 
   return (
-    <div>
-      <nav className="flex py-2 px-4">
+    <div className="relative">
+      <nav className="flex py-2 px-4 flex-row gap-4 sm:justify-between sticky top-0">
         {post.publishedAt ? (
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
             <Link to={`/${handle}/posts/${id}`} prefetch="intent">
@@ -112,7 +115,16 @@ export default function PostEditPage() {
           </Form>
         )}
 
-        <div className="flex-1" />
+        <Button
+          className="rounded-full transition-all"
+          type="submit"
+          size="sm"
+          form={form.id}
+        >
+          更新する
+        </Button>
+
+        <div />
       </nav>
 
       <Form method="POST" className="flex flex-col gap-4" {...form.props}>
@@ -132,8 +144,6 @@ export default function PostEditPage() {
               <div className="text-destructive">{content.error}</div>
             )}
           </fieldset>
-
-          <Button type="submit">更新</Button>
         </AppHeadingSection>
       </Form>
     </div>
