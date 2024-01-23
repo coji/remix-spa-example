@@ -7,7 +7,17 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 import { PlusIcon } from 'lucide-react'
-import { Button, Card, CardContent, CardHeader } from '~/components/ui'
+import { MoreVerticalIcon } from 'lucide-react'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
 import { type Post, addUserPost, listUserPosts } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
@@ -51,6 +61,18 @@ const PostCard = ({ post }: { post: Post }) => {
       >
         &nbsp;
       </Link>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger className="absolute right-0" asChild>
+          <Button size="sm" variant="ghost">
+            <MoreVerticalIcon className="w-4 h-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem className="text-destructive">削除</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
       <CardHeader>
         <div className="mx-auto flex flex-col gap-[2px] overflow-clip bg-white shadow-md w-20 h-24 p-[8px]">
           <div className="text-[4px]">{post.title}</div>
