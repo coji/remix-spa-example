@@ -1,5 +1,5 @@
 import { parse } from 'marked'
-import license from './license.md?raw'
+import license from '~/assets/license.md?raw'
 const md = parse(license)
 
 export default function LisencePage() {

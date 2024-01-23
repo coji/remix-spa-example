@@ -11,11 +11,18 @@ export default function PublicPageLayout() {
 
   return (
     <div>
-      <nav className="flex py-2 px-4">
-        <div className="flex-1">しずかな Remix SPA Example</div>
+      <nav className="flex py-2 px-4 items-center">
+        <Link to="/" className="flex-1">
+          しずかな Remix SPA Example
+        </Link>
         <div>
           {user ? (
-            <Button variant="outline" className="rounded-full" asChild>
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full"
+              asChild
+            >
               <Link to={`/${user.handle}`}>自分のページへ</Link>
             </Button>
           ) : (

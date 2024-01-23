@@ -1,5 +1,5 @@
 import { parse } from 'marked'
-import license from './privacy.md?raw'
+import license from '~/assets/privacy.md?raw'
 const md = parse(license)
 
 export default function PrivacyPolicyPage() {
