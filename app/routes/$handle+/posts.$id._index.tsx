@@ -3,6 +3,7 @@ import {
   Link,
   json,
   useLoaderData,
+  useRouteError,
 } from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
@@ -15,14 +16,12 @@ export const clientLoader = async ({
   request,
   params,
 }: ClientLoaderFunctionArgs) => {
-  const handle = params.handle
-  const id = params.id
-  if (!handle || !id) throw json({ message: 'Not found', status: 404 })
+  const { handle, id } = params
+  if (!handle || !id) throw new Error('Not found')
+  const post = await getUserPostById(handle, id)
+  if (!post) throw new Error('Not found')
 
   const user = await isAuthenticated(request)
-
-  const post = await getUserPostById(handle, id)
-  if (!post) throw json({ message: 'Not found', status: 404 })
 
   return { handle, id, post, user }
 }
