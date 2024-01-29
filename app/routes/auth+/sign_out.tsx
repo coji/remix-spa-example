@@ -4,7 +4,7 @@ import {
   redirect,
   useFetcher,
 } from '@remix-run/react'
-import { Button } from '~/components/ui/button'
+import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
@@ -14,6 +14,10 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
 
 export const clientAction = async () => {
   await signOut()
+  toast({
+    title: 'サインアウトしました',
+    description: 'またのご利用をお待ちしております。',
+  })
   return redirect('/')
 }
 

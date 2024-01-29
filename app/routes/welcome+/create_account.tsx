@@ -10,7 +10,7 @@ import {
 import { FrownIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Alert, AlertDescription, Button, Input } from '~/components/ui'
+import { Alert, AlertDescription, Button, Input , toast} from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
@@ -68,6 +68,11 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
   await createAccount(user.uid, submission.value.handle, {
     displayName: submission.value.handle,
     photoURL: null,
+  })
+
+  toast({
+    title: 'アカウントを作成しました',
+    description: 'ようこそ！',
   })
 
   return redirect(`/${submission.value.handle}`)
