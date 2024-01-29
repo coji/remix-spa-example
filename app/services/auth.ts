@@ -73,7 +73,7 @@ const verifyOnboarded = async (request: Request, user: User) => {
   }
 
   // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
-  if (new URL(request.url).pathname.startsWith('/welcome')) {
+  if (!new URL(request.url).pathname.startsWith('/welcome')) {
     throw redirect('/welcome')
   }
 
