@@ -1,5 +1,5 @@
 import { redirect } from '@remix-run/react'
-import { toast} from '~/components/ui'
+import { toast } from '~/components/ui'
 import { authenticateCallback } from '~/services/google-auth'
 
 export const clientLoader = async () => {

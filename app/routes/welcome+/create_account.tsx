@@ -10,7 +10,7 @@ import {
 import { FrownIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Alert, AlertDescription, Button, Input , toast} from '~/components/ui'
+import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
 import { createAccount, isAccountExistsByUID } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
