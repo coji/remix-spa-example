@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
+import { isAccountExistsByHandle } from '~/models/account'
 import { type Post, addUserPost, listUserPosts } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
 import { DeleteAlertDialog } from './posts.$id.delete'
@@ -31,6 +32,9 @@ export const clientLoader = async ({
 }: ClientLoaderFunctionArgs) => {
   const handle = params.handle
   if (!handle) throw new Error('Not found')
+
+  const isExist = await isAccountExistsByHandle(handle)
+  if (!isExist) throw new Error('Not found')
 
   const user = await isAuthenticated(request)
   const posts = await listUserPosts(handle)
