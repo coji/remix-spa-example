@@ -1,5 +1,10 @@
-import { conform, useForm } from '@conform-to/react'
-import { parse } from '@conform-to/zod'
+import {
+  getFormProps,
+  getInputProps,
+  getTextareaProps,
+  useForm,
+} from '@conform-to/react'
+import { parseWithZod } from '@conform-to/zod'
 import {
   ClientActionFunctionArgs,
   ClientLoaderFunctionArgs,
@@ -62,9 +67,9 @@ export const clientAction = async ({
   }
 
   // 更新
-  const submission = parse(formData, { schema })
-  if (!submission.value) {
-    return submission
+  const submission = parseWithZod(formData, { schema })
+  if (submission.status !== 'success') {
+    return submission.reply()
   }
 
   await updateUserPost(handle, {
@@ -80,6 +85,7 @@ export const clientAction = async ({
 
 export default function PostEditPage() {
   const { handle, id, post } = useLoaderData<typeof clientLoader>()
+  const lastResult = useActionData<typeof clientAction>()
 
   const [form, { title, content }] = useForm({
     id: 'post-edit',
@@ -87,8 +93,9 @@ export default function PostEditPage() {
       title: post.title,
       content: post.content,
     },
+    lastResult,
     shouldValidate: 'onInput',
-    onValidate: ({ formData }) => parse(formData, { schema }),
+    onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
 
   return (
@@ -127,22 +134,23 @@ export default function PostEditPage() {
         <div />
       </nav>
 
-      <Form method="POST" className="flex flex-col gap-4" {...form.props}>
+      <Form
+        method="POST"
+        className="flex flex-col gap-4"
+        {...getFormProps(form)}
+      >
         <AppHeadingSection>
           <fieldset>
             <Label htmlFor={title.id}>タイトル</Label>
-            <Input type="text" {...conform.input(title)} />
-            {title.error && (
-              <div className="text-destructive">{title.error}</div>
-            )}
+            <Input {...getInputProps(title, { type: 'text' })} />
+            <div className="text-destructive">{title.errors}</div>
           </fieldset>
 
           <fieldset>
             <Label htmlFor={content.id}>本文</Label>
-            <Textarea {...conform.textarea(content)} />
-            {content.error && (
-              <div className="text-destructive">{content.error}</div>
-            )}
+            <Textarea {...getTextareaProps(content)} />
+
+            <div className="text-destructive">{content.errors}</div>
           </fieldset>
         </AppHeadingSection>
       </Form>
