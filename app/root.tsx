@@ -10,6 +10,10 @@ import { Toaster } from '~/components/ui'
 import { AuthContext, useAuthStateObserve } from './services/auth'
 import './styles/globals.css'
 
+export const meta = () => {
+  return [{ title: 'しずかな Remix SPA Example' }]
+}
+
 export default function App() {
   const { authState } = useAuthStateObserve()
   return (
