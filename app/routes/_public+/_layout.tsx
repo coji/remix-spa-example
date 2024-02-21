@@ -11,7 +11,7 @@ export default function PublicPageLayout() {
 
   return (
     <div>
-      <nav className="flex py-2 px-4 items-center">
+      <nav className="flex items-center px-4 py-2">
         <Link to="/" className="flex-1">
           しずかな Remix SPA Example
         </Link>
@@ -31,7 +31,7 @@ export default function PublicPageLayout() {
         </div>
       </nav>
 
-      <div className="grid grid-rows-[1fr_auto] min-h-screen">
+      <div className="grid min-h-screen grid-rows-[1fr_auto]">
         <main>
           <AppHeadingSection>
             <nav>

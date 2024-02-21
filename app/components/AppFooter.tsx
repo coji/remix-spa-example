@@ -10,13 +10,13 @@ export const AppFooter = () => {
   const { signOut } = useSignOut()
 
   return (
-    <div className="py-14 bg-slate-50 text-sm text-slate-00">
-      <div className="mx-auto w-full px-4 md:px-6 sm:px-10 max-w-screen-md flex flex-col gap-11 md:flex-row">
+    <div className="text-slate-00 bg-slate-50 py-14 text-sm">
+      <div className="mx-auto flex w-full max-w-screen-md flex-col gap-11 px-4 sm:px-10 md:flex-row md:px-6">
         <div className="flex-1">
           {user ? (
             <div className="flex items-center gap-1">
               <Link
-                className="hover:underline flex gap-2 items-center"
+                className="flex items-center gap-2 hover:underline"
                 to={`/${user.handle}`}
               >
                 <Avatar>
@@ -32,7 +32,7 @@ export const AppFooter = () => {
               </Button>
             </div>
           ) : (
-            <div className="gap-4 flex flex-col">
+            <div className="flex flex-col gap-4">
               <div>しずかな Remix SPA Example</div>
               <div>
                 <SignInModal />
@@ -55,7 +55,7 @@ export const AppFooter = () => {
             to="https://github.com/coji/remix-spa-example"
           >
             ソースコード
-            <ExternalLinkIcon className="h-4 w-4 inline ml-1 mb-1" />
+            <ExternalLinkIcon className="mb-1 ml-1 inline h-4 w-4" />
           </Link>
         </div>
       </div>

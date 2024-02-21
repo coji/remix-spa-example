@@ -1,10 +1,17 @@
-import { unstable_vitePlugin as remix } from '@remix-run/dev'
+import { vitePlugin as remix } from '@remix-run/dev'
+import { flatRoutes } from 'remix-flat-routes'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
-import remixConfig from './remix.config'
 
 export default defineConfig({
   build: { rollupOptions: { plugins: [visualizer()] } },
-  plugins: [remix({ ...remixConfig, unstable_ssr: false }), tsconfigPaths()],
+  plugins: [
+    remix({
+      ignoredRouteFiles: ['**/*'],
+      routes: async (defineRoutes) => flatRoutes('routes', defineRoutes),
+      ssr: false,
+    }),
+    tsconfigPaths(),
+  ],
 })

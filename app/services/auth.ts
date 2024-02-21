@@ -1,10 +1,10 @@
 import { redirect } from '@remix-run/react'
 import {
   GoogleAuthProvider,
-  type User,
   getAuth,
   onAuthStateChanged,
   signInWithCredential,
+  type User,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getAccountByUID } from '~/models/account'

@@ -80,8 +80,8 @@ export const SignInModal = () => {
 
 export default function SignInPage() {
   return (
-    <div className="grid grid-rows-1 h-screen">
-      <Card className="w-full max-w-md m-auto">
+    <div className="grid h-screen grid-rows-1">
+      <Card className="m-auto w-full max-w-md">
         <CardHeader>
           <CardTitle>しずかな Remix SPA Example</CardTitle>
           <CardDescription>
@@ -95,7 +95,7 @@ export default function SignInPage() {
               <SignInForm />
             </div>
 
-            <div className="text-center mx-auto">
+            <div className="mx-auto text-center">
               <Button variant="link" asChild>
                 <Link to="/">トップページに戻る</Link>
               </Button>

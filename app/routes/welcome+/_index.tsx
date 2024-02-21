@@ -18,7 +18,7 @@ export default function WelcomeIndexPage() {
     <AppHeadingSection className="items-center">
       <div className="text-xl">アカウントを作成します</div>
 
-      <Stack className="bg-slate-100 rounded-3xl p-6">
+      <Stack className="rounded-3xl bg-slate-100 p-6">
         <div className="text-slate-700">
           <Link className="underline" to="/license" target="_blank">
             利用規約

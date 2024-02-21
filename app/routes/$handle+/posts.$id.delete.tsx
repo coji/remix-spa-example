@@ -12,13 +12,11 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogOverlay,
   AlertDialogTitle,
   Button,
   DropdownMenuItem,
 } from '~/components/ui'
-import { Post } from '~/models/posts'
-import { deleteUserPost } from '~/models/posts'
+import { Post, deleteUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
 export const clientAction = async ({

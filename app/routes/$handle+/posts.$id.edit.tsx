@@ -18,7 +18,7 @@ import {
 import { ArrowLeftIcon } from 'lucide-react'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Button, Input, Label, Textarea, useToast } from '~/components/ui'
+import { Button, Input, Label, Textarea } from '~/components/ui'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
@@ -100,11 +100,11 @@ export default function PostEditPage() {
 
   return (
     <div className="relative">
-      <nav className="flex py-2 px-4 flex-row gap-4 sm:justify-between sticky top-0">
+      <nav className="sticky top-0 flex flex-row gap-4 px-4 py-2 sm:justify-between">
         {post.publishedAt ? (
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
             <Link to={`/${handle}/posts/${id}`} prefetch="intent">
-              <ArrowLeftIcon className="w-4 h-4" />
+              <ArrowLeftIcon className="h-4 w-4" />
             </Link>
           </Button>
         ) : (
@@ -117,7 +117,7 @@ export default function PostEditPage() {
               value="delete"
               type="submit"
             >
-              <ArrowLeftIcon className="w-4 h-4" />
+              <ArrowLeftIcon className="h-4 w-4" />
             </Button>
           </Form>
         )}

@@ -1,5 +1,4 @@
 import {
-  type QueryDocumentSnapshot,
   addDoc,
   collection,
   collectionGroup,
@@ -9,6 +8,7 @@ import {
   getDocs,
   query,
   setDoc,
+  type QueryDocumentSnapshot,
 } from 'firebase/firestore'
 import { db } from '~/services/firestore'
 

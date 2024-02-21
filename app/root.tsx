@@ -43,7 +43,7 @@ export function HydrateFallback() {
         <Links />
       </head>
       <body>
-        <div className="grid grid-cols-1 h-screen place-items-center">
+        <div className="grid h-screen grid-cols-1 place-items-center">
           Loading...
         </div>
         <Scripts />

@@ -81,7 +81,7 @@ export default function CreateAccountPage() {
       <div className="text-xl">アカウントを作成します</div>
 
       <Form method="POST" {...getFormProps(form)}>
-        <div className="bg-slate-100 rounded-3xl flex flex-col gap-4 p-6">
+        <div className="flex flex-col gap-4 rounded-3xl bg-slate-100 p-6">
           <div className="text-slate-700">ハンドルネームを決めましょう</div>
 
           <div className="flex flex-row gap-4">
@@ -105,7 +105,7 @@ export default function CreateAccountPage() {
 
           {handle.errors && (
             <Alert variant="destructive">
-              <AlertDescription className="items-center flex flex-row gap-2">
+              <AlertDescription className="flex flex-row items-center gap-2">
                 <FrownIcon className="h-4 w-4" /> {handle.errors}
               </AlertDescription>
             </Alert>

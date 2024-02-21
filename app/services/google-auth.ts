@@ -1,5 +1,5 @@
 import { createGoogleAuthenticator } from '~/libs/google-auth'
-import { type AppUser, verifyUser } from './auth'
+import { verifyUser, type AppUser } from './auth'
 
 const googleAuthenticator = createGoogleAuthenticator<AppUser>({
   clientID: import.meta.env.VITE_GOOGLE_CLIENT_ID,

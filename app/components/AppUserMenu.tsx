@@ -39,7 +39,7 @@ export const AppUserMenu = () => {
       <DropdownMenuContent>
         <DropdownMenuLabel>
           <div>@{user.handle}</div>
-          <div className="text-muted-foreground leading-none font-normal">
+          <div className="font-normal leading-none text-muted-foreground">
             {user.email}
           </div>
         </DropdownMenuLabel>

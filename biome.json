@@ -3,24 +3,16 @@
   "organizeImports": {
     "enabled": true
   },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true
     },
     "ignore": ["build"]
-  },
-  "formatter": {
-    "enabled": true,
-    "ignore": ["build"],
-    "indentStyle": "space"
-  },
-  "javascript": {
-    "formatter": {
-      "enabled": true,
-      "quoteStyle": "single",
-      "semicolons": "asNeeded",
-      "trailingComma": "all"
-    }
   }
 }

@@ -6,8 +6,7 @@ import {
   redirect,
   useLoaderData,
 } from '@remix-run/react'
-import { PlusIcon } from 'lucide-react'
-import { MoreVerticalIcon } from 'lucide-react'
+import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
@@ -22,7 +21,7 @@ import {
 } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
 import { isAccountExistsByHandle } from '~/models/account'
-import { type Post, addUserPost, listUserPosts } from '~/models/posts'
+import { addUserPost, listUserPosts, type Post } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
 import { DeleteAlertDialog } from './posts.$id.delete'
 
@@ -65,7 +64,7 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
   return (
     <Card
       key={post.id}
-      className="border-none relative rounded-xl bg-slate-100"
+      className="relative rounded-xl border-none bg-slate-100"
     >
       <Link
         to={`posts/${post.id}`}
@@ -78,7 +77,7 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
       <DropdownMenu>
         <DropdownMenuTrigger className="absolute right-0" asChild>
           <Button size="sm" variant="ghost">
-            <MoreVerticalIcon className="w-4 h-4" />
+            <MoreVerticalIcon className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
@@ -99,9 +98,9 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
       />
 
       <CardHeader>
-        <div className="mx-auto flex flex-col gap-[2px] overflow-clip bg-white shadow-md w-20 h-24 p-[8px]">
+        <div className="mx-auto flex h-24 w-20 flex-col gap-[2px] overflow-clip bg-white p-[8px] shadow-md">
           <div className="text-[4px]">{post.title}</div>
-          <div className="text-[2px] line-clamp-6">{post.content}</div>
+          <div className="line-clamp-6 text-[2px]">{post.content}</div>
         </div>
       </CardHeader>
       <CardContent className="leading-loose">
@@ -119,7 +118,7 @@ export default function Index() {
   return (
     <AppHeadingSection>
       <div className="flex">
-        <h1 className="text-2xl flex-1">@{handle}</h1>
+        <h1 className="flex-1 text-2xl">@{handle}</h1>
         {isAuthor && (
           <Form method="POST">
             <Button
@@ -133,7 +132,7 @@ export default function Index() {
         )}
       </div>
 
-      <div className="w-full gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {posts.map((post) => (
           <PostCard key={post.id} handle={handle} post={post} />
         ))}

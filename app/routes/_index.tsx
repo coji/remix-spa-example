@@ -35,7 +35,7 @@ export default function IndexPage() {
   const user = useLoaderData<typeof clientLoader>()
 
   return (
-    <div className="grid grid-rows-[1fr_auto] min-h-screen">
+    <div className="grid min-h-screen grid-rows-[1fr_auto]">
       <AppHeadingSection className="items-center">
         <h1 className="text-xl">しずかな Remix SPA Example</h1>
 
@@ -60,13 +60,13 @@ export default function IndexPage() {
         <div>
           catnose さんが開発・運営されている「
           <a
-            className="underline whitespace-nowrap"
+            className="whitespace-nowrap underline"
             target="_blank"
             rel="noreferrer"
             href="https://sizu.me"
           >
             しずかなインターネット
-            <ExternalLink className="inline h-4 w-4 ml-1" />
+            <ExternalLink className="ml-1 inline h-4 w-4" />
           </a>
           」リスペクトのもと、UI を参考にさせていただいています。
           「しずかなインターネットは」とても素敵なサービスです。まだのかたはぜひご利用ください。
@@ -74,7 +74,7 @@ export default function IndexPage() {
 
         <Link
           to="/coji"
-          className="underline text-muted-foreground"
+          className="text-muted-foreground underline"
           prefetch="intent"
         >
           @coji が運営中
