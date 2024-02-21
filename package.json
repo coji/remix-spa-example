@@ -6,6 +6,7 @@
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "preview": "vite preview",
     "lint": "biome lint .",
     "format": "prettier -c .",
     "typecheck": "tsc",
