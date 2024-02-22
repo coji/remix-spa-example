@@ -8,7 +8,7 @@
     "dev": "remix vite:dev",
     "preview": "vite preview",
     "lint": "biome lint .",
-    "format": "prettier -c .",
+    "format": "prettier --cache -c .",
     "typecheck": "tsc",
     "validate": "pnpm run lint && pnpm run format && pnpm run typecheck",
     "start": "http-server -p 3000 build/client/"
