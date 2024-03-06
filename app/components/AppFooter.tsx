@@ -1,5 +1,6 @@
 import { Link } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
+import { $path } from 'remix-routes'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { useAuthUser } from '~/services/auth'
@@ -13,11 +14,11 @@ export const AppFooter = () => {
     <div className="text-slate-00 bg-slate-50 py-14 text-sm">
       <div className="mx-auto flex w-full max-w-screen-md flex-col gap-11 px-4 sm:px-10 md:flex-row md:px-6">
         <div className="flex-1">
-          {user ? (
+          {user?.handle ? (
             <div className="flex items-center gap-1">
               <Link
                 className="flex items-center gap-2 hover:underline"
-                to={`/${user.handle}`}
+                to={$path('/:handle', { handle: user.handle })}
               >
                 <Avatar>
                   <AvatarImage src={user.photoURL ?? undefined} />
@@ -42,10 +43,10 @@ export const AppFooter = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Link className="hover:underline" to="/home">
+          <Link className="hover:underline" to={$path('/home')}>
             ホーム
           </Link>
-          <Link className="hover:underline" to="/license">
+          <Link className="hover:underline" to={$path('/license')}>
             規約とポリシー
           </Link>
           <Link
