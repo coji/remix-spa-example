@@ -1,9 +1,10 @@
+import { $path } from 'remix-routes'
 import { createGoogleAuthenticator } from '~/libs/google-auth'
 import { verifyUser, type AppUser } from './auth'
 
 const googleAuthenticator = createGoogleAuthenticator<AppUser>({
   clientID: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-  callbackURL: '/auth/google/callback',
+  callbackURL: $path('/auth/google/callback'),
   verifyUser,
 })
 

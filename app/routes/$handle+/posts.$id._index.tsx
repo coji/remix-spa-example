@@ -1,5 +1,6 @@
 import { ClientLoaderFunctionArgs, Link, useLoaderData } from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
+import { $path } from 'remix-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
@@ -27,7 +28,7 @@ export default function PostPage() {
       {handle === user?.handle && (
         <nav className="flex px-4 py-2">
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
-            <Link to={`/${handle}`} prefetch="intent">
+            <Link to={$path('/:handle', { handle })} prefetch="intent">
               <ArrowLeftIcon className="h-4 w-4" />
             </Link>
           </Button>
@@ -35,7 +36,10 @@ export default function PostPage() {
           <div className="flex-1" />
 
           <Button size="sm" variant="ghost" asChild>
-            <Link to={`/${handle}/posts/${id}/edit`} prefetch="intent">
+            <Link
+              to={$path('/:handle/posts/:id/edit', { handle, id })}
+              prefetch="intent"
+            >
               <PencilIcon className="mr-2 h-4 w-4" />
               記事を編集
             </Link>
@@ -48,7 +52,9 @@ export default function PostPage() {
 
         <div className="flex items-center gap-1 text-slate-500">
           <div>
-            <Link to={`/${post.handle}`}>{post.handle}</Link>
+            <Link to={$path('/:handle', { handle: post.handle })}>
+              {post.handle}
+            </Link>
           </div>
           <div>·</div>
           <div>{dayjs(post.publishedAt).format('YYYY/MM/DD')}</div>

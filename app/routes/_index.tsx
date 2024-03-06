@@ -6,6 +6,7 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
+import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
@@ -26,7 +27,7 @@ export const meta: MetaFunction = () => {
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
-    return redirect(`/${user.handle}`)
+    return redirect($path('/:handle', { handle: user.handle }))
   }
   return user
 }
@@ -41,7 +42,9 @@ export default function IndexPage() {
 
         {user?.handle ? (
           <Button variant="outline" className="rounded-full" asChild>
-            <Link to={`/${user.handle}`}>自分のページへ</Link>
+            <Link to={$path('/:handle', { handle: user.handle })}>
+              自分のページへ
+            </Link>
           </Button>
         ) : (
           <SignInModal />
@@ -73,7 +76,7 @@ export default function IndexPage() {
         </div>
 
         <Link
-          to="/coji"
+          to={$path('/:handle', { handle: 'coji' })}
           className="text-muted-foreground underline"
           prefetch="intent"
         >

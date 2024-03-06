@@ -4,6 +4,7 @@ import {
   redirect,
   useFetcher,
 } from '@remix-run/react'
+import { $path } from 'remix-routes'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,12 +26,12 @@ export const clientAction = async ({
 }: ClientActionFunctionArgs) => {
   const { handle, id } = params
   if (!id) throw json({ message: 'Not found' }, { status: 404 })
-  const user = await requireUser(request, { failureRedirect: '/' })
+  const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
     throw json({ message: 'Unauthorized' }, { status: 401 })
   }
   await deleteUserPost(handle, id)
-  return redirect(`/${handle}`)
+  return redirect($path('/:handle', { handle }))
 }
 
 interface PostDeleteMenuItemProps {
@@ -54,7 +55,7 @@ export const PostDeleteMenuItem = ({
           {},
           {
             method: 'POST',
-            action: `/${handle}/posts/${post.id}/delete`,
+            action: $path('/:handle/posts/:id/delete', { handle, id: post.id }),
           },
         )
       }}
@@ -84,7 +85,7 @@ export const DeleteAlertDialog = ({
       {},
       {
         method: 'POST',
-        action: `/${handle}/posts/${post.id}/delete`,
+        action: $path('/:handle/posts/:id/delete', { handle, id: post.id }),
       },
     )
   }

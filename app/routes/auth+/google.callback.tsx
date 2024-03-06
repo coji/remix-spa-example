@@ -1,4 +1,5 @@
 import { redirect } from '@remix-run/react'
+import { $path } from 'remix-routes'
 import { toast } from '~/components/ui'
 import { authenticateCallback } from '~/services/google-auth'
 
@@ -11,9 +12,9 @@ export const clientLoader = async () => {
       title: 'サインインしました',
       description: `${user.displayName} さん、ようこそ！`,
     })
-    return redirect(`/${user.handle}`)
+    return redirect($path('/:handle', { handle: user.handle }))
   }
-  return redirect('/')
+  return redirect($path('/'))
 }
 
 // clientLoader だけでは動かないのでダミーの route コンポーネント

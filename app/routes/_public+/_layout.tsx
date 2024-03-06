@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from '@remix-run/react'
+import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Tabs, TabsList, TabsTrigger } from '~/components/ui'
@@ -12,18 +13,20 @@ export default function PublicPageLayout() {
   return (
     <div>
       <nav className="flex items-center px-4 py-2">
-        <Link to="/" className="flex-1">
+        <Link to={$path('/')} className="flex-1">
           しずかな Remix SPA Example
         </Link>
         <div>
-          {user ? (
+          {user?.handle ? (
             <Button
               size="sm"
               variant="outline"
               className="rounded-full"
               asChild
             >
-              <Link to={`/${user.handle}`}>自分のページへ</Link>
+              <Link to={$path('/:handle', { handle: user.handle })}>
+                自分のページへ
+              </Link>
             </Button>
           ) : (
             <SignInModal />
@@ -38,10 +41,10 @@ export default function PublicPageLayout() {
               <Tabs defaultValue={pathname.split('/').at(1)}>
                 <TabsList>
                   <TabsTrigger value="license" asChild>
-                    <Link to="/license">利用規約</Link>
+                    <Link to={$path('/license')}>利用規約</Link>
                   </TabsTrigger>
                   <TabsTrigger value="privacy" asChild>
-                    <Link to="/privacy">プライバシーポリシー</Link>
+                    <Link to={$path('/privacy')}>プライバシーポリシー</Link>
                   </TabsTrigger>
                 </TabsList>
               </Tabs>

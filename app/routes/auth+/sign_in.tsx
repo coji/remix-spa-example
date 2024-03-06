@@ -5,6 +5,7 @@ import {
   redirect,
   useFetcher,
 } from '@remix-run/react'
+import { $path } from 'remix-routes'
 import {
   Button,
   Card,
@@ -25,7 +26,7 @@ import { authenticate } from '~/services/google-auth'
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
-    return redirect(`/${user.handle}`)
+    return redirect($path('/:handle', { handle: user.handle }))
   }
   return null
 }
@@ -42,7 +43,7 @@ const SignInForm = () => {
       {},
       {
         method: 'POST',
-        action: '/auth/sign_in',
+        action: $path('/auth/sign_in'),
       },
     )
   }
@@ -97,7 +98,7 @@ export default function SignInPage() {
 
             <div className="mx-auto text-center">
               <Button variant="link" asChild>
-                <Link to="/">トップページに戻る</Link>
+                <Link to={$path('/')}>トップページに戻る</Link>
               </Button>
             </div>
           </div>

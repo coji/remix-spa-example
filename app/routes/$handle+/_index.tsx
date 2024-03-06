@@ -8,6 +8,7 @@ import {
 } from '@remix-run/react'
 import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
+import { $path } from 'remix-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
@@ -45,13 +46,13 @@ export const clientAction = async ({
   request,
 }: ClientActionFunctionArgs) => {
   const handle = params.handle
-  const user = await requireUser(request, { failureRedirect: '/' })
+  const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
     throw new Error('Unauthorized')
   }
 
   const newPost = await addUserPost(user.handle)
-  return redirect(`/${handle}/posts/${newPost.id}/edit`)
+  return redirect($path('/:handle/posts/:id', { handle, id: newPost.id }))
 }
 
 const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
@@ -67,7 +68,7 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
       className="relative rounded-xl border-none bg-slate-100"
     >
       <Link
-        to={`posts/${post.id}`}
+        to={$path('/:handle/posts/:id', { handle: post.handle, id: post.id })}
         className="absolute inset-0"
         prefetch="intent"
       >

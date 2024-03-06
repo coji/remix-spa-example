@@ -3,6 +3,7 @@ import { vitePlugin as remix } from '@remix-run/dev'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import { flatRoutes } from 'remix-flat-routes'
+import { remixRoutes } from 'remix-routes/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -18,6 +19,7 @@ export default defineConfig({
       routes: async (defineRoutes) => flatRoutes('routes', defineRoutes),
       ssr: false,
     }),
+    remixRoutes(),
     tsconfigPaths(),
   ],
 })

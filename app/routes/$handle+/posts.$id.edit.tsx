@@ -16,6 +16,7 @@ import {
   useLoaderData,
 } from '@remix-run/react'
 import { ArrowLeftIcon } from 'lucide-react'
+import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
@@ -39,7 +40,7 @@ export const clientLoader = async ({
   if (!handle || !id) throw json({ message: 'Not found', status: 404 })
 
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: '/' })
+  const user = await requireUser(request, { failureRedirect: $path('/') })
   if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
 
   const post = await getUserPostById(handle, id)
@@ -55,7 +56,7 @@ export const clientAction = async ({
   if (!handle || !id) throw json({ message: 'Not found', status: 404 })
 
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: '/' })
+  const user = await requireUser(request, { failureRedirect: $path('/') })
   if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
 
   const formData = await request.formData()
@@ -63,7 +64,7 @@ export const clientAction = async ({
   // 削除
   if (String(formData.get('intent')) === 'delete') {
     await deleteUserPost(handle, id)
-    return redirect(`/${handle}`)
+    return redirect($path('/:handle', { handle }))
   }
 
   // 更新
@@ -80,7 +81,7 @@ export const clientAction = async ({
     content: submission.value.content,
     publishedAt: null,
   })
-  return redirect(`/${handle}/posts/${id}`)
+  return redirect($path('/:handle/posts/:id', { handle, id }))
 }
 
 export default function PostEditPage() {
@@ -103,7 +104,10 @@ export default function PostEditPage() {
       <nav className="sticky top-0 flex flex-row gap-4 px-4 py-2 sm:justify-between">
         {post.publishedAt ? (
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
-            <Link to={`/${handle}/posts/${id}`} prefetch="intent">
+            <Link
+              to={$path('/:handle/posts/:id', { handle, id })}
+              prefetch="intent"
+            >
               <ArrowLeftIcon className="h-4 w-4" />
             </Link>
           </Button>

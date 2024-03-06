@@ -8,6 +8,7 @@ import {
   useActionData,
 } from '@remix-run/react'
 import { FrownIcon } from 'lucide-react'
+import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
@@ -27,15 +28,15 @@ const schema = z.object({
 })
 
 export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
-  const user = await requireAuth(request, { failureRedirect: '/' })
+  const user = await requireAuth(request, { failureRedirect: $path('/') })
   if (user.handle) {
-    return redirect(`/${user.handle}`)
+    return redirect($path('/:handle', { handle: user.handle }))
   }
   return null
 }
 
 export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
-  const user = await requireAuth(request, { failureRedirect: '/' })
+  const user = await requireAuth(request, { failureRedirect: $path('/') })
 
   const formData = await request.formData()
   const submission = parseWithZod(formData, { schema })
@@ -65,7 +66,7 @@ export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
     description: 'ようこそ！',
   })
 
-  return redirect(`/${submission.value.handle}`)
+  return redirect($path('/:handle', { handle: submission.value.handle }))
 }
 
 export default function CreateAccountPage() {

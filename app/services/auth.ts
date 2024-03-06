@@ -7,6 +7,7 @@ import {
   type User,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { $path } from 'remix-routes'
 import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'
 
@@ -74,7 +75,7 @@ const verifyOnboarded = async (request: Request, user: User) => {
 
   // アカウントがまだなく、かつオンボーディング画面ではない場合はオンボーディング画面にリダイレクト
   if (!new URL(request.url).pathname.startsWith('/welcome')) {
-    throw redirect('/welcome')
+    throw redirect($path('/welcome'))
   }
 
   return undefined
