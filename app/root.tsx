@@ -13,7 +13,7 @@ export const meta = () => {
   return [{ title: 'しずかな Remix SPA Example' }]
 }
 
-export default function App() {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   const { authState } = useAuthStateObserve()
   return (
     <html lang="ja">
@@ -26,7 +26,7 @@ export default function App() {
       <body>
         <AuthContext.Provider value={authState}>
           <Toaster />
-          <Outlet />
+          {children}
         </AuthContext.Provider>
         <ScrollRestoration />
         <Scripts />
@@ -35,21 +35,12 @@ export default function App() {
   )
 }
 
+export default function App() {
+  return <Outlet />
+}
+
 export function HydrateFallback() {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <div className="grid h-screen grid-cols-1 place-items-center">
-          Loading...
-        </div>
-        <Scripts />
-      </body>
-    </html>
+    <p className="grid h-screen grid-cols-1 place-items-center">Loading...</p>
   )
 }
