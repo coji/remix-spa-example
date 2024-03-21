@@ -5,6 +5,8 @@ import {
 } from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import { $path } from 'remix-routes'
+import { z } from 'zod'
+import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
@@ -15,8 +17,11 @@ export const clientLoader = async ({
   request,
   params,
 }: ClientLoaderFunctionArgs) => {
-  const { handle, id } = params
-  if (!handle || !id) throw new Error('Not found')
+  const { handle, id } = zx.parseParams(params, {
+    handle: z.string(),
+    id: z.string(),
+  })
+
   const post = await getUserPostById(handle, id)
   if (!post) throw new Error('Not found')
 
