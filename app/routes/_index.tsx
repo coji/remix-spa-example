@@ -1,9 +1,9 @@
 import {
-  ClientLoaderFunctionArgs,
   Link,
-  MetaFunction,
   redirect,
   useLoaderData,
+  type ClientLoaderFunctionArgs,
+  type MetaFunction,
 } from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
 import { $path } from 'remix-routes'

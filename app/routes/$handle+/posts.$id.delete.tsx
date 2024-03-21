@@ -1,8 +1,8 @@
 import {
-  ClientActionFunctionArgs,
   json,
   redirect,
   useFetcher,
+  type ClientActionFunctionArgs,
 } from '@remix-run/react'
 import { $path } from 'remix-routes'
 import {
@@ -17,7 +17,7 @@ import {
   Button,
   DropdownMenuItem,
 } from '~/components/ui'
-import { Post, deleteUserPost } from '~/models/posts'
+import { deleteUserPost, type Post } from '~/models/posts'
 import { requireUser } from '~/services/auth'
 
 export const clientAction = async ({

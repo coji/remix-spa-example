@@ -1,9 +1,9 @@
 import {
-  ClientActionFunctionArgs,
-  ClientLoaderFunctionArgs,
   Link,
   redirect,
   useFetcher,
+  type ClientActionFunctionArgs,
+  type ClientLoaderFunctionArgs,
 } from '@remix-run/react'
 import { $path } from 'remix-routes'
 import {

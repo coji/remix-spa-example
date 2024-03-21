@@ -1,11 +1,11 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import {
-  ClientActionFunctionArgs,
-  ClientLoaderFunctionArgs,
   Form,
   redirect,
   useActionData,
+  type ClientActionFunctionArgs,
+  type ClientLoaderFunctionArgs,
 } from '@remix-run/react'
 import { FrownIcon } from 'lucide-react'
 import { $path } from 'remix-routes'
