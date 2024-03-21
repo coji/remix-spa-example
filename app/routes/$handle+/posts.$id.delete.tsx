@@ -5,6 +5,8 @@ import {
   type ClientActionFunctionArgs,
 } from '@remix-run/react'
 import { $path } from 'remix-routes'
+import { z } from 'zod'
+import { zx } from 'zodix'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,8 +26,11 @@ export const clientAction = async ({
   params,
   request,
 }: ClientActionFunctionArgs) => {
-  const { handle, id } = params
-  if (!id) throw json({ message: 'Not found' }, { status: 404 })
+  const { handle, id } = zx.parseParams(params, {
+    handle: z.string(),
+    id: z.string(),
+  })
+
   const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
     throw json({ message: 'Unauthorized' }, { status: 401 })

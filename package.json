@@ -40,7 +40,8 @@
     "remix-routes": "^1.7.2",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zodix": "^0.4.4"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.1",

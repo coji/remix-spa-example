@@ -18,6 +18,7 @@ import {
 import { ArrowLeftIcon } from 'lucide-react'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
+import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
@@ -36,8 +37,10 @@ export const clientLoader = async ({
   request,
   params,
 }: ClientLoaderFunctionArgs) => {
-  const { handle, id } = params
-  if (!handle || !id) throw json({ message: 'Not found', status: 404 })
+  const { handle, id } = zx.parseParams(params, {
+    handle: z.string(),
+    id: z.string(),
+  })
 
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })
@@ -52,8 +55,10 @@ export const clientAction = async ({
   request,
   params,
 }: ClientActionFunctionArgs) => {
-  const { handle, id } = params
-  if (!handle || !id) throw json({ message: 'Not found', status: 404 })
+  const { handle, id } = zx.parseParams(params, {
+    handle: z.string(),
+    id: z.string(),
+  })
 
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })

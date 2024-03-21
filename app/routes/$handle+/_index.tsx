@@ -9,6 +9,8 @@ import {
 import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
 import { $path } from 'remix-routes'
+import { z } from 'zod'
+import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
@@ -30,8 +32,7 @@ export const clientLoader = async ({
   request,
   params,
 }: ClientLoaderFunctionArgs) => {
-  const handle = params.handle
-  if (!handle) throw new Error('Not found')
+  const { handle } = zx.parseParams(params, { handle: z.string() })
 
   const isExist = await isAccountExistsByHandle(handle)
   if (!isExist) throw new Error('Not found')
@@ -45,7 +46,7 @@ export const clientAction = async ({
   params,
   request,
 }: ClientActionFunctionArgs) => {
-  const handle = params.handle
+  const { handle } = zx.parseParams(params, { handle: z.string() })
   const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
     throw new Error('Unauthorized')
