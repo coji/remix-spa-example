@@ -1,4 +1,8 @@
-import { ClientLoaderFunctionArgs, Link, useLoaderData } from '@remix-run/react'
+import {
+  Link,
+  useLoaderData,
+  type ClientLoaderFunctionArgs,
+} from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import { $path } from 'remix-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'

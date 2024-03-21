@@ -1,8 +1,8 @@
 import {
-  ClientLoaderFunctionArgs,
   Form,
   redirect,
   useFetcher,
+  type ClientLoaderFunctionArgs,
 } from '@remix-run/react'
 import { $path } from 'remix-routes'
 import { Button, toast } from '~/components/ui'

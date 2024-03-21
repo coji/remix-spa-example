@@ -1,10 +1,10 @@
 import {
-  ClientActionFunctionArgs,
-  ClientLoaderFunctionArgs,
   Form,
   Link,
   redirect,
   useLoaderData,
+  type ClientActionFunctionArgs,
+  type ClientLoaderFunctionArgs,
 } from '@remix-run/react'
 import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'

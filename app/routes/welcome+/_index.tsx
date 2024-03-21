@@ -1,4 +1,4 @@
-import { ClientLoaderFunctionArgs, Link, redirect } from '@remix-run/react'
+import { Link, redirect, type ClientLoaderFunctionArgs } from '@remix-run/react'
 import { $path } from 'remix-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
