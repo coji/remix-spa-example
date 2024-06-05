@@ -1,8 +1,8 @@
-import { Link, Outlet, useLocation } from '@remix-run/react'
+import { Link, NavLink, Outlet, useLocation } from '@remix-run/react'
 import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Button, Tabs, TabsList, TabsTrigger } from '~/components/ui'
+import { Button, HStack } from '~/components/ui'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { useAuthUser } from '~/services/auth'
 
@@ -38,19 +38,23 @@ export default function PublicPageLayout() {
         <main>
           <AppHeadingSection>
             <nav>
-              <Tabs defaultValue={pathname.split('/').at(1)}>
-                <TabsList>
-                  <TabsTrigger value="license" asChild>
-                    <Link to={$path('/license')}>利用規約</Link>
-                  </TabsTrigger>
-                  <TabsTrigger value="privacy" asChild>
-                    <Link to={$path('/privacy')}>プライバシーポリシー</Link>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
+              <HStack>
+                <NavLink
+                  className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
+                  to={$path('/license')}
+                >
+                  利用規約
+                </NavLink>
+                <NavLink
+                  className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
+                  to={$path('/privacy')}
+                >
+                  プライバシーポリシー
+                </NavLink>
+              </HStack>
             </nav>
 
-            <div className="prose lg:prose-xl">
+            <div className="prose">
               <Outlet />
             </div>
           </AppHeadingSection>
