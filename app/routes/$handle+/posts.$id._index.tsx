@@ -4,6 +4,7 @@ import {
   type ClientLoaderFunctionArgs,
 } from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -69,7 +70,9 @@ export default function PostPage() {
           <div>{dayjs(post.publishedAt).format('YYYY/MM/DD')}</div>
         </div>
 
-        <div className="leading-loose tracking-wider">{post.content}</div>
+        <ReactMarkdown className="prose leading-loose tracking-wider">
+          {post.content}
+        </ReactMarkdown>
       </AppHeadingSection>
     </div>
   )
