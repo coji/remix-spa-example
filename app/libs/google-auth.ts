@@ -1,4 +1,4 @@
-import { redirect } from '@remix-run/react'
+import { redirect } from 'react-router'
 
 // 検証用の値をローカルストレージに保存する
 const storeValidationValue = async (

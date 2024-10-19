@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from '@remix-run/react'
+import { Link, NavLink, Outlet, useLocation } from 'react-router'
 import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'

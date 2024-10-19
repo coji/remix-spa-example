@@ -1,4 +1,4 @@
-import { Outlet } from '@remix-run/react'
+import { Outlet } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 
 export default function UserPageLayout() {

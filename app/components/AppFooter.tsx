@@ -1,5 +1,5 @@
-import { Link } from '@remix-run/react'
 import { ExternalLinkIcon } from 'lucide-react'
+import { Link } from 'react-router'
 import { $path } from 'remix-routes'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { useSignOut } from '~/routes/auth+/sign_out'

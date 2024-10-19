@@ -1,17 +1,12 @@
-import {
-  Link,
-  redirect,
-  useLoaderData,
-  type ClientLoaderFunctionArgs,
-  type MetaFunction,
-} from '@remix-run/react'
 import { ExternalLink } from 'lucide-react'
+import { Link, redirect, type MetaFunction } from 'react-router'
 import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { SignInModal } from '~/routes/auth+/sign_in'
 import { isAuthenticated } from '~/services/auth'
+import type * as Route from './+types._index'
 
 export const meta: MetaFunction = () => {
   return [
@@ -24,17 +19,17 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
-    return redirect($path('/:handle', { handle: user.handle }))
+    throw redirect($path('/:handle', { handle: user.handle }))
   }
-  return user
+  return { user }
 }
 
-export default function IndexPage() {
-  const user = useLoaderData<typeof clientLoader>()
-
+export default function IndexPage({
+  loaderData: { user },
+}: Route.ComponentProps) {
   return (
     <div className="grid min-h-screen grid-rows-[1fr_auto]">
       <AppHeadingSection className="items-center">

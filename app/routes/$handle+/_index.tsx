@@ -1,13 +1,11 @@
+import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
+import React from 'react'
 import {
   Form,
   Link,
   redirect,
-  useLoaderData,
   type ClientActionFunctionArgs,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
-import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
-import React from 'react'
+} from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -26,12 +24,13 @@ import { dayjs } from '~/libs/dayjs'
 import { isAccountExistsByHandle } from '~/models/account'
 import { addUserPost, listUserPosts, type Post } from '~/models/posts'
 import { isAuthenticated, requireUser } from '~/services/auth'
+import type * as Route from './+types._index'
 import { DeleteAlertDialog } from './posts.$id.delete'
 
 export const clientLoader = async ({
   request,
   params,
-}: ClientLoaderFunctionArgs) => {
+}: Route.ClientLoaderArgs) => {
   const { handle } = zx.parseParams(params, { handle: z.string() })
 
   const isExist = await isAccountExistsByHandle(handle)
@@ -115,8 +114,9 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
   )
 }
 
-export default function Index() {
-  const { handle, posts, isAuthor } = useLoaderData<typeof clientLoader>()
+export default function Index({
+  loaderData: { handle, posts, isAuthor },
+}: Route.ComponentProps) {
   return (
     <AppHeadingSection>
       <div className="flex">

@@ -1,14 +1,10 @@
-import {
-  Form,
-  redirect,
-  useFetcher,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
+import { Form, redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
+import type * as Route from './+types.sign_out'
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireAuth(request, { failureRedirect: $path('/') })
   return null
 }
@@ -34,7 +30,7 @@ export const useSignOut = () => {
 
 export default function SignOutPage() {
   return (
-    <Form method="POST">
+    <Form method="POST" action={$path('/auth/sign_out')}>
       <Button>サインアウト</Button>
     </Form>
   )

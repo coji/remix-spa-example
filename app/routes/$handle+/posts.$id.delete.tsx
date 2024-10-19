@@ -1,9 +1,4 @@
-import {
-  json,
-  redirect,
-  useFetcher,
-  type ClientActionFunctionArgs,
-} from '@remix-run/react'
+import { redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -21,11 +16,12 @@ import {
 } from '~/components/ui'
 import { deleteUserPost, type Post } from '~/models/posts'
 import { requireUser } from '~/services/auth'
+import type * as Route from './+types.posts.$id.delete'
 
 export const clientAction = async ({
   params,
   request,
-}: ClientActionFunctionArgs) => {
+}: Route.ClientActionArgs) => {
   const { handle, id } = zx.parseParams(params, {
     handle: z.string(),
     id: z.string(),
@@ -33,7 +29,7 @@ export const clientAction = async ({
 
   const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
-    throw json({ message: 'Unauthorized' }, { status: 401 })
+    throw new Response('Unauthorized', { status: 401 })
   }
   await deleteUserPost(handle, id)
   return redirect($path('/:handle', { handle }))
