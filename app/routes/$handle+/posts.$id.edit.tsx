@@ -36,10 +36,10 @@ export const clientLoader = async ({
 }: Route.ClientLoaderArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })
-  if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
+  if (handle !== user.handle) throw new Response('Forbidden', { status: 403 })
 
   const post = await getUserPostById(handle, id)
-  if (!post) throw json({ message: 'Not found', status: 404 })
+  if (!post) throw new Response('Not found', { status: 404 })
   return { handle, id, post, user }
 }
 
