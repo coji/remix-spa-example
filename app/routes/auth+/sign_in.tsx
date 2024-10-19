@@ -1,10 +1,4 @@
-import {
-  Link,
-  redirect,
-  useFetcher,
-  type ClientActionFunctionArgs,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
+import { Link, redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import {
   Button,
@@ -22,8 +16,9 @@ import {
 } from '~/components/ui'
 import { isAuthenticated } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
+import type * as Route from './+types.sign_in'
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
     return redirect($path('/:handle', { handle: user.handle }))
@@ -31,28 +26,20 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return null
 }
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   return await authenticate(request)
 }
 
 const SignInForm = () => {
-  const fetcher = useFetcher()
-
-  const handleClickSignIn = async () => {
-    fetcher.submit(
-      {},
-      {
-        method: 'POST',
-        action: $path('/auth/sign_in'),
-      },
-    )
-  }
+  const fetcher = useFetcher<Route.ActionData>()
 
   return (
     <div className="mx-auto text-center">
-      <Button className="rounded-full" onClick={() => handleClickSignIn()}>
-        Google アカウントでサインイン
-      </Button>
+      <fetcher.Form method="POST" action={$path('/auth/sign_in')}>
+        <Button type="submit" className="rounded-full">
+          Google アカウントでサインイン
+        </Button>
+      </fetcher.Form>
     </div>
   )
 }
@@ -97,7 +84,7 @@ export default function SignInPage() {
             </div>
 
             <div className="mx-auto text-center">
-              <Button variant="link" asChild>
+              <Button type="button" variant="link" asChild>
                 <Link to={$path('/')}>トップページに戻る</Link>
               </Button>
             </div>

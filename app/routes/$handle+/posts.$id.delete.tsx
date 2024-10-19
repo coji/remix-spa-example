@@ -1,9 +1,4 @@
-import {
-  json,
-  redirect,
-  useFetcher,
-  type ClientActionFunctionArgs,
-} from '@remix-run/react'
+import { json, redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -21,11 +16,12 @@ import {
 } from '~/components/ui'
 import { deleteUserPost, type Post } from '~/models/posts'
 import { requireUser } from '~/services/auth'
+import type * as Route from './+types.posts.$id.delete'
 
 export const clientAction = async ({
   params,
   request,
-}: ClientActionFunctionArgs) => {
+}: Route.ClientActionArgs) => {
   const { handle, id } = zx.parseParams(params, {
     handle: z.string(),
     id: z.string(),

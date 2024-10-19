@@ -1,4 +1,4 @@
-import type { ClientLoaderFunctionArgs } from '@remix-run/react'
+import type { ClientLoaderFunctionArgs } from 'react-router'
 import { $path } from 'remix-routes'
 import { requireUser } from '~/services/auth'
 import IndexPage from './_index'

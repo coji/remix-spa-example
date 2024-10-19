@@ -1,10 +1,4 @@
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from '@remix-run/react'
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import { Toaster } from '~/components/ui'
 import { AuthContext, useAuthStateObserve } from './services/auth'
 import './styles/globals.css'

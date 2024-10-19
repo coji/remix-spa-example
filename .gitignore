@@ -8,3 +8,4 @@ node_modules
 .firebase
 data
 stats.html
+.react-router

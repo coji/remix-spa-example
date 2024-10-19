@@ -1,17 +1,19 @@
-import { Link, redirect, type ClientLoaderFunctionArgs } from '@remix-run/react'
+import { Link, redirect } from 'react-router'
 import { $path } from 'remix-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
+import type * as Route from './+types._index'
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await requireAuth(request, { failureRedirect: $path('/') })
   if (user.handle) {
     return redirect($path('/:handle', { handle: user.handle }))
   }
   return null
 }
+
 export default function WelcomeIndexPage() {
   const { signOut } = useSignOut()
 

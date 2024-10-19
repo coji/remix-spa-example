@@ -1,4 +1,3 @@
-import { redirect } from '@remix-run/react'
 import {
   GoogleAuthProvider,
   getAuth,
@@ -7,6 +6,7 @@ import {
   type User,
 } from 'firebase/auth'
 import { createContext, useContext, useEffect, useState } from 'react'
+import { redirect } from 'react-router'
 import { $path } from 'remix-routes'
 import { getAccountByUID } from '~/models/account'
 import { app } from './firebase'

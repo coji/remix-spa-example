@@ -1,10 +1,6 @@
-import {
-  Link,
-  useLoaderData,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import { Link } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -13,11 +9,12 @@ import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
 import { getUserPostById } from '~/models/posts'
 import { isAuthenticated } from '~/services/auth'
+import type * as Route from './+types.posts.$id._index'
 
 export const clientLoader = async ({
   request,
   params,
-}: ClientLoaderFunctionArgs) => {
+}: Route.ClientLoaderArgs) => {
   const { handle, id } = zx.parseParams(params, {
     handle: z.string(),
     id: z.string(),
@@ -31,8 +28,9 @@ export const clientLoader = async ({
   return { handle, id, post, user }
 }
 
-export default function PostPage() {
-  const { handle, id, post, user } = useLoaderData<typeof clientLoader>()
+export default function PostPage({
+  loaderData: { handle, id, post, user },
+}: Route.ComponentProps) {
   return (
     <div>
       {handle === user?.handle && (

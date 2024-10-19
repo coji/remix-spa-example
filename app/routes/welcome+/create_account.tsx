@@ -1,20 +1,14 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
-import {
-  Form,
-  redirect,
-  useActionData,
-  type ClientActionFunctionArgs,
-  type ClientLoaderFunctionArgs,
-} from '@remix-run/react'
 import { FrownIcon } from 'lucide-react'
+import { Form, redirect } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
-import { createAccount, isAccountExistsByUID } from '~/models/account'
+import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out'
 import { requireAuth } from '~/services/auth'
+import type * as Route from './+types.create_account'
 
 const schema = z.object({
   handle: z
@@ -27,7 +21,7 @@ const schema = z.object({
     ),
 })
 
-export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
+export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await requireAuth(request, { failureRedirect: $path('/') })
   if (user.handle) {
     return redirect($path('/:handle', { handle: user.handle }))
@@ -35,44 +29,21 @@ export const clientLoader = async ({ request }: ClientLoaderFunctionArgs) => {
   return null
 }
 
-export const clientAction = async ({ request }: ClientActionFunctionArgs) => {
+export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   const user = await requireAuth(request, { failureRedirect: $path('/') })
 
   const formData = await request.formData()
   const submission = parseWithZod(formData, { schema })
   if (submission.status !== 'success') {
-    return submission.reply()
+    return { lastResult: submission.reply() }
   }
-
-  if (await isAccountExistsByUID(submission.value.handle)) {
-    return submission.reply({
-      formErrors: ['このハンドルネームは既に使われています'],
-    })
-  }
-
-  try {
-    await createAccount(user.uid, submission.value.handle, {
-      displayName: submission.value.handle,
-      photoURL: null,
-    })
-  } catch (e) {
-    return submission.reply({
-      formErrors: [`アカウントの作成に失敗しました: ${e}`],
-    })
-  }
-
-  toast({
-    title: 'アカウントを作成しました',
-    description: 'ようこそ！',
-  })
-
-  return redirect($path('/:handle', { handle: submission.value.handle }))
 }
 
-export default function CreateAccountPage() {
-  const lastResult = useActionData<typeof clientAction>()
+export default function CreateAccountPage({
+  actionData,
+}: Route.ComponentProps) {
   const [form, { handle }] = useForm({
-    lastResult,
+    lastResult: actionData?.lastResult,
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
   const { signOut } = useSignOut()
