@@ -3,7 +3,7 @@ import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, HStack } from '~/components/ui'
-import { SignInModal } from '~/routes/auth+/sign_in'
+import { SignInModal } from '~/routes/auth+/sign_in/route'
 import { useAuthUser } from '~/services/auth'
 
 export default function PublicPageLayout() {

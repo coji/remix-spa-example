@@ -16,7 +16,7 @@ import {
 } from '~/components/ui'
 import { deleteUserPost, type Post } from '~/models/posts'
 import { requireUser } from '~/services/auth'
-import type * as Route from './+types.posts.$id.delete'
+import type * as Route from './+types.route'
 
 export const clientAction = async ({
   params,

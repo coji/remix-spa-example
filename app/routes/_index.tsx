@@ -4,7 +4,7 @@ import { $path } from 'remix-routes'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
-import { SignInModal } from '~/routes/auth+/sign_in'
+import { SignInModal } from '~/routes/auth+/sign_in/route'
 import { isAuthenticated } from '~/services/auth'
 import type * as Route from './+types._index'
 

@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '~/components/ui'
-import { useSignOut } from '~/routes/auth+/sign_out'
+import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { useAuthUser } from '~/services/auth'
 
 export const AppUserMenu = () => {

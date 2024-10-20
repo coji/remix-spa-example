@@ -1,8 +1,8 @@
 import { ExternalLinkIcon } from 'lucide-react'
 import { Link } from 'react-router'
 import { $path } from 'remix-routes'
-import { SignInModal } from '~/routes/auth+/sign_in'
-import { useSignOut } from '~/routes/auth+/sign_out'
+import { SignInModal } from '~/routes/auth+/sign_in/route'
+import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { useAuthUser } from '~/services/auth'
 import { Avatar, AvatarImage, Button } from './ui'
 
