@@ -8,7 +8,7 @@ import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { requireAuth } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 const schema = z.object({
   handle: z

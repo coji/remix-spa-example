@@ -6,14 +6,14 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { ArrowLeftIcon } from 'lucide-react'
-import { Form, Link, json, redirect } from 'react-router'
+import { Form, Link, redirect } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 const schema = z.discriminatedUnion('intent', [
   z.object({
@@ -49,7 +49,7 @@ export const clientAction = async ({
 }: Route.ClientActionArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })
-  if (handle !== user.handle) throw json({ message: 'Forbidden', status: 403 })
+  if (handle !== user.handle) throw { message: 'Forbidden', status: 403 }
 
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {
@@ -72,7 +72,7 @@ export const clientAction = async ({
       content: submission.value.content,
       publishedAt: null,
     })
-    return redirect($path('/:handle/posts/:id', { handle, id }))
+    throw redirect($path('/:handle/posts/:id', { handle, id }))
   }
 }
 

@@ -4,7 +4,7 @@ import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { requireAuth } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await requireAuth(request, { failureRedirect: $path('/') })

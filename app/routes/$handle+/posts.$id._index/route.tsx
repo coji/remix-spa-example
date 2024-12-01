@@ -9,7 +9,7 @@ import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
 import { getUserPostById } from '~/models/posts'
 import { isAuthenticated } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 export const clientLoader = async ({
   request,

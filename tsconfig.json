@@ -1,7 +1,8 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
+  "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["@react-router/node", "vite/client"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
@@ -19,7 +20,6 @@
 
     // Remix takes care of building everything in `remix build`.
     "noEmit": true,
-    "plugins": [{ "name": "@react-router/dev" }],
     "rootDirs": [".", "./.react-router/types"]
   }
 }
