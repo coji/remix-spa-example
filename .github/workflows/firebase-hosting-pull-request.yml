@@ -16,7 +16,7 @@ jobs:
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 8
+          version: 9
           run_install: false
       - run: pnpm i && pnpm build
       - uses: FirebaseExtended/action-hosting-deploy@v0
