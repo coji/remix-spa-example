@@ -1,5 +1,5 @@
 import { Link, redirect } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out/route'

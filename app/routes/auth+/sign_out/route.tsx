@@ -1,5 +1,5 @@
 import { Form, redirect, useFetcher } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
 import type { Route } from './+types/route'

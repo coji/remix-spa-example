@@ -7,7 +7,7 @@ import {
   redirect,
   type ClientActionFunctionArgs,
 } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'

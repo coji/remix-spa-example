@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "biome lint .",
     "format": "prettier --cache -c .",
-    "typecheck": "react-router typegen && tsc",
+    "typecheck": "react-router typegen && safe-routes typegen && tsc",
     "validate": "pnpm run lint && pnpm run format && pnpm run typecheck",
     "start": "npx sirv-cli build/client/ --single"
   },
@@ -40,7 +40,7 @@
     "react-router-dom": "7.0.1",
     "react-twc": "^1.4.2",
     "remix-flat-routes": "^0.6.5",
-    "remix-routes": "^1.7.7",
+    "safe-routes": "^1.0.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8",

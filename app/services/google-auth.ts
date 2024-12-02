@@ -1,4 +1,4 @@
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { createGoogleAuthenticator } from '~/libs/google-auth'
 import { verifyUser, type AppUser } from './auth'
 

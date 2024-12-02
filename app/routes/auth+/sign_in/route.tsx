@@ -1,5 +1,5 @@
 import { Link, redirect, useFetcher } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import {
   Button,
   Card,

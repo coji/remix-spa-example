@@ -1,5 +1,5 @@
 import { redirect } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { toast } from '~/components/ui'
 import { authenticateCallback } from '~/services/google-auth'
 

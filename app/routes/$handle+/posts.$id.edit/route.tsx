@@ -7,7 +7,7 @@ import {
 import { parseWithZod } from '@conform-to/zod'
 import { ArrowLeftIcon } from 'lucide-react'
 import { data, Form, Link, redirect } from 'react-router'
-import { $path } from 'remix-routes'
+import { $path } from 'safe-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
