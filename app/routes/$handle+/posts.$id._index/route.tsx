@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { Link } from 'react-router'
+import { data, Link } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -21,7 +21,7 @@ export const clientLoader = async ({
   })
 
   const post = await getUserPostById(handle, id)
-  if (!post) throw new Error('Not found')
+  if (!post) throw data(null, { status: 404 })
 
   const user = await isAuthenticated(request)
 

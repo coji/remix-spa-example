@@ -1,4 +1,4 @@
-import { redirect, useFetcher } from 'react-router'
+import { data, redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -29,7 +29,7 @@ export const clientAction = async ({
 
   const user = await requireUser(request, { failureRedirect: $path('/') })
   if (user.handle !== handle) {
-    throw new Response('Unauthorized', { status: 401 })
+    throw data(null, { status: 401 })
   }
   await deleteUserPost(handle, id)
   return redirect($path('/:handle', { handle }))

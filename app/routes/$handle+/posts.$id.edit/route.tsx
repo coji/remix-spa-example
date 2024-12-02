@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { ArrowLeftIcon } from 'lucide-react'
-import { Form, Link, redirect } from 'react-router'
+import { data, Form, Link, redirect } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
@@ -36,10 +36,10 @@ export const clientLoader = async ({
 }: Route.ClientLoaderArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })
-  if (handle !== user.handle) throw new Response('Forbidden', { status: 403 })
+  if (handle !== user.handle) throw data(null, { status: 403 })
 
   const post = await getUserPostById(handle, id)
-  if (!post) throw new Response('Not found', { status: 404 })
+  if (!post) throw data(null, { status: 404 })
   return { handle, id, post, user }
 }
 
@@ -49,7 +49,7 @@ export const clientAction = async ({
 }: Route.ClientActionArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
   const user = await requireUser(request, { failureRedirect: $path('/') })
-  if (handle !== user.handle) throw { message: 'Forbidden', status: 403 }
+  if (handle !== user.handle) throw data(null, { status: 403 })
 
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {

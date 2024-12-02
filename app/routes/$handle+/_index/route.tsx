@@ -1,6 +1,7 @@
 import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
 import {
+  data,
   Form,
   Link,
   redirect,
@@ -34,7 +35,7 @@ export const clientLoader = async ({
   const { handle } = zx.parseParams(params, { handle: z.string() })
 
   const isExist = await isAccountExistsByHandle(handle)
-  if (!isExist) throw new Error('Not found')
+  if (!isExist) throw data(null, { status: 404 })
 
   const user = await isAuthenticated(request)
   const posts = await listUserPosts(handle)
