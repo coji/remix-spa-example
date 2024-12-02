@@ -1,10 +1,15 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 import { Toaster } from '~/components/ui'
+import type { Route } from './+types/root'
 import { AuthContext, useAuthStateObserve } from './services/auth'
-import './styles/globals.css'
+import styles from './styles/globals.css?url'
 
-export const meta = () => {
+export const meta: Route.MetaFunction = () => {
   return [{ title: 'しずかな Remix SPA Example' }]
+}
+
+export const links: Route.LinksFunction = () => {
+  return [{ rel: 'stylesheet', href: styles }]
 }
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {

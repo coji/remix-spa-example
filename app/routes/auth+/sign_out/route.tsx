@@ -2,7 +2,7 @@ import { Form, redirect, useFetcher } from 'react-router'
 import { $path } from 'remix-routes'
 import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireAuth(request, { failureRedirect: $path('/') })

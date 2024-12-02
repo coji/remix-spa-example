@@ -11,7 +11,7 @@ export default defineConfig({
   build: { rollupOptions: { plugins: [visualizer()] } },
   plugins: [
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
-    reactRouter({ ssr: false }),
+    reactRouter(),
     remixRoutes(),
     tsconfigPaths(),
   ],

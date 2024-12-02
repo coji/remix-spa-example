@@ -16,7 +16,7 @@ import {
 } from '~/components/ui'
 import { isAuthenticated } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
@@ -31,7 +31,7 @@ export const clientAction = async ({ request }: Route.ClientActionArgs) => {
 }
 
 const SignInForm = () => {
-  const fetcher = useFetcher<Route.ActionData>()
+  const fetcher = useFetcher<typeof clientAction>()
 
   return (
     <div className="mx-auto text-center">

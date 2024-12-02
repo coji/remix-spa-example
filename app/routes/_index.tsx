@@ -6,7 +6,7 @@ import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { SignInModal } from '~/routes/auth+/sign_in/route'
 import { isAuthenticated } from '~/services/auth'
-import type * as Route from './+types._index'
+import type { Route } from './+types/_index'
 
 export const meta: MetaFunction = () => {
   return [

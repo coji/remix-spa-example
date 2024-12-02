@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { Link } from 'react-router'
+import { data, Link } from 'react-router'
 import { $path } from 'remix-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
@@ -9,7 +9,7 @@ import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
 import { getUserPostById } from '~/models/posts'
 import { isAuthenticated } from '~/services/auth'
-import type * as Route from './+types.route'
+import type { Route } from './+types/route'
 
 export const clientLoader = async ({
   request,
@@ -21,7 +21,7 @@ export const clientLoader = async ({
   })
 
   const post = await getUserPostById(handle, id)
-  if (!post) throw new Error('Not found')
+  if (!post) throw data(null, { status: 404 })
 
   const user = await isAuthenticated(request)
 
