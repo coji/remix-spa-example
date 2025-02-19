@@ -1,5 +1,4 @@
-import { data, redirect, useFetcher } from 'react-router'
-import { $path } from 'safe-routes'
+import { data, href, redirect, useFetcher } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import {
@@ -27,12 +26,12 @@ export const clientAction = async ({
     id: z.string(),
   })
 
-  const user = await requireUser(request, { failureRedirect: $path('/') })
+  const user = await requireUser(request, { failureRedirect: href('/') })
   if (user.handle !== handle) {
     throw data(null, { status: 401 })
   }
   await deleteUserPost(handle, id)
-  return redirect($path('/:handle', { handle }))
+  return redirect(href('/:handle', { handle }))
 }
 
 interface PostDeleteMenuItemProps {
@@ -56,7 +55,7 @@ export const PostDeleteMenuItem = ({
           {},
           {
             method: 'POST',
-            action: $path('/:handle/posts/:id/delete', { handle, id: post.id }),
+            action: href('/:handle/posts/:id/delete', { handle, id: post.id }),
           },
         )
       }}
@@ -86,7 +85,7 @@ export const DeleteAlertDialog = ({
       {},
       {
         method: 'POST',
-        action: $path('/:handle/posts/:id/delete', { handle, id: post.id }),
+        action: href('/:handle/posts/:id/delete', { handle, id: post.id }),
       },
     )
   }

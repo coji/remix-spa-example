@@ -3,11 +3,11 @@ import React from 'react'
 import {
   data,
   Form,
+  href,
   Link,
   redirect,
   type ClientActionFunctionArgs,
 } from 'react-router'
-import { $path } from 'safe-routes'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
@@ -47,13 +47,13 @@ export const clientAction = async ({
   request,
 }: ClientActionFunctionArgs) => {
   const { handle } = zx.parseParams(params, { handle: z.string() })
-  const user = await requireUser(request, { failureRedirect: $path('/') })
+  const user = await requireUser(request, { failureRedirect: href('/') })
   if (user.handle !== handle) {
     throw new Error('Unauthorized')
   }
 
   const newPost = await addUserPost(user.handle)
-  return redirect($path('/:handle/posts/:id', { handle, id: newPost.id }))
+  return redirect(href('/:handle/posts/:id', { handle, id: newPost.id }))
 }
 
 const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
@@ -69,7 +69,7 @@ const PostCard = ({ handle, post }: { handle: string; post: Post }) => {
       className="relative rounded-xl border-none bg-slate-100"
     >
       <Link
-        to={$path('/:handle/posts/:id', { handle: post.handle, id: post.id })}
+        to={href('/:handle/posts/:id', { handle: post.handle, id: post.id })}
         className="absolute inset-0"
         prefetch="intent"
       >

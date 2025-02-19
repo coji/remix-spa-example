@@ -1,6 +1,5 @@
 import { ExternalLink } from 'lucide-react'
-import { Link, redirect, type MetaFunction } from 'react-router'
-import { $path } from 'safe-routes'
+import { href, Link, redirect, type MetaFunction } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
@@ -22,7 +21,7 @@ export const meta: MetaFunction = () => {
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
-    throw redirect($path('/:handle', { handle: user.handle }))
+    throw redirect(href('/:handle', { handle: user.handle }))
   }
   return { user }
 }
@@ -37,7 +36,7 @@ export default function IndexPage({
 
         {user?.handle ? (
           <Button variant="outline" className="rounded-full" asChild>
-            <Link to={$path('/:handle', { handle: user.handle })}>
+            <Link to={href('/:handle', { handle: user.handle })}>
               自分のページへ
             </Link>
           </Button>
@@ -71,7 +70,7 @@ export default function IndexPage({
         </div>
 
         <Link
-          to={$path('/:handle', { handle: 'coji' })}
+          to={href('/:handle', { handle: 'coji' })}
           className="text-muted-foreground underline"
           prefetch="intent"
         >

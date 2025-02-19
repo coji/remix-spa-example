@@ -1,11 +1,10 @@
-import { Form, redirect, useFetcher } from 'react-router'
-import { $path } from 'safe-routes'
+import { Form, href, redirect, useFetcher } from 'react-router'
 import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
 import type { Route } from './+types/route'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
-  await requireAuth(request, { failureRedirect: $path('/') })
+  await requireAuth(request, { failureRedirect: href('/') })
   return null
 }
 
@@ -15,14 +14,14 @@ export const clientAction = async () => {
     title: 'サインアウトしました',
     description: 'またのご利用をお待ちしております。',
   })
-  return redirect($path('/'))
+  return redirect(href('/'))
 }
 
 export const useSignOut = () => {
   const fetcher = useFetcher()
 
   const signOut = () => {
-    fetcher.submit({}, { method: 'POST', action: $path('/auth/sign_out') })
+    fetcher.submit({}, { method: 'POST', action: href('/auth/sign_out') })
   }
 
   return { signOut }
@@ -30,7 +29,7 @@ export const useSignOut = () => {
 
 export default function SignOutPage() {
   return (
-    <Form method="POST" action={$path('/auth/sign_out')}>
+    <Form method="POST" action={href('/auth/sign_out')}>
       <Button>サインアウト</Button>
     </Form>
   )

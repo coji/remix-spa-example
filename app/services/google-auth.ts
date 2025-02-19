@@ -1,10 +1,10 @@
-import { $path } from 'safe-routes'
+import { href } from 'react-router'
 import { createGoogleAuthenticator } from '~/libs/google-auth'
 import { verifyUser, type AppUser } from './auth'
 
 const googleAuthenticator = createGoogleAuthenticator<AppUser>({
   clientID: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-  callbackURL: $path('/auth/google/callback'),
+  callbackURL: href('/auth/google/callback'),
   verifyUser,
 })
 

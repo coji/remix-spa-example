@@ -1,7 +1,6 @@
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { data, Link } from 'react-router'
-import { $path } from 'safe-routes'
+import { data, href, Link } from 'react-router'
 import { z } from 'zod'
 import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
@@ -36,7 +35,7 @@ export default function PostPage({
       {handle === user?.handle && (
         <nav className="flex px-4 py-2">
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
-            <Link to={$path('/:handle', { handle })} prefetch="intent">
+            <Link to={href('/:handle', { handle })} prefetch="intent">
               <ArrowLeftIcon className="h-4 w-4" />
             </Link>
           </Button>
@@ -45,7 +44,7 @@ export default function PostPage({
 
           <Button size="sm" variant="ghost" asChild>
             <Link
-              to={$path('/:handle/posts/:id/edit', { handle, id })}
+              to={href('/:handle/posts/:id/edit', { handle, id })}
               prefetch="intent"
             >
               <PencilIcon className="mr-2 h-4 w-4" />
@@ -60,7 +59,7 @@ export default function PostPage({
 
         <div className="flex items-center gap-1 text-slate-500">
           <div>
-            <Link to={$path('/:handle', { handle: post.handle })}>
+            <Link to={href('/:handle', { handle: post.handle })}>
               {post.handle}
             </Link>
           </div>

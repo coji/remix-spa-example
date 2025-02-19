@@ -1,6 +1,5 @@
 import { ExternalLinkIcon } from 'lucide-react'
-import { Link } from 'react-router'
-import { $path } from 'safe-routes'
+import { Link, href } from 'react-router'
 import { SignInModal } from '~/routes/auth+/sign_in/route'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { useAuthUser } from '~/services/auth'
@@ -18,7 +17,7 @@ export const AppFooter = () => {
             <div className="flex items-center gap-1">
               <Link
                 className="flex items-center gap-2 hover:underline"
-                to={$path('/:handle', { handle: user.handle })}
+                to={href('/:handle', { handle: user.handle })}
               >
                 <Avatar>
                   <AvatarImage src={user.photoURL ?? undefined} />
@@ -43,10 +42,10 @@ export const AppFooter = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Link className="hover:underline" to={$path('/home')}>
+          <Link className="hover:underline" to={href('/home')}>
             ホーム
           </Link>
-          <Link className="hover:underline" to={$path('/license')}>
+          <Link className="hover:underline" to={href('/license')}>
             規約とポリシー
           </Link>
           <Link

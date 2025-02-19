@@ -1,8 +1,7 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { FrownIcon } from 'lucide-react'
-import { Form, redirect } from 'react-router'
-import { $path } from 'safe-routes'
+import { Form, href, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
@@ -22,15 +21,15 @@ const schema = z.object({
 })
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
-  const user = await requireAuth(request, { failureRedirect: $path('/') })
+  const user = await requireAuth(request, { failureRedirect: href('/') })
   if (user.handle) {
-    return redirect($path('/:handle', { handle: user.handle }))
+    return redirect(href('/:handle', { handle: user.handle }))
   }
   return null
 }
 
 export const clientAction = async ({ request }: Route.ClientActionArgs) => {
-  const user = await requireAuth(request, { failureRedirect: $path('/') })
+  const user = await requireAuth(request, { failureRedirect: href('/') })
 
   const formData = await request.formData()
   const submission = parseWithZod(formData, { schema })
