@@ -9,7 +9,7 @@ export const meta = () => {
 
 export default function License() {
   return (
-    <div className="markdown prone container">
+    <div className="markdown container prose">
       <ReactMarkdown>{Content}</ReactMarkdown>
 
       <div className="my-16 text-center">
