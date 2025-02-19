@@ -24,9 +24,9 @@ import {
 import { dayjs } from '~/libs/dayjs'
 import { isAccountExistsByHandle } from '~/models/account'
 import { addUserPost, listUserPosts, type Post } from '~/models/posts'
-import { DeleteAlertDialog } from '~/routes/$handle+/posts.$id.delete/route'
+import { DeleteAlertDialog } from '~/routes/[handle]/posts/[id]/delete/page'
 import { isAuthenticated, requireUser } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 export const clientLoader = async ({
   request,

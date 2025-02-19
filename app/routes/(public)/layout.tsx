@@ -2,7 +2,7 @@ import { href, Link, NavLink, Outlet, useLocation } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, HStack } from '~/components/ui'
-import { SignInModal } from '~/routes/auth+/sign_in/route'
+import { SignInModal } from '~/routes/auth/sign_in/page'
 import { useAuthUser } from '~/services/auth'
 
 export default function PublicPageLayout() {

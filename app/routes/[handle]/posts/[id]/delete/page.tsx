@@ -15,7 +15,7 @@ import {
 } from '~/components/ui'
 import { deleteUserPost, type Post } from '~/models/posts'
 import { requireUser } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 export const clientAction = async ({
   params,

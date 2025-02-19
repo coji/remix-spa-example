@@ -3,9 +3,9 @@ import { href, Link, redirect, type MetaFunction } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
-import { SignInModal } from '~/routes/auth+/sign_in/route'
+import { SignInModal } from '~/routes/auth/sign_in/page'
 import { isAuthenticated } from '~/services/auth'
-import type { Route } from './+types/_index'
+import type { Route } from './+types/page'
 
 export const meta: MetaFunction = () => {
   return [

@@ -1,6 +1,10 @@
-import { remixConfigRoutes } from '@react-router/remix-config-routes-adapter'
-import { flatRoutes } from 'remix-flat-routes'
+import { nextRoutes } from 'rr-next-routes'
 
-export default remixConfigRoutes((defineRoutes) => {
-  return flatRoutes('routes', defineRoutes)
+export default nextRoutes({
+  folderName: 'routes',
+  print: 'info',
+  layoutFileName: 'layout',
+  routeFileNames: ['page', 'route'],
+  extensions: ['.tsx', '.ts', '.jsx', '.js'],
+  routeFileNameOnly: true,
 })
