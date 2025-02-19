@@ -5,9 +5,9 @@ import { Form, href, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input } from '~/components/ui'
-import { useSignOut } from '~/routes/auth+/sign_out/route'
+import { useSignOut } from '~/routes/auth/sign_out/page'
 import { requireAuth } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 const schema = z.object({
   handle: z

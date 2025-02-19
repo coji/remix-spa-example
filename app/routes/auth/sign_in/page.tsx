@@ -15,7 +15,7 @@ import {
 } from '~/components/ui'
 import { isAuthenticated } from '~/services/auth'
 import { authenticate } from '~/services/google-auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)

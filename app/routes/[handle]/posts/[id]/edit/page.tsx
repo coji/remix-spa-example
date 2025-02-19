@@ -12,7 +12,7 @@ import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import { requireUser } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 const schema = z.discriminatedUnion('intent', [
   z.object({

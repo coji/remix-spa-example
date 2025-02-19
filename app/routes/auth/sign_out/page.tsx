@@ -1,7 +1,7 @@
 import { Form, href, redirect, useFetcher } from 'react-router'
 import { Button, toast } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   await requireAuth(request, { failureRedirect: href('/') })

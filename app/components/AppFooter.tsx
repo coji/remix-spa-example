@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from 'lucide-react'
 import { Link, href } from 'react-router'
-import { SignInModal } from '~/routes/auth+/sign_in/route'
-import { useSignOut } from '~/routes/auth+/sign_out/route'
+import { SignInModal } from '~/routes/auth/sign_in/page'
+import { useSignOut } from '~/routes/auth/sign_out/page'
 import { useAuthUser } from '~/services/auth'
 import { Avatar, AvatarImage, Button } from './ui'
 

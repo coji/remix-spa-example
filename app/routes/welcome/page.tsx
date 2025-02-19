@@ -1,9 +1,9 @@
 import { href, Link, redirect } from 'react-router'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
-import { useSignOut } from '~/routes/auth+/sign_out/route'
+import { useSignOut } from '~/routes/auth/sign_out/page'
 import { requireAuth } from '~/services/auth'
-import type { Route } from './+types/route'
+import type { Route } from './+types/page'
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await requireAuth(request, { failureRedirect: href('/') })
