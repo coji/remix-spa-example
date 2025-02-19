@@ -24,7 +24,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       </head>
       <body>
         <AuthContext.Provider value={authState}>
-          <Toaster />
+          <Toaster richColors closeButton theme="light" />
           {children}
         </AuthContext.Provider>
         <ScrollRestoration />
