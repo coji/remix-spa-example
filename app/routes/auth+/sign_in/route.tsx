@@ -1,5 +1,4 @@
-import { Link, redirect, useFetcher } from 'react-router'
-import { $path } from 'safe-routes'
+import { href, Link, redirect, useFetcher } from 'react-router'
 import {
   Button,
   Card,
@@ -21,7 +20,7 @@ import type { Route } from './+types/route'
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
   if (user?.handle) {
-    return redirect($path('/:handle', { handle: user.handle }))
+    return redirect(href('/:handle', { handle: user.handle }))
   }
   return null
 }
@@ -35,7 +34,7 @@ const SignInForm = () => {
 
   return (
     <div className="mx-auto text-center">
-      <fetcher.Form method="POST" action={$path('/auth/sign_in')}>
+      <fetcher.Form method="POST" action={href('/auth/sign_in')}>
         <Button type="submit" className="rounded-full">
           Google アカウントでサインイン
         </Button>
@@ -85,7 +84,7 @@ export default function SignInPage() {
 
             <div className="mx-auto text-center">
               <Button type="button" variant="link" asChild>
-                <Link to={$path('/')}>トップページに戻る</Link>
+                <Link to={href('/')}>トップページに戻る</Link>
               </Button>
             </div>
           </div>

@@ -119,7 +119,7 @@ firebase deploy
 
 - **React Router v7**: 最新のReact Router v7を使用し、型安全なルーティングを実現
 - **Data Loaders**: React Router v7のデータローダーを活用した効率的なデータフェッチング
-- **型安全なルーティング**: `safe-routes`を使用した型安全なルート生成
+- **型安全なルーティング**: React Router v7.2 で導入された href ユーティリティを使った型安全なルーティング。
 
 ## プロジェクト構造
 

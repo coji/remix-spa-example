@@ -1,5 +1,4 @@
-import { redirect } from 'react-router'
-import { $path } from 'safe-routes'
+import { href, redirect } from 'react-router'
 import { toast } from '~/components/ui'
 import { authenticateCallback } from '~/services/google-auth'
 
@@ -12,9 +11,9 @@ export const clientLoader = async () => {
       title: 'サインインしました',
       description: `${user.displayName} さん、ようこそ！`,
     })
-    return redirect($path('/:handle', { handle: user.handle }))
+    return redirect(href('/:handle', { handle: user.handle }))
   }
-  return redirect($path('/'))
+  return redirect(href('/'))
 }
 
 // clientLoader だけでは動かないのでダミーの route コンポーネント

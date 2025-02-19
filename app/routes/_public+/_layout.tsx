@@ -1,5 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router'
-import { $path } from 'safe-routes'
+import { href, Link, NavLink, Outlet, useLocation } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, HStack } from '~/components/ui'
@@ -13,7 +12,7 @@ export default function PublicPageLayout() {
   return (
     <div>
       <nav className="flex items-center px-4 py-2">
-        <Link to={$path('/')} className="flex-1">
+        <Link to={href('/')} className="flex-1">
           しずかな Remix SPA Example
         </Link>
         <div>
@@ -24,7 +23,7 @@ export default function PublicPageLayout() {
               className="rounded-full"
               asChild
             >
-              <Link to={$path('/:handle', { handle: user.handle })}>
+              <Link to={href('/:handle', { handle: user.handle })}>
                 自分のページへ
               </Link>
             </Button>
@@ -41,13 +40,13 @@ export default function PublicPageLayout() {
               <HStack>
                 <NavLink
                   className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
-                  to={$path('/license')}
+                  to={href('/license')}
                 >
                   利用規約
                 </NavLink>
                 <NavLink
                   className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
-                  to={$path('/privacy')}
+                  to={href('/privacy')}
                 >
                   プライバシーポリシー
                 </NavLink>

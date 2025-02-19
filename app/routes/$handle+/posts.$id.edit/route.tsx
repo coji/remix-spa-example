@@ -6,8 +6,7 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { ArrowLeftIcon } from 'lucide-react'
-import { data, Form, Link, redirect } from 'react-router'
-import { $path } from 'safe-routes'
+import { data, Form, href, Link, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
@@ -35,7 +34,7 @@ export const clientLoader = async ({
   params: { handle, id },
 }: Route.ClientLoaderArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: $path('/') })
+  const user = await requireUser(request, { failureRedirect: href('/') })
   if (handle !== user.handle) throw data(null, { status: 403 })
 
   const post = await getUserPostById(handle, id)
@@ -48,7 +47,7 @@ export const clientAction = async ({
   params: { handle, id },
 }: Route.ClientActionArgs) => {
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: $path('/') })
+  const user = await requireUser(request, { failureRedirect: href('/') })
   if (handle !== user.handle) throw data(null, { status: 403 })
 
   const submission = parseWithZod(await request.formData(), { schema })
@@ -59,7 +58,7 @@ export const clientAction = async ({
   // 削除
   if (submission.value.intent === 'delete') {
     await deleteUserPost(handle, id)
-    throw redirect($path('/:handle', { handle }))
+    throw redirect(href('/:handle', { handle }))
   }
 
   // 更新
@@ -72,7 +71,7 @@ export const clientAction = async ({
       content: submission.value.content,
       publishedAt: null,
     })
-    throw redirect($path('/:handle/posts/:id', { handle, id }))
+    throw redirect(href('/:handle/posts/:id', { handle, id }))
   }
 }
 
@@ -97,7 +96,7 @@ export default function PostEditPage({
         {post.publishedAt ? (
           <Button variant="ghost" size="sm" className="rounded-full" asChild>
             <Link
-              to={$path('/:handle/posts/:id', { handle, id })}
+              to={href('/:handle/posts/:id', { handle, id })}
               prefetch="intent"
             >
               <ArrowLeftIcon className="h-4 w-4" />
