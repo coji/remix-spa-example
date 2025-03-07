@@ -4,7 +4,7 @@ import {
   getDoc,
   getDocs,
   query,
-  runTransaction,
+  setDoc,
   where,
   type QueryDocumentSnapshot,
 } from 'firebase/firestore'
@@ -41,25 +41,19 @@ export const createAccount = async (
   handle: string,
   data: Pick<Account, 'displayName' | 'photoURL'>,
 ) => {
-  runTransaction(db, async (transaction) => {
-    // アカウントの重複チェック
-    const account = await transaction.get(
-      doc(db, 'accounts', handle).withConverter(accountConverter),
-    )
-    if (account.exists()) {
-      throw new Error('Handle already exists.')
-    }
+  const account = await getDoc(
+    doc(db, 'accounts', handle).withConverter(accountConverter),
+  )
+  if (account.exists()) {
+    throw new Error('Handle already exists.')
+  }
 
-    // アカウントの登録
-    await transaction.set(
-      doc(db, 'accounts', handle).withConverter(accountConverter),
-      {
-        id: handle,
-        uid,
-        ...data,
-        profile: null,
-      },
-    )
+  // アカウントの登録
+  await setDoc(doc(db, 'accounts', handle).withConverter(accountConverter), {
+    id: handle,
+    uid,
+    ...data,
+    profile: null,
   })
 }
 
