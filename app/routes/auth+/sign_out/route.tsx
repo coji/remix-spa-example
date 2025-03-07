@@ -1,5 +1,6 @@
 import { Form, href, redirect, useFetcher } from 'react-router'
-import { Button, toast } from '~/components/ui'
+import { toast } from 'sonner'
+import { Button } from '~/components/ui'
 import { requireAuth, signOut } from '~/services/auth'
 import type { Route } from './+types/route'
 
@@ -10,8 +11,7 @@ export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
 
 export const clientAction = async () => {
   await signOut()
-  toast({
-    title: 'サインアウトしました',
+  toast('サインアウトしました', {
     description: 'またのご利用をお待ちしております。',
   })
   return redirect(href('/'))
