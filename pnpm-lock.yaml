@@ -41,6 +41,9 @@ importers:
       '@react-router/node':
         specifier: 7.3.0
         version: 7.3.0(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)
+      '@tailwindcss/vite':
+        specifier: ^4.0.11
+        version: 4.0.11(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -114,12 +117,9 @@ importers:
       '@react-router/dev':
         specifier: 7.3.0
         version: 7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0)
-      '@react-router/remix-config-routes-adapter':
-        specifier: 0.0.0-nightly-bf7ecb711-20240911
-        version: 0.0.0-nightly-bf7ecb711-20240911(@react-router/dev@7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)
-      '@tailwindcss/postcss':
-        specifier: ^4.0.11
-        version: 4.0.11
+      '@react-router/remix-routes-option-adapter':
+        specifier: ^7.3.0
+        version: 7.3.0(@react-router/dev@7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.0.11)
@@ -135,9 +135,6 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
@@ -170,10 +167,6 @@ importers:
         version: 5.1.4(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))
 
 packages:
-
-  '@alloc/quick-lru@5.2.0':
-    resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
-    engines: {node: '>=10'}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -1298,11 +1291,11 @@ packages:
       typescript:
         optional: true
 
-  '@react-router/remix-config-routes-adapter@0.0.0-nightly-bf7ecb711-20240911':
-    resolution: {integrity: sha512-F4OG29Moiq60sFaP0WZnqhwdVHfzmk2vKb860eYedFrHPSH7LftWvaOry25XUirUUEZql5L8N3PgLboZuOTehA==}
-    engines: {node: '>=18.0.0'}
+  '@react-router/remix-routes-option-adapter@7.3.0':
+    resolution: {integrity: sha512-OXfgYhtou7ZBoDos0rcL4Bk+l/vsrgcExvFpoQlnkkXnidLpp89OrJQfGdHsrB2o5eKZTn022ME43OdvjqJEBA==}
+    engines: {node: '>=20.0.0'}
     peerDependencies:
-      '@react-router/dev': ^0.0.0-nightly-bf7ecb711-20240911
+      '@react-router/dev': ^7.3.0
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
@@ -1502,13 +1495,15 @@ packages:
     resolution: {integrity: sha512-vpR3j69boI64ftpDbbC2NPXhbF7LEkBbQ/Ol1mSU9medtdcmabMiEPlN9FtvE2IkoXZpiDM1utSsdutZSka9Cg==}
     engines: {node: '>= 10'}
 
-  '@tailwindcss/postcss@4.0.11':
-    resolution: {integrity: sha512-bhHxHe1NEvh3rKSzJqXYJ8E1MDPAMKc0/5qwRdy+6Ed8PqyicwE1l9zPvt6iZJgIIA1PPX6VF80PDluFe8tyXg==}
-
   '@tailwindcss/typography@0.5.16':
     resolution: {integrity: sha512-0wDLwCVF5V3x3b1SGXPCDcdsbDHMBe+lkFzBRaHeLvNi+nrrnZ1lA18u+OTWO8iSWU2GxUOCvlXtDuqftc1oiA==}
     peerDependencies:
       tailwindcss: '>=3.0.0 || insiders || >=4.0.0-alpha.20 || >=4.0.0-beta.1'
+
+  '@tailwindcss/vite@4.0.11':
+    resolution: {integrity: sha512-rjzupwJLR/2d06SQ7JWPyEdj95qW4tGcP/i6vHkbtHnDR0XkohaG7ab8lKHnxJsr+/4RDHwKDGRPKB3VWgx2vg==}
+    peerDependencies:
+      vite: ^5.2.0 || ^6
 
   '@tootallnate/once@2.0.0':
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
@@ -5100,8 +5095,6 @@ packages:
 
 snapshots:
 
-  '@alloc/quick-lru@5.2.0': {}
-
   '@ampproject/remapping@2.3.0':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
@@ -6391,7 +6384,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.8.2
 
-  '@react-router/remix-config-routes-adapter@0.0.0-nightly-bf7ecb711-20240911(@react-router/dev@7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)':
+  '@react-router/remix-routes-option-adapter@7.3.0(@react-router/dev@7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0))(typescript@5.8.2)':
     dependencies:
       '@react-router/dev': 7.3.0(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(react-router@7.3.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(typescript@5.8.2)(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))(yaml@2.7.0)
     optionalDependencies:
@@ -6531,15 +6524,6 @@ snapshots:
       '@tailwindcss/oxide-win32-arm64-msvc': 4.0.11
       '@tailwindcss/oxide-win32-x64-msvc': 4.0.11
 
-  '@tailwindcss/postcss@4.0.11':
-    dependencies:
-      '@alloc/quick-lru': 5.2.0
-      '@tailwindcss/node': 4.0.11
-      '@tailwindcss/oxide': 4.0.11
-      lightningcss: 1.29.2
-      postcss: 8.5.3
-      tailwindcss: 4.0.11
-
   '@tailwindcss/typography@0.5.16(tailwindcss@4.0.11)':
     dependencies:
       lodash.castarray: 4.4.0
@@ -6547,6 +6531,14 @@ snapshots:
       lodash.merge: 4.6.2
       postcss-selector-parser: 6.0.10
       tailwindcss: 4.0.11
+
+  '@tailwindcss/vite@4.0.11(vite@6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0))':
+    dependencies:
+      '@tailwindcss/node': 4.0.11
+      '@tailwindcss/oxide': 4.0.11
+      lightningcss: 1.29.2
+      tailwindcss: 4.0.11
+      vite: 6.2.1(@types/node@22.13.9)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0)
 
   '@tootallnate/once@2.0.0': {}
 
