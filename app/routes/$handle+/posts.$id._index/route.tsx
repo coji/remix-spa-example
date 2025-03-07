@@ -67,9 +67,9 @@ export default function PostPage({
           <div>{dayjs(post.publishedAt).format('YYYY/MM/DD')}</div>
         </div>
 
-        <ReactMarkdown className="prose leading-loose tracking-wider">
-          {post.content}
-        </ReactMarkdown>
+        <div className="prose leading-loose tracking-wider">
+          <ReactMarkdown>{post.content}</ReactMarkdown>
+        </div>
       </AppHeadingSection>
     </div>
   )

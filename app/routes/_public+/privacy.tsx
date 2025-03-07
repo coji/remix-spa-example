@@ -9,7 +9,7 @@ export const meta = () => {
 
 export default function Privacy() {
   return (
-    <div className="markdown container prose">
+    <div className="markdown prose container">
       <ReactMarkdown>{Content}</ReactMarkdown>
 
       <div className="my-16 text-center">
