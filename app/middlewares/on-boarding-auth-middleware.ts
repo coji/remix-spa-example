@@ -6,7 +6,7 @@ import {
 import { requireAuth } from '~/services/auth'
 import { userContext } from './user-context'
 
-export const onBordingAuthMiddleware: MiddlewareFunction = async ({
+export const onBoardingAuthMiddleware: MiddlewareFunction = async ({
   request,
   context,
 }) => {
