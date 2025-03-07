@@ -11,7 +11,7 @@ export const AppFooter = () => {
 
   return (
     <div className="text-slate-00 bg-slate-50 py-14 text-sm">
-      <div className="mx-auto flex w-full max-w-screen-md flex-col gap-11 px-4 sm:px-10 md:flex-row md:px-6">
+      <div className="mx-auto flex w-full max-w-(--breakpoint-md) flex-col gap-11 px-4 sm:px-10 md:flex-row md:px-6">
         <div className="flex-1">
           {user?.handle ? (
             <div className="flex items-center gap-1">
