@@ -1,13 +1,13 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { FrownIcon } from 'lucide-react'
-import { Form, href, redirect } from 'react-router'
+import { Form, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
+import { userContext } from '~/middlewares/user-context'
 import { createAccount } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
-import { requireAuth } from '~/services/auth'
 import type { Route } from './+types/route'
 
 const schema = z.object({
@@ -21,8 +21,15 @@ const schema = z.object({
     ),
 })
 
-export const clientAction = async ({ request }: Route.ClientActionArgs) => {
-  const user = await requireAuth(request, { failureRedirect: href('/') })
+export const clientAction = async ({
+  request,
+  context,
+}: Route.ClientActionArgs) => {
+  // Middleware でセットされたユーザ情報を取得
+  const user = context.get(userContext)
+  if (!user) {
+    throw new Error('システムエラー: ユーザ情報がありません')
+  }
 
   const formData = await request.formData()
   const submission = parseWithZod(formData, { schema })

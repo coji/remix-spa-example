@@ -1,6 +1,4 @@
 import { data, href, redirect, useFetcher } from 'react-router'
-import { z } from 'zod'
-import { zx } from 'zodix'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,24 +11,26 @@ import {
   Button,
   DropdownMenuItem,
 } from '~/components/ui'
+import { userContext } from '~/middlewares/user-context'
 import { deleteUserPost, type Post } from '~/models/posts'
-import { requireUser } from '~/services/auth'
 import type { Route } from './+types/route'
 
 export const clientAction = async ({
   params,
-  request,
+  context,
 }: Route.ClientActionArgs) => {
-  const { handle, id } = zx.parseParams(params, {
-    handle: z.string(),
-    id: z.string(),
-  })
+  const { handle, id } = params
 
-  const user = await requireUser(request, { failureRedirect: href('/') })
-  if (user.handle !== handle) {
+  // ミドルウェアからセットされたオプショナルのユーザ情報を取得
+  const user = context.get(userContext)
+  if (user?.handle !== handle) {
+    // 本人でなければ削除できない
     throw data(null, { status: 401 })
   }
+
+  // 削除
   await deleteUserPost(handle, id)
+
   return redirect(href('/:handle', { handle }))
 }
 

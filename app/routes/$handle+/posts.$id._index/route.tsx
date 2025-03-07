@@ -1,28 +1,22 @@
 import { ArrowLeftIcon, PencilIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { data, href, Link } from 'react-router'
-import { z } from 'zod'
-import { zx } from 'zodix'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
+import { userContext } from '~/middlewares/user-context'
 import { getUserPostById } from '~/models/posts'
-import { isAuthenticated } from '~/services/auth'
 import type { Route } from './+types/route'
 
 export const clientLoader = async ({
-  request,
-  params,
+  params: { handle, id },
+  context,
 }: Route.ClientLoaderArgs) => {
-  const { handle, id } = zx.parseParams(params, {
-    handle: z.string(),
-    id: z.string(),
-  })
-
   const post = await getUserPostById(handle, id)
   if (!post) throw data(null, { status: 404 })
 
-  const user = await isAuthenticated(request)
+  // ミドルウェアからセットされたオプショナルのユーザ情報を取得
+  const user = context.get(userContext)
 
   return { handle, id, post, user }
 }
