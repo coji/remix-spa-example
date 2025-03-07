@@ -39,13 +39,13 @@ export default function PublicPageLayout() {
             <nav>
               <HStack>
                 <NavLink
-                  className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
+                  className="text-muted-foreground aria-[current='page']:text-foreground decoration-4 underline-offset-4 aria-[current='page']:underline"
                   to={href('/license')}
                 >
                   利用規約
                 </NavLink>
                 <NavLink
-                  className="text-muted-foreground decoration-4 underline-offset-4 aria-[current='page']:text-foreground aria-[current='page']:underline"
+                  className="text-muted-foreground aria-[current='page']:text-foreground decoration-4 underline-offset-4 aria-[current='page']:underline"
                   to={href('/privacy')}
                 >
                   プライバシーポリシー
