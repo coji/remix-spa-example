@@ -10,8 +10,8 @@ import { data, Form, href, Link, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
+import { userContext } from '~/middlewares/user-context'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
-import { requireUser } from '~/services/auth'
 import type { Route } from './+types/route'
 
 const schema = z.discriminatedUnion('intent', [
@@ -30,25 +30,31 @@ const schema = z.discriminatedUnion('intent', [
 ])
 
 export const clientLoader = async ({
-  request,
   params: { handle, id },
+  context,
 }: Route.ClientLoaderArgs) => {
+  // ミドルウェアからセットされたオプショナルのユーザ情報を取得
+  const user = context.get(userContext)
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: href('/') })
-  if (handle !== user.handle) throw data(null, { status: 403 })
+  if (user?.handle !== handle) throw data(null, { status: 403 })
 
   const post = await getUserPostById(handle, id)
   if (!post) throw data(null, { status: 404 })
+
   return { handle, id, post, user }
 }
 
 export const clientAction = async ({
   request,
   params: { handle, id },
+  context,
 }: Route.ClientActionArgs) => {
+  // ミドルウェアからセットされたオプショナルのユーザ情報を取得
+  const user = context.get(userContext)
   // 本人の投稿以外は編集できない / 存在確認
-  const user = await requireUser(request, { failureRedirect: href('/') })
-  if (handle !== user.handle) throw data(null, { status: 403 })
+  if (user?.handle !== handle) {
+    throw data(null, { status: 403 })
+  }
 
   const submission = parseWithZod(await request.formData(), { schema })
   if (submission.status !== 'success') {

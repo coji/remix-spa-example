@@ -1,15 +1,6 @@
 import { MoreVerticalIcon, PlusIcon } from 'lucide-react'
 import React from 'react'
-import {
-  data,
-  Form,
-  href,
-  Link,
-  redirect,
-  type ClientActionFunctionArgs,
-} from 'react-router'
-import { z } from 'zod'
-import { zx } from 'zodix'
+import { data, Form, href, Link, redirect } from 'react-router'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import {
   Button,
@@ -22,33 +13,31 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
+import { userContext } from '~/middlewares/user-context'
 import { isAccountExistsByHandle } from '~/models/account'
 import { addUserPost, listUserPosts, type Post } from '~/models/posts'
 import { DeleteAlertDialog } from '~/routes/$handle+/posts.$id.delete/route'
-import { isAuthenticated, requireUser } from '~/services/auth'
 import type { Route } from './+types/route'
 
 export const clientLoader = async ({
-  request,
-  params,
+  params: { handle },
+  context,
 }: Route.ClientLoaderArgs) => {
-  const { handle } = zx.parseParams(params, { handle: z.string() })
-
   const isExist = await isAccountExistsByHandle(handle)
   if (!isExist) throw data(null, { status: 404 })
 
-  const user = await isAuthenticated(request)
+  const user = context.get(userContext)
   const posts = await listUserPosts(handle)
+
   return { handle, user, posts, isAuthor: handle === user?.handle }
 }
 
 export const clientAction = async ({
-  params,
-  request,
-}: ClientActionFunctionArgs) => {
-  const { handle } = zx.parseParams(params, { handle: z.string() })
-  const user = await requireUser(request, { failureRedirect: href('/') })
-  if (user.handle !== handle) {
+  params: { handle },
+  context,
+}: Route.ClientActionArgs) => {
+  const user = context.get(userContext)
+  if (user?.handle !== handle) {
     throw new Error('Unauthorized')
   }
 

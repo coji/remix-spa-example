@@ -1,17 +1,7 @@
-import { href, Link, redirect } from 'react-router'
+import { href, Link } from 'react-router'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Stack } from '~/components/ui'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
-import { requireAuth } from '~/services/auth'
-import type { Route } from './+types/route'
-
-export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
-  const user = await requireAuth(request, { failureRedirect: href('/') })
-  if (user.handle) {
-    return redirect(href('/:handle', { handle: user.handle }))
-  }
-  return null
-}
 
 export default function WelcomeIndexPage() {
   const { signOut } = useSignOut()
