@@ -4,7 +4,8 @@ import { FrownIcon } from 'lucide-react'
 import { Form, href, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
-import { Alert, AlertDescription, Button, Input } from '~/components/ui'
+import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
+import { createAccount } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
 import { requireAuth } from '~/services/auth'
 import type { Route } from './+types/route'
@@ -35,6 +36,24 @@ export const clientAction = async ({ request }: Route.ClientActionArgs) => {
   const submission = parseWithZod(formData, { schema })
   if (submission.status !== 'success') {
     return { lastResult: submission.reply() }
+  }
+
+  try {
+    await createAccount(user.uid, submission.value.handle, {
+      displayName: submission.value.handle,
+      photoURL: null,
+    })
+    toast('アカウントを作成しました', {
+      description: 'ようこそ！',
+    })
+
+    return redirect(`/${submission.value.handle}`)
+  } catch (e) {
+    return {
+      lastResult: submission.reply({
+        formErrors: [`アカウントの作成に失敗しました: ${e}`],
+      }),
+    }
   }
 }
 
