@@ -1,5 +1,5 @@
 import { ExternalLink } from 'lucide-react'
-import { href, Link, redirect, type MetaFunction } from 'react-router'
+import { href, Link, type MetaFunction } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
@@ -20,9 +20,6 @@ export const meta: MetaFunction = () => {
 
 export const clientLoader = async ({ request }: Route.ClientLoaderArgs) => {
   const user = await isAuthenticated(request)
-  if (user?.handle) {
-    throw redirect(href('/:handle', { handle: user.handle }))
-  }
   return { user }
 }
 

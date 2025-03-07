@@ -1,4 +1,4 @@
-import { href, Link, NavLink, Outlet, useLocation } from 'react-router'
+import { href, Link, NavLink, Outlet } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, HStack } from '~/components/ui'
@@ -6,7 +6,6 @@ import { SignInModal } from '~/routes/auth+/sign_in/route'
 import { useAuthUser } from '~/services/auth'
 
 export default function PublicPageLayout() {
-  const { pathname } = useLocation()
   const user = useAuthUser()
 
   return (
