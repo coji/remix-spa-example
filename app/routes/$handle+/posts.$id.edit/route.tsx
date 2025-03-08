@@ -6,7 +6,7 @@ import {
 } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { ArrowLeftIcon } from 'lucide-react'
-import { data, Form, href, Link, redirect } from 'react-router'
+import { data, Form, href, Link, redirect, useNavigation } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
@@ -95,6 +95,7 @@ export default function PostEditPage({
     shouldValidate: 'onInput',
     onValidate: ({ formData }) => parseWithZod(formData, { schema }),
   })
+  const navigation = useNavigation()
 
   return (
     <div className="relative">
@@ -130,6 +131,7 @@ export default function PostEditPage({
           name="intent"
           value="update"
           form={form.id}
+          isLoading={navigation.state === 'submitting'}
         >
           更新する
         </Button>
