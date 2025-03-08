@@ -1,4 +1,4 @@
-import { Slot } from '@radix-ui/react-slot'
+import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import type * as React from 'react'
 
@@ -26,10 +26,14 @@ const buttonVariants = cva(
         lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
         icon: 'size-9',
       },
+      isLoading: {
+        true: 'cursor-progress',
+      },
     },
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      isLoading: false,
     },
   },
 )
@@ -39,19 +43,27 @@ function Button({
   variant,
   size,
   asChild = false,
+  isLoading = false,
+  children,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    isLoading?: boolean
   }) {
   const Comp = asChild ? Slot : 'button'
 
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, isLoading, className }))}
       {...props}
-    />
+    >
+      {isLoading && (
+        <span className="border-background mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
+      )}
+      <Slottable>{children}</Slottable>
+    </Comp>
   )
 }
 

@@ -35,7 +35,11 @@ const SignInForm = () => {
   return (
     <div className="mx-auto text-center">
       <fetcher.Form method="POST" action={href('/auth/sign_in')}>
-        <Button type="submit" className="rounded-full">
+        <Button
+          type="submit"
+          className="rounded-full"
+          isLoading={fetcher.state !== 'idle'}
+        >
           Google アカウントでサインイン
         </Button>
       </fetcher.Form>
