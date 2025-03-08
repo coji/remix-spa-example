@@ -16,12 +16,7 @@ export default function PublicPageLayout() {
         </Link>
         <div>
           {user?.handle ? (
-            <Button
-              size="sm"
-              variant="outline"
-              className="rounded-full"
-              asChild
-            >
+            <Button variant="outline" className="rounded-full" asChild>
               <Link to={href('/:handle', { handle: user.handle })}>
                 自分のページへ
               </Link>

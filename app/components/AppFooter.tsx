@@ -42,14 +42,7 @@ export const AppFooter = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <Link
-            className="hover:underline"
-            to={
-              user?.handle
-                ? href('/:handle', { handle: user.handle })
-                : href('/')
-            }
-          >
+          <Link className="hover:underline" to={href('/')}>
             ホーム
           </Link>
           <Link className="hover:underline" to={href('/license')}>
