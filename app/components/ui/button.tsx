@@ -1,5 +1,5 @@
-import { Slot, Slottable } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
+import { Slot as SlotPrimitive } from 'radix-ui'
 import type * as React from 'react'
 
 import { cn } from '~/libs/utils'
@@ -51,7 +51,7 @@ function Button({
     asChild?: boolean
     isLoading?: boolean
   }) {
-  const Comp = asChild ? Slot : 'button'
+  const Comp = asChild ? SlotPrimitive.Slot : 'button'
 
   return (
     <Comp
@@ -62,7 +62,7 @@ function Button({
       {isLoading && (
         <span className="border-background mr-2 h-4 w-4 animate-spin rounded-full border-2 border-t-transparent" />
       )}
-      <Slottable>{children}</Slottable>
+      <SlotPrimitive.Slottable>{children}</SlotPrimitive.Slottable>
     </Comp>
   )
 }
