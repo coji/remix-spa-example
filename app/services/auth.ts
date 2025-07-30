@@ -18,7 +18,7 @@ type Required<T, K extends keyof T> = T & {
 export interface AppUser extends User {
   handle?: string
 }
-let userHandle: string | undefined = undefined
+let userHandle: string | undefined
 
 export const AuthContext = createContext<AppUser | null>(null)
 AuthContext.displayName = 'AuthContext'
