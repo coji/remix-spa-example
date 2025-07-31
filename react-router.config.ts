@@ -4,5 +4,6 @@ export default {
   ssr: false,
   future: {
     unstable_middleware: true,
+    unstable_optimizeDeps: true,
   },
 } satisfies Config

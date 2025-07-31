@@ -4,7 +4,7 @@ import {
   getTextareaProps,
   useForm,
 } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { ArrowLeftIcon } from 'lucide-react'
 import { data, Form, href, Link, redirect, useNavigation } from 'react-router'
 import { z } from 'zod'
@@ -20,11 +20,9 @@ const schema = z.discriminatedUnion('intent', [
   }),
   z.object({
     intent: z.literal('update'),
-    title: z
-      .string({ required_error: '必須です' })
-      .max(60, 'タイトルは60字までです。'),
+    title: z.string({ error: '必須です' }).max(60, 'タイトルは60字までです。'),
     content: z
-      .string({ required_error: '必須です' })
+      .string({ error: '必須です' })
       .max(14000, '最大文字数に達しました 14000 / 14000 字'),
   }),
 ])
