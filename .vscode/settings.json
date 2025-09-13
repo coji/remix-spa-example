@@ -11,7 +11,7 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "quickfix.biome": "explicit"
+    "source.fixAll.biome": "explicit"
   },
   "tailwindCSS.experimental.classRegex": [
     "twc|x\\.[^`]+`([^`]*)`",

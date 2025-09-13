@@ -10,7 +10,7 @@ import { data, Form, href, Link, redirect, useNavigation } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button, Input, Label, Textarea } from '~/components/ui'
-import { userContext } from '~/middlewares/user-context'
+import { authContext } from '~/middlewares/auth-context'
 import { deleteUserPost, getUserPostById, updateUserPost } from '~/models/posts'
 import type { Route } from './+types/route'
 
@@ -32,7 +32,7 @@ export const clientLoader = async ({
   context,
 }: Route.ClientLoaderArgs) => {
   // ミドルウェアからセットされたオプショナルのユーザ情報を取得
-  const user = context.get(userContext)
+  const user = context.get(authContext)
   // 本人の投稿以外は編集できない / 存在確認
   if (user?.handle !== handle) throw data(null, { status: 403 })
 
@@ -48,7 +48,7 @@ export const clientAction = async ({
   context,
 }: Route.ClientActionArgs) => {
   // ミドルウェアからセットされたオプショナルのユーザ情報を取得
-  const user = context.get(userContext)
+  const user = context.get(authContext)
   // 本人の投稿以外は編集できない / 存在確認
   if (user?.handle !== handle) {
     throw data(null, { status: 403 })

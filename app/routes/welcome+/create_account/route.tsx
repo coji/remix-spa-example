@@ -5,7 +5,7 @@ import { Form, redirect } from 'react-router'
 import { z } from 'zod'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Alert, AlertDescription, Button, Input, toast } from '~/components/ui'
-import { userContext } from '~/middlewares/user-context'
+import { authContext } from '~/middlewares/auth-context'
 import { createAccount } from '~/models/account'
 import { useSignOut } from '~/routes/auth+/sign_out/route'
 import type { Route } from './+types/route'
@@ -26,7 +26,7 @@ export const clientAction = async ({
   context,
 }: Route.ClientActionArgs) => {
   // Middleware でセットされたユーザ情報を取得
-  const user = context.get(userContext)
+  const user = context.get(authContext)
   if (!user) {
     throw new Error('システムエラー: ユーザ情報がありません')
   }

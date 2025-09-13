@@ -2,7 +2,7 @@ import { Outlet } from 'react-router'
 import { AppFooter } from '~/components/AppFooter'
 import { optionalAuthMiddleware } from '~/middlewares/optional-auth-middleware'
 
-export const unstable_clientMiddleware = [optionalAuthMiddleware]
+export const clientMiddleware = [optionalAuthMiddleware]
 
 export default function UserPageLayout() {
   return (
