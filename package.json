@@ -63,15 +63,6 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {
-    "node": ">=18.0.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@firebase/util",
-      "@tailwindcss/oxide",
-      "esbuild",
-      "protobufjs",
-      "re2"
-    ]
+    "node": ">=22.0.0"
   }
 }
