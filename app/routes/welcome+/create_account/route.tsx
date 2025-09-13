@@ -1,5 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
-import { parseWithZod } from '@conform-to/zod'
+import { parseWithZod } from '@conform-to/zod/v4'
 import { FrownIcon } from 'lucide-react'
 import { Form, redirect } from 'react-router'
 import { z } from 'zod'
@@ -12,7 +12,7 @@ import type { Route } from './+types/route'
 
 const schema = z.object({
   handle: z
-    .string({ required_error: 'ハンドルネームは必須です' })
+    .string({ error: 'ハンドルネームは必須です' })
     .min(3, '最低3文字必要です')
     .max(20, '最大20文字までです')
     .regex(
