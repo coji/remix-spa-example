@@ -15,8 +15,8 @@
     "start": "npx sirv-cli build/client/ --single"
   },
   "dependencies": {
-    "@conform-to/react": "^1.8.2",
-    "@conform-to/zod": "^1.8.2",
+    "@conform-to/react": "^1.9.1",
+    "@conform-to/zod": "^1.9.1",
     "@react-router/node": "7.7.1",
     "@tailwindcss/vite": "^4.1.11",
     "class-variance-authority": "^0.7.1",
@@ -39,7 +39,7 @@
     "sonner": "^2.0.6",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^4.0.15"
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.1.3",
