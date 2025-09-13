@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
-import { userContext } from '~/middlewares/user-context'
+import { authContext } from '~/middlewares/auth-context'
 import { isAccountExistsByHandle } from '~/models/account'
 import { addUserPost, listUserPosts, type Post } from '~/models/posts'
 import { DeleteAlertDialog } from '~/routes/$handle+/posts.$id.delete/route'
@@ -26,7 +26,7 @@ export const clientLoader = async ({
   const isExist = await isAccountExistsByHandle(handle)
   if (!isExist) throw data(null, { status: 404 })
 
-  const user = context.get(userContext)
+  const user = context.get(authContext)
   const posts = await listUserPosts(handle)
 
   return { handle, user, posts, isAuthor: handle === user?.handle }
@@ -36,7 +36,7 @@ export const clientAction = async ({
   params: { handle },
   context,
 }: Route.ClientActionArgs) => {
-  const user = context.get(userContext)
+  const user = context.get(authContext)
   if (user?.handle !== handle) {
     throw new Error('Unauthorized')
   }

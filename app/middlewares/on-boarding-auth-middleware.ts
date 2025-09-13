@@ -1,10 +1,6 @@
-import {
-  href,
-  redirect,
-  type unstable_MiddlewareFunction as MiddlewareFunction,
-} from 'react-router'
+import { href, type MiddlewareFunction, redirect } from 'react-router'
 import { requireAuth } from '~/services/auth'
-import { userContext } from './user-context'
+import { authContext } from './auth-context'
 
 export const onBoardingAuthMiddleware: MiddlewareFunction = async ({
   request,
@@ -12,7 +8,7 @@ export const onBoardingAuthMiddleware: MiddlewareFunction = async ({
 }) => {
   // オンボーディング手続きはログインしていないとアクセスできない
   const user = await requireAuth(request, { failureRedirect: href('/') })
-  context.set(userContext, user)
+  context.set(authContext, user)
 
   // すでにオンボーディング済みの場合はプロフィールページにリダイレクト
   if (user.handle) {

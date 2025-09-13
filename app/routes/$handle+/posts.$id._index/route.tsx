@@ -4,7 +4,7 @@ import { data, href, Link } from 'react-router'
 import { AppHeadingSection } from '~/components/AppHeadingSection'
 import { Button } from '~/components/ui'
 import { dayjs } from '~/libs/dayjs'
-import { userContext } from '~/middlewares/user-context'
+import { authContext } from '~/middlewares/auth-context'
 import { getUserPostById } from '~/models/posts'
 import type { Route } from './+types/route'
 
@@ -16,7 +16,7 @@ export const clientLoader = async ({
   if (!post) throw data(null, { status: 404 })
 
   // ミドルウェアからセットされたオプショナルのユーザ情報を取得
-  const user = context.get(userContext)
+  const user = context.get(authContext)
 
   return { handle, id, post, user }
 }
