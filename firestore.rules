@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // アカウント
+    match /accounts/{handle} {
+      // 誰でも読み取り可能（公開プロフィール）
+      allow read: if true;
+
+      // 作成: 認証済みユーザーのみ、自分のUIDで作成
+      allow create: if request.auth != null
+                    && request.resource.data.uid == request.auth.uid;
+
+      // 更新: 自分のアカウントのみ
+      allow update: if request.auth != null
+                    && resource.data.uid == request.auth.uid;
+
+      // 削除: 自分のアカウントのみ
+      allow delete: if request.auth != null
+                    && resource.data.uid == request.auth.uid;
+
+      // 投稿（サブコレクション）
+      match /posts/{postId} {
+        // 誰でも読み取り可能（公開投稿）
+        allow read: if true;
+
+        // 作成: 認証済みで、親アカウントの所有者のみ
+        allow create: if request.auth != null
+                      && get(/databases/$(database)/documents/accounts/$(handle)).data.uid == request.auth.uid;
+
+        // 更新・削除: 認証済みで、親アカウントの所有者のみ
+        allow update, delete: if request.auth != null
+                              && get(/databases/$(database)/documents/accounts/$(handle)).data.uid == request.auth.uid;
+      }
+    }
+
+    // その他のドキュメントはアクセス禁止
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

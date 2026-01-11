@@ -1,21 +1,33 @@
 import { redirect } from 'react-router'
 
+const STORAGE_KEY = 'google_oauth_validation'
+
 // 検証用の値をローカルストレージに保存する
-const storeValidationValue = async (
-  key: string,
-  data: { state: string; nonce: string },
-) => {
-  await localStorage.setItem(key, JSON.stringify(data))
+const storeValidationValue = (data: { state: string; nonce: string }) => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
 // 検証用の値をローカルストレージから取得し、削除する
-const restoreValidationValue = async (key: string) => {
-  const data = await localStorage.getItem(key)
+const restoreValidationValue = () => {
+  const data = localStorage.getItem(STORAGE_KEY)
   if (!data) {
-    throw new Error('state がありません')
+    throw new Error(
+      '認証セッションが見つかりません。再度ログインしてください。',
+    )
   }
-  await localStorage.removeItem(key)
+  localStorage.removeItem(STORAGE_KEY)
   return JSON.parse(data) as { state: string; nonce: string }
+}
+
+// JWT ペイロードをデコードする (署名検証は行わない)
+const decodeJwtPayload = (token: string): Record<string, unknown> => {
+  const base64Url = token.split('.')[1]
+  if (!base64Url) {
+    throw new Error('無効なトークン形式です')
+  }
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+  const jsonPayload = atob(base64)
+  return JSON.parse(jsonPayload)
 }
 
 /**
@@ -71,18 +83,19 @@ export const createGoogleAuthenticator = <User>({
     return url.toString()
   }
 
-  const authenticate = async (request: Request) => {
+  const authenticate = (request: Request) => {
     const url = new URL(request.url)
     const callbackURL = buildCallbackURL(request)
 
     // コールバックURL以外: 認可URLにリダイレクトし、コールバックさせる
     if (url.pathname !== callbackURL.pathname) {
       // コールバック時に state と nonce をチェックするために保存しておく
+      // 暗号学的に安全な乱数を使用
       const validation = {
-        state: String(Math.random()),
-        nonce: String(Math.random()),
+        state: crypto.randomUUID(),
+        nonce: crypto.randomUUID(),
       }
-      await storeValidationValue('v', validation)
+      storeValidationValue(validation)
 
       // 認可 URL にリダイレクトさせる。成功するとコールバックURLにリダイレクトされる
       throw redirect(
@@ -96,27 +109,37 @@ export const createGoogleAuthenticator = <User>({
     const url = new URL(request.url)
     const params = new URLSearchParams(url.hash.slice(1))
 
-    // state のチェック
-    const validation = await restoreValidationValue('v')
+    // Google からのエラーレスポンスをチェック
+    const error = params.get('error')
+    if (error) {
+      const errorDescription = params.get('error_description') || error
+      throw new Error(`認証エラー: ${errorDescription}`)
+    }
+
+    // 保存した検証値を取得
+    const validation = restoreValidationValue()
+
+    // state のチェック (CSRF 対策)
     if (validation.state !== params.get('state')) {
-      throw new Error('state が一致しません')
+      throw new Error('不正なリクエストです。再度ログインしてください。')
     }
 
     // id トークンを取得
     const idToken = params.get('id_token')
     if (!idToken) {
-      throw new Error('IDトークンがありません')
+      throw new Error('認証情報が取得できませんでした')
     }
 
-    // id トークンのペイロードに含まれる nonce のチェック
-    const jsonPayload = atob(
-      idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'),
-    )
-    if (JSON.parse(jsonPayload).nonce !== validation.nonce) {
-      throw new Error('nonce が一致しません')
+    // 1. まず Firebase で署名検証を含む認証を実行
+    const user = await verifyUser(request, idToken)
+
+    // 2. 署名検証済みトークンから nonce を取得してチェック (リプレイ攻撃対策)
+    const payload = decodeJwtPayload(idToken)
+    if (payload.nonce !== validation.nonce) {
+      throw new Error('不正なリクエストです。再度ログインしてください。')
     }
 
-    return verifyUser(request, idToken)
+    return user
   }
 
   return {
