@@ -51,7 +51,9 @@ export const clientAction = async ({
     console.error('アカウント作成エラー:', e)
     return {
       lastResult: submission.reply({
-        formErrors: ['アカウントの作成に失敗しました。しばらくしてから再度お試しください。'],
+        formErrors: [
+          'アカウントの作成に失敗しました。しばらくしてから再度お試しください。',
+        ],
       }),
     }
   }

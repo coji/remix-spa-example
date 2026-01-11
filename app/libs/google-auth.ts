@@ -11,7 +11,9 @@ const storeValidationValue = (data: { state: string; nonce: string }) => {
 const restoreValidationValue = () => {
   const data = localStorage.getItem(STORAGE_KEY)
   if (!data) {
-    throw new Error('認証セッションが見つかりません。再度ログインしてください。')
+    throw new Error(
+      '認証セッションが見つかりません。再度ログインしてください。',
+    )
   }
   localStorage.removeItem(STORAGE_KEY)
   return JSON.parse(data) as { state: string; nonce: string }
