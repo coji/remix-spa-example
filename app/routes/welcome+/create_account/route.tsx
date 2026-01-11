@@ -48,9 +48,10 @@ export const clientAction = async ({
 
     return redirect(`/${submission.value.handle}`)
   } catch (e) {
+    console.error('アカウント作成エラー:', e)
     return {
       lastResult: submission.reply({
-        formErrors: [`アカウントの作成に失敗しました: ${e}`],
+        formErrors: ['アカウントの作成に失敗しました。しばらくしてから再度お試しください。'],
       }),
     }
   }
